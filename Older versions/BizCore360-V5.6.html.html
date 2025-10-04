@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BizCore360 Dashboard v5.6</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--sidebar-w:260px;}
+body{font-family:'Inter',sans-serif;background:#f8f9fa;color:#212529;transition:background .3s,color .3s}
+/* Topbar */
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #dee2e6;z-index:1040;display:flex;align-items:center;justify-content:space-between;padding:0 .75rem}
+.brand{font-weight:700;font-size:1.25rem;color:#000;margin-left:.25rem}
+/* Sidebar */
+.sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:#fff;border-right:1px solid #dee2e6;overflow-y:auto;z-index:1030;transition:left .3s}
+.side-tabs{display:flex;border-bottom:1px solid #e9ecef}
+.side-tabs .btn{border:0;border-radius:0;flex:1;padding:.65rem 0;font-weight:600;font-size:.95rem}
+.side-tabs .btn.active{color:#0d6efd;border-bottom:3px solid #0d6efd;background:#f8fbff}
+.nav-link{color:#333;padding:.7rem 1rem;font-size:.95rem}
+.nav-link:hover{background:#f1f3f5}
+.nav-link.active{color:#0d6efd;background:#e7f1ff;border-left:3px solid #0d6efd}
+.submenu{padding-left:1.25rem}
+.chevron{transition:transform .25s}
+.chevron.rotate{transform:rotate(90deg)}
+/* Main + Chat */
+main{margin-left:var(--sidebar-w);padding:1.25rem;padding-top:4.5rem;transition:margin-left .3s}
+.chat-box{position:fixed;left:var(--sidebar-w);right:0;bottom:0;background:#fff;border-top:1px solid #dee2e6;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:center;transition:left .3s}
+/* Login */
+.login-wrapper{display:flex;align-items:center;justify-content:center;height:100vh;padding:1rem}
+.login-card{width:100%;max-width:380px;background:#fff;border:1px solid #e9ecef;border-radius:.75rem;box-shadow:0 8px 20px rgba(0,0,0,.06);padding:1.25rem}
+.login-title{text-align:center;font-weight:700;font-size:1.4rem;color:#0d6efd;margin-bottom:.75rem}
+.lang-toggle{position:absolute;top:.75rem;right:.75rem}
+/* Fade swap */
+.fade-swap{opacity:0;transition:opacity .35s ease}
+.fade-swap.show{opacity:1}
+/* Mobile */
+@media (max-width:991px){
+  .sidebar{left:-260px}
+  .sidebar.show{left:0}
+  main{margin-left:0}
+  .chat-box{left:0}
+}
+/* Dark mode */
+body.dark{background:#212529;color:#f8f9fa}
+body.dark .topbar{background:#343a40;border-bottom-color:#495057}
+body.dark .sidebar{background:#2b3035;border-right-color:#495057}
+body.dark .nav-link{color:#f8f9fa}
+body.dark .nav-link.active{background:#0d6efd33}
+body.dark .card{background:#343a40;border-color:#495057;color:#f8f9fa}
+body.dark .chat-box{background:#343a40;border-top-color:#495057}
+body.dark .login-card{background:#2b3035;border-color:#495057;color:#f8f9fa}
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-wrapper fade-swap show">
+  <div class="login-card position-relative">
+    <button id="loginLangToggle" class="btn btn-sm btn-outline-secondary lang-toggle">ES</button>
+    <div class="login-title">BizCore360</div>
+    <div class="mb-2"><label id="lblUser" class="form-label">Username</label><input id="loginUser" type="text" class="form-control" autocomplete="off"></div>
+    <div class="mb-2"><label id="lblPass" class="form-label">Password</label><input id="loginPass" type="password" class="form-control" autocomplete="off"></div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="rememberMe"><label id="lblRemember" class="form-check-label" for="rememberMe">Remember me</label></div>
+    <button id="btnLogin" class="btn btn-primary w-100">Login</button>
+    <div id="loginAlert" class="text-danger text-center small mt-2" style="display:none">Invalid credentials</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardPage" class="fade-swap" style="display:none">
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button id="toggleSidebar" class="btn btn-link text-dark p-0"><i class="bi bi-list fs-4"></i></button>
+      <span class="brand">BizCore360</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <i class="bi bi-search" data-bs-toggle="tooltip" data-bs-title="Search"></i>
+
+      <!-- AI Model dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="modelMenu" data-bs-toggle="dropdown"><i class="bi bi-cpu fs-5"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0-mini">GPT-4.0-mini</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0">GPT-5.0</button></li>
+        </ul>
+      </div>
+
+      <!-- Avatar dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="userMenu" data-bs-toggle="dropdown"><i class="bi bi-person-circle fs-5"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item" id="toggleDark"><i class="bi bi-sun me-2"></i><span id="lblTheme">Toggle Theme</span></button></li>
+          <li class="dropdown-submenu dropstart">
+            <button class="dropdown-item dropdown-toggle"><i class="bi bi-translate me-2"></i><span id="lblLang">Language</span></button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item lang-choice" data-lang="en">English</button></li>
+              <li><button class="dropdown-item lang-choice" data-lang="es">Español</button></li>
+            </ul>
+          </li>
+          <li><a href="#" class="dropdown-item" data-section="profile"><i class="bi bi-person me-2"></i><span id="lblProfile">Profile</span></a></li>
+          <li><a href="#" class="dropdown-item" data-section="settings"><i class="bi bi-gear me-2"></i><span id="lblSettings">Settings</span></a></li>
+          <li><a href="#" class="dropdown-item text-danger" id="logout"><i class="bi bi-box-arrow-right me-2"></i><span id="lblLogout">Logout</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="side-tabs">
+      <button id="tabModules" class="btn btn-light active">Modules</button>
+      <button id="tabChats" class="btn btn-light">Chats</button>
+    </div>
+
+    <!-- MODULES TAB -->
+    <div id="modulesTab" class="p-2">
+      <ul class="list-unstyled" id="modulesList">
+        <li><a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-section="dashboard"><i class="bi bi-speedometer2"></i><span id="mDashboard">Dashboard</span></a></li>
+
+        <li class="mt-2">
+          <a href="#profilesMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex align-items-center gap-2"><i class="bi bi-people"></i><span id="mProfiles">Profiles</span></span><i class="bi bi-chevron-right chevron"></i></a>
+          <ul class="collapse list-unstyled submenu" id="profilesMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="company"><i class="bi bi-building me-2"></i><span id="smCompany">Company</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="customers"><i class="bi bi-person me-2"></i><span id="smCustomers">Customers</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="competitors"><i class="bi bi-people me-2"></i><span id="smCompetitors">Competitors</span></a></li>
+          </ul>
+        </li>
+
+        <li class="mt-2">
+          <a href="#financialsMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex align-items-center gap-2"><i class="bi bi-cash-stack"></i><span id="mFinancials">Financials</span></span><i class="bi bi-chevron-right chevron"></i></a>
+          <ul class="collapse list-unstyled submenu" id="financialsMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="budget"><i class="bi bi-wallet2 me-2"></i><span id="smBudget">Budget</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="balancesheet"><i class="bi bi-columns me-2"></i><span id="smBalance">Balance Sheet</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="cashflow"><i class="bi bi-currency-exchange me-2"></i><span id="smCash">Cash Flow</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="pl"><i class="bi bi-bar-chart me-2"></i><span id="smPL">P&amp;L</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="forecasts"><i class="bi bi-graph-up-arrow me-2"></i><span id="smForecasts">Forecasts</span></a></li>
+          </ul>
+        </li>
+
+        <li class="mt-2">
+          <a href="#planningMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex align-items-center gap-2"><i class="bi bi-journal-text"></i><span id="mPlanning">Planning</span></span><i class="bi bi-chevron-right chevron"></i></a>
+          <ul class="collapse list-unstyled submenu" id="planningMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="businessplan"><i class="bi bi-journal-text me-2"></i><span id="smPlan">Business Plan</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="goals"><i class="bi bi-flag me-2"></i><span id="smGoals">Goals</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="ravingfans"><i class="bi bi-star me-2"></i><span id="smFans">Raving Fans</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="sops"><i class="bi bi-list-check me-2"></i><span id="smSOP">SOPs</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="swot"><i class="bi bi-diagram-3 me-2"></i><span id="smSWOT">SWOT</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="workflow"><i class="bi bi-diagram-3-fill me-2"></i><span id="smWorkflow">Workflow Builder</span></a></li>
+          </ul>
+        </li>
+
+        <li class="mt-2">
+          <a href="#marketingMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex align-items-center gap-2"><i class="bi bi-bullseye"></i><span id="mMarketing">Marketing</span></span><i class="bi bi-chevron-right chevron"></i></a>
+          <ul class="collapse list-unstyled submenu" id="marketingMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="marketingplan"><i class="bi bi-megaphone me-2"></i><span id="smMPlan">Marketing Plan</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="contentcreator"><i class="bi bi-pencil-square me-2"></i><span id="smCreator">Content Creator</span></a></li>
+          </ul>
+        </li>
+
+        <li class="mt-2">
+          <a href="#resourcesMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex align-items-center gap-2"><i class="bi bi-boxes"></i><span id="mResources">Resources</span></span><i class="bi bi-chevron-right chevron"></i></a>
+          <ul class="collapse list-unstyled submenu" id="resourcesMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="prompts"><i class="bi bi-lightbulb me-2"></i><span id="smPrompts">Sample Prompts</span></a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="blueprint"><i class="bi bi-briefcase me-2"></i><span id="smBlueprint">New Business Blueprint</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHATS TAB -->
+    <div id="chatsTab" class="p-2" style="display:none">
+      <ul class="list-unstyled">
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="newchat"><i class="bi bi-chat-dots me-2"></i><span id="cNewChat">New Chat</span></a></li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="newfolder"><i class="bi bi-folder-plus me-2"></i><span id="cNewFolder">New Folder</span></a></li>
+        <li class="fw-bold ps-2 mt-2" id="cFoldersHd">Folders</li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
+        <li class="fw-bold ps-2 mt-3" id="cHistoryHd">Chat History</li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat1"><i class="bi bi-chat-left-text me-2"></i>C1 – Marketing Plan</a></li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat2"><i class="bi bi-chat-left-text me-2"></i>C2 – Budget Review</a></li>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat3"><i class="bi bi-chat-left-text me-2"></i>C3 – Client Feedback</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main id="main">
+    <div class="container-fluid">
+      <h4 id="pageTitle" class="mb-3">Dashboard</h4>
+      <div id="pageContent" class="row g-3">
+        <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-graph-up"></i> Monthly Revenue</h6><p>$25,000</p></div></div>
+        <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-person-lines-fill"></i> Active Customers</h6><p>132</p></div></div>
+        <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-bar-chart"></i> Net Profit</h6><p>$7,200</p></div></div>
+        <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-flag"></i> Goals Progress</h6><p>68%</p></div></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- CHAT BOX -->
+  <div class="chat-box">
+    <button class="btn btn-light border"><i class="bi bi-plus"></i></button>
+    <input type="text" id="chatInput" class="form-control rounded-pill" placeholder="Type a message...">
+    <button class="btn btn-light border"><i class="bi bi-mic"></i></button>
+    <button class="btn btn-light border"><i class="bi bi-soundwave"></i></button>
+    <button class="btn btn-primary border" id="sendBtn"><i class="bi bi-send-fill text-white"></i></button>
+  </div>
+
+  <!-- MOBILE OVERLAY -->
+  <div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.1);z-index:1029"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(()=>{"use strict";
+const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);
+
+/* ===== State ===== */
+let lang=localStorage.getItem("lang")||"en";
+let dark=localStorage.getItem("darkMode")==="true";
+let model=localStorage.getItem("aiModel")||"GPT-4.0-mini";
+
+/* ===== Elements ===== */
+const login=$("#loginPage"), dash=$("#dashboardPage"),
+  loginBtn=$("#btnLogin"), u=$("#loginUser"), p=$("#loginPass"), alertBox=$("#loginAlert"),
+  loginLangBtn=$("#loginLangToggle"),
+  logout=$("#logout"), toggleDark=$("#toggleDark"),
+  toggleSidebar=$("#toggleSidebar"), sidebar=$("#sidebar"), overlay=$("#overlay"),
+  tabModules=$("#tabModules"), tabChats=$("#tabChats"), modulesTab=$("#modulesTab"), chatsTab=$("#chatsTab"),
+  pageTitle=$("#pageTitle"), pageContent=$("#pageContent"), chatInput=$("#chatInput"), sendBtn=$("#sendBtn");
+
+/* ===== Text dictionary (EN/ES) ===== */
+const T={
+  en:{user:"Username",pass:"Password",remember:"Remember me",login:"Login",invalid:"Invalid credentials",
+      modules:"Modules",chats:"Chats",dash:"Dashboard",profiles:"Profiles",company:"Company",customers:"Customers",competitors:"Competitors",
+      financials:"Financials",budget:"Budget",balance:"Balance Sheet",cash:"Cash Flow",pl:"P&L",forecasts:"Forecasts",
+      planning:"Planning",plan:"Business Plan",goals:"Goals",fans:"Raving Fans",sops:"SOPs",swot:"SWOT",workflow:"Workflow Builder",
+      marketing:"Marketing",mplan:"Marketing Plan",creator:"Content Creator",resources:"Resources",prompts:"Sample Prompts",blueprint:"New Business Blueprint",
+      theme:"Toggle Theme",lang:"Language",profile:"Profile",settings:"Settings",logout:"Logout",
+      newchat:"New Chat",newfolder:"New Folder",folders:"Folders",history:"Chat History",
+      place:k=>`Content placeholder for ${k}.`},
+  es:{user:"Usuario",pass:"Contraseña",remember:"Recordarme",login:"Entrar",invalid:"Credenciales inválidas",
+      modules:"Módulos",chats:"Chats",dash:"Tablero",profiles:"Perfiles",company:"Compañía",customers:"Clientes",competitors:"Competencia",
+      financials:"Finanzas",budget:"Presupuesto",balance:"Balance General",cash:"Flujo de Caja",pl:"Pérdidas y Ganancias",forecasts:"Proyecciones",
+      planning:"Planificación",plan:"Plan de Negocios",goals:"Metas",fans:"Clientes Fieles",sops:"Procedimientos",swot:"FODA",workflow:"Flujo de Trabajo",
+      marketing:"Mercadeo",mplan:"Plan de Marketing",creator:"Creador de Contenido",resources:"Recursos",prompts:"Ejemplos de Prompts",blueprint:"Guía de Nuevos Negocios",
+      theme:"Tema",lang:"Idioma",profile:"Perfil",settings:"Configuración",logout:"Cerrar Sesión",
+      newchat:"Nuevo Chat",newfolder:"Nueva Carpeta",folders:"Carpetas",history:"Historial",
+      place:k=>`Contenido de ejemplo para ${k}.`}
+};
+
+/* ===== Apply dark mode ===== */
+function applyDark(){ document.body.classList[dark?"add":"remove"]("dark"); localStorage.setItem("darkMode",dark); }
+
+/* ===== Apply language to UI ===== */
+function L(){
+  const t=T[lang];
+  // Login labels
+  $("#lblUser").textContent=t.user; $("#lblPass").textContent=t.pass; $("#lblRemember").textContent=t.remember;
+  $("#btnLogin").textContent=t.login; $("#loginAlert").textContent=t.invalid;
+  loginLangBtn.textContent=lang==="en"?"ES":"EN";
+  // Sidebar tabs
+  $("#tabModules").textContent=t.modules; $("#tabChats").textContent=t.chats;
+  // Modules list
+  $("#mDashboard").textContent=t.dash; $("#mProfiles").textContent=t.profiles;
+  $("#smCompany").textContent=t.company; $("#smCustomers").textContent=t.customers; $("#smCompetitors").textContent=t.competitors;
+  $("#mFinancials").textContent=t.financials; $("#smBudget").textContent=t.budget; $("#smBalance").textContent=t.balance; $("#smCash").textContent=t.cash; $("#smPL").textContent=t.pl; $("#smForecasts").textContent=t.forecasts;
+  $("#mPlanning").textContent=t.planning; $("#smPlan").textContent=t.plan; $("#smGoals").textContent=t.goals; $("#smFans").textContent=t.fans; $("#smSOP").textContent=t.sops; $("#smSWOT").textContent=t.swot; $("#smWorkflow").textContent=t.workflow;
+  $("#mMarketing").textContent=t.marketing; $("#smMPlan").textContent=t.mplan; $("#smCreator").textContent=t.creator;
+  $("#mResources").textContent=t.resources; $("#smPrompts").textContent=t.prompts; $("#smBlueprint").textContent=t.blueprint;
+  // Chats labels
+  $("#cNewChat").textContent=t.newchat; $("#cNewFolder").textContent=t.newfolder; $("#cFoldersHd").textContent=t.folders; $("#cHistoryHd").textContent=t.history;
+  // Avatar labels
+  $("#lblTheme").textContent=t.theme; $("#lblLang").textContent=t.lang; $("#lblProfile").textContent=t.profile; $("#lblSettings").textContent=t.settings; $("#lblLogout").textContent=t.logout;
+  // Page title fallback
+  if(current==="dashboard") pageTitle.textContent=t.dash;
+  localStorage.setItem("lang",lang);
+}
+
+/* ===== Tooltips ===== */
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el=>new bootstrap.Tooltip(el));
+
+/* ===== Tabs switch ===== */
+tabModules.addEventListener("click",()=>{tabModules.classList.add("active");tabChats.classList.remove("active");modulesTab.style.display="block";chatsTab.style.display="none";});
+tabChats.addEventListener("click",()=>{tabChats.classList.add("active");tabModules.classList.remove("active");modulesTab.style.display="none";chatsTab.style.display="block";});
+
+/* ===== Sidebar accordion chevrons + memory ===== */
+["profilesMenu","financialsMenu","planningMenu","marketingMenu","resourcesMenu"].forEach(id=>{
+  const ul=$("#"+id), chev=ul.previousElementSibling.querySelector(".chevron");
+  ul.addEventListener("show.bs.collapse",()=>{
+    // close others
+    ["profilesMenu","financialsMenu","planningMenu","marketingMenu","resourcesMenu"].forEach(x=>{ if(x!==id){ const el=$("#"+x); if(el.classList.contains("show")) bootstrap.Collapse.getOrCreateInstance(el).hide(); const ch=$("#"+x).previousElementSibling.querySelector(".chevron"); ch&&ch.classList.remove("rotate"); }});
+    chev&&chev.classList.add("rotate"); localStorage.setItem("openMenu",id);
+  });
+  ul.addEventListener("hide.bs.collapse",()=>{chev&&chev.classList.remove("rotate"); if(localStorage.getItem("openMenu")===id) localStorage.removeItem("openMenu");});
+});
+const saved=localStorage.getItem("openMenu"); if(saved && $("#"+saved)) bootstrap.Collapse.getOrCreateInstance($("#"+saved)).show();
+
+/* ===== Mobile open/close ===== */
+function openSide(){sidebar.classList.add("show");overlay.style.display="block";}
+function closeSide(){sidebar.classList.remove("show");overlay.style.display="none";}
+toggleSidebar.addEventListener("click",e=>{e.stopPropagation(); sidebar.classList.contains("show")?closeSide():openSide();});
+overlay.addEventListener("click",closeSide);
+document.addEventListener("click",e=>{ if(window.innerWidth<992 && !sidebar.contains(e.target) && !toggleSidebar.contains(e.target)) closeSide(); });
+
+/* ===== Navigation ===== */
+let current="dashboard";
+function setActive(a){ $$("#modulesList a").forEach(x=>x.classList.remove("active")); a.classList.add("active"); }
+function titleFor(key){
+  const t=T[lang];
+  const map={dashboard:t.dash,company:t.company,customers:t.customers,competitors:t.competitors,
+    budget:t.budget,balancesheet:t.balance,cashflow:t.cash,pl:t.pl,forecasts:t.forecasts,
+    businessplan:t.plan,goals:t.goals,ravingfans:t.fans,sops:t.sops,swot:t.swot,workflow:t.workflow,
+    marketingplan:t.mplan,contentcreator:t.creator,prompts:t.prompts,blueprint:t.blueprint,
+    newchat:t.newchat,newfolder:t.newfolder,folder1:"F1 – Projects",folder2:"F2 – Clients",folder3:"F3 – Reports",
+    chat1:"C1 – Marketing Plan",chat2:"C2 – Budget Review",chat3:"C3 – Client Feedback",
+    profile:t.profile,settings:t.settings };
+  return map[key]||key;
+}
+function loadSection(key){
+  current=key;
+  const t=T[lang], title=titleFor(key);
+  pageTitle.textContent=title;
+  pageContent.innerHTML=`<div class="col-12"><div class="card p-4 shadow-sm"><h5 class="mb-2">${title}</h5><p class="mb-0">${t.place(title)}</p></div></div>`;
+  if(window.innerWidth<992) closeSide();
+}
+$$('[data-section]').forEach(a=>a.addEventListener("click",e=>{e.preventDefault();setActive(a);loadSection(a.dataset.section);} ));
+
+/* ===== Chat send ===== */
+sendBtn.addEventListener("click",()=>{ if(chatInput.value.trim()){ console.log("Send:",chatInput.value.trim()); chatInput.value=""; }});
+
+/* ===== Model + Language actions ===== */
+document.querySelectorAll(".model-select").forEach(b=>b.addEventListener("click",()=>{ model=b.dataset.model; localStorage.setItem("aiModel",model); console.log("Model:",model); }));
+document.querySelectorAll(".lang-choice").forEach(b=>b.addEventListener("click",()=>{ lang=b.dataset.lang; L(); }));
+
+/* ===== Login / Logout ===== */
+function fadeSwap(showLogin){
+  if(showLogin){
+    dash.classList.remove("show");
+    setTimeout(()=>{dash.style.display="none";login.style.display="flex";setTimeout(()=>login.classList.add("show"),20);},350);
+  }else{
+    login.classList.remove("show");
+    setTimeout(()=>{login.style.display="none";dash.style.display="block";setTimeout(()=>dash.classList.add("show"),20);},350);
+  }
+}
+loginBtn.addEventListener("click",()=>{
+  const uu=u.value.trim(), pp=p.value.trim();
+  if(uu==="bizcore360" && pp==="1234"){
+    if($("#rememberMe").checked) localStorage.setItem("loggedIn","true"); else localStorage.removeItem("loggedIn");
+    alertBox.style.display="none"; fadeSwap(false);
+  }else{ alertBox.style.display="block"; setTimeout(()=>alertBox.style.display="none",2000); }
+});
+if(localStorage.getItem("loggedIn")==="true"){ fadeSwap(false); }
+if(logout) logout.addEventListener("click",e=>{ e.preventDefault(); localStorage.removeItem("loggedIn"); u.value=""; p.value=""; fadeSwap(true); });
+
+/* ===== Init ===== */
+applyDark(); L();
+document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(el=>new bootstrap.Tooltip(el));
+})();
+</script>
+</body>
+</html>

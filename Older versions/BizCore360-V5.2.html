@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BizCore360 Dashboard v5.2</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--sidebar-w:260px;}
+body{font-family:'Inter',sans-serif;background:#f8f9fa;color:#212529;transition:background .3s,color .3s}
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #dee2e6;z-index:1040;display:flex;align-items:center;justify-content:space-between;padding:0 .75rem}
+.brand{font-size:1.25rem;font-weight:700;color:#000;margin-left:.25rem}
+.sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:#fff;border-right:1px solid #dee2e6;overflow-y:auto;z-index:1030;transition:left .3s,background .3s,color .3s}
+.side-tabs{display:flex;border-bottom:1px solid #e9ecef}
+.side-tabs .btn{border-radius:0;flex:1;border:0;padding:.65rem 0;font-weight:600;font-size:.95rem}
+.side-tabs .btn.active{color:#0d6efd;border-bottom:3px solid #0d6efd;background:#f8fbff}
+.nav-link{color:#333;padding:.55rem 1rem;font-size:.95rem}
+.nav-link:hover{background:#f1f3f5}
+.nav-link.active{color:#0d6efd;background:#e7f1ff;border-left:3px solid #0d6efd}
+.submenu{padding-left:1.25rem}
+main{margin-left:var(--sidebar-w);padding:1.25rem;padding-top:4.5rem;transition:margin-left .3s}
+.chat-box{position:fixed;left:var(--sidebar-w);right:0;bottom:0;background:#fff;border-top:1px solid #dee2e6;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:center;transition:left .3s,background .3s}
+.login-wrapper{display:flex;align-items:center;justify-content:center;height:100vh;padding:1rem}
+.login-card{width:100%;max-width:380px;background:#fff;border:1px solid #e9ecef;border-radius:.75rem;box-shadow:0 8px 20px rgba(0,0,0,.06);padding:1.25rem}
+.login-title{text-align:center;font-weight:700;font-size:1.4rem;color:#0d6efd;margin-bottom:.75rem}
+.lang-toggle{position:absolute;top:.75rem;right:.75rem}
+@media(max-width:991px){
+.sidebar{left:-260px}.sidebar.show{left:0}main{margin-left:0}.chat-box{left:0}
+}
+body.dark{background:#212529;color:#f8f9fa}
+body.dark .topbar{background:#343a40;border-bottom-color:#495057}
+body.dark .sidebar{background:#2b3035;border-right-color:#495057}
+body.dark .nav-link{color:#f8f9fa}
+body.dark .nav-link.active{background:#0d6efd33}
+body.dark .chat-box{background:#343a40;border-top-color:#495057}
+body.dark .card{background:#343a40;border-color:#495057;color:#f8f9fa}
+body.dark .login-card{background:#2b3035;border-color:#495057;color:#f8f9fa}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginPage" class="login-wrapper">
+  <div class="login-card position-relative">
+    <button id="loginLangToggle" class="btn btn-sm btn-outline-secondary lang-toggle">ES</button>
+    <div class="login-title">BizCore360</div>
+    <div class="mb-2"><label id="lblUser" class="form-label">Username</label><input id="loginUser" type="text" class="form-control"></div>
+    <div class="mb-2"><label id="lblPass" class="form-label">Password</label><input id="loginPass" type="password" class="form-control"></div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="rememberMe"><label id="lblRemember" class="form-check-label" for="rememberMe">Remember me</label></div>
+    <button id="btnLogin" class="btn btn-primary w-100">Login</button>
+    <div id="loginAlert" class="text-danger text-center small mt-2" style="display:none">Invalid credentials</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboardPage" style="display:none">
+  <nav class="topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button id="toggleSidebar" class="btn btn-link text-dark p-0"><i class="bi bi-list fs-4"></i></button>
+      <span class="brand">BizCore360</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <i class="bi bi-search" data-bs-toggle="tooltip" title="Search"></i>
+      <!-- AI Model dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="modelMenu" data-bs-toggle="dropdown"><i class="bi bi-cpu fs-5"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="modelMenu">
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0-mini">GPT-4.0-mini</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0">GPT-5.0</button></li>
+        </ul>
+      </div>
+      <!-- Avatar -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="userMenu" data-bs-toggle="dropdown"><i class="bi bi-person-circle fs-5"></i></a>
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenu">
+          <li class="dropdown-submenu dropstart">
+            <button class="dropdown-item dropdown-toggle" id="langSelectBtn"><i class="bi bi-translate me-2"></i><span id="lblLang">Language</span></button>
+            <ul class="dropdown-menu">
+              <li><button class="dropdown-item lang-choice" data-lang="en">English</button></li>
+              <li><button class="dropdown-item lang-choice" data-lang="es">Español</button></li>
+            </ul>
+          </li>
+          <li><button class="dropdown-item" id="toggleDark"><i class="bi bi-sun me-2"></i><span id="lblTheme">Toggle Theme</span></button></li>
+          <li><a href="#" class="dropdown-item" data-section="profile"><i class="bi bi-person me-2"></i><span id="lblProfile">Profile</span></a></li>
+          <li><a href="#" class="dropdown-item" data-section="settings"><i class="bi bi-gear me-2"></i><span id="lblSettings">Settings</span></a></li>
+          <li><a href="#" class="dropdown-item text-danger" id="logout"><i class="bi bi-box-arrow-right me-2"></i><span id="lblLogout">Logout</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="side-tabs">
+      <button id="tabModules" class="btn btn-light active">Modules</button>
+      <button id="tabChats" class="btn btn-light">Chats</button>
+    </div>
+    <div id="modulesTab" class="p-2">…  <!-- (rest of sidebar + main layout continues in Part 2) -->
+
+
+
+
+
+<!-- MODULES TAB -->
+<ul class="list-unstyled" id="modulesList">
+<li><a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-section="dashboard"><i class="bi bi-speedometer2"></i><span id="mDashboard">Dashboard</span></a></li>
+
+<li class="mt-2">
+  <a href="#profilesMenu" class="nav-link d-flex justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex gap-2 align-items-center"><i class="bi bi-people"></i><span id="mProfiles">Profiles</span></span><i class="bi bi-chevron-right"></i></a>
+  <ul class="collapse list-unstyled submenu" id="profilesMenu">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="company"><i class="bi bi-building me-2"></i><span id="smCompany">Company</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="customers"><i class="bi bi-person me-2"></i><span id="smCustomers">Customers</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="competitors"><i class="bi bi-people me-2"></i><span id="smCompetitors">Competitors</span></a></li>
+  </ul>
+</li>
+
+<li class="mt-2">
+  <a href="#financialsMenu" class="nav-link d-flex justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex gap-2 align-items-center"><i class="bi bi-cash-stack"></i><span id="mFinancials">Financials</span></span><i class="bi bi-chevron-right"></i></a>
+  <ul class="collapse list-unstyled submenu" id="financialsMenu">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="budget"><i class="bi bi-wallet2 me-2"></i><span id="smBudget">Budget</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="balancesheet"><i class="bi bi-columns me-2"></i><span id="smBalance">Balance Sheet</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="cashflow"><i class="bi bi-currency-exchange me-2"></i><span id="smCash">Cash Flow</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="pl"><i class="bi bi-bar-chart me-2"></i><span id="smPL">P&amp;L</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="forecasts"><i class="bi bi-graph-up-arrow me-2"></i><span id="smForecasts">Forecasts</span></a></li>
+  </ul>
+</li>
+
+<li class="mt-2">
+  <a href="#planningMenu" class="nav-link d-flex justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex gap-2 align-items-center"><i class="bi bi-journal-text"></i><span id="mPlanning">Planning</span></span><i class="bi bi-chevron-right"></i></a>
+  <ul class="collapse list-unstyled submenu" id="planningMenu">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="businessplan"><i class="bi bi-journal-text me-2"></i><span id="smPlan">Business Plan</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="goals"><i class="bi bi-flag me-2"></i><span id="smGoals">Goals</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="ravingfans"><i class="bi bi-star me-2"></i><span id="smFans">Raving Fans</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="sops"><i class="bi bi-list-check me-2"></i><span id="smSOP">SOPs</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="swot"><i class="bi bi-diagram-3 me-2"></i><span id="smSWOT">SWOT</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="workflow"><i class="bi bi-diagram-3-fill me-2"></i><span id="smWorkflow">Workflow Builder</span></a></li>
+  </ul>
+</li>
+
+<li class="mt-2">
+  <a href="#marketingMenu" class="nav-link d-flex justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex gap-2 align-items-center"><i class="bi bi-bullseye"></i><span id="mMarketing">Marketing</span></span><i class="bi bi-chevron-right"></i></a>
+  <ul class="collapse list-unstyled submenu" id="marketingMenu">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="marketingplan"><i class="bi bi-megaphone me-2"></i><span id="smMPlan">Marketing Plan</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="contentcreator"><i class="bi bi-pencil-square me-2"></i><span id="smCreator">Content Creator</span></a></li>
+  </ul>
+</li>
+
+<li class="mt-2">
+  <a href="#resourcesMenu" class="nav-link d-flex justify-content-between ps-3" data-bs-toggle="collapse"><span class="d-flex gap-2 align-items-center"><i class="bi bi-boxes"></i><span id="mResources">Resources</span></span><i class="bi bi-chevron-right"></i></a>
+  <ul class="collapse list-unstyled submenu" id="resourcesMenu">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="prompts"><i class="bi bi-lightbulb me-2"></i><span id="smPrompts">Sample Prompts</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="blueprint"><i class="bi bi-briefcase me-2"></i><span id="smBlueprint">New Business Blueprint</span></a></li>
+  </ul>
+</li>
+</ul>
+</div>
+
+<!-- CHATS TAB -->
+<div id="chatsTab" class="p-2" style="display:none">
+  <ul class="list-unstyled">
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="newchat"><i class="bi bi-chat-dots me-2"></i><span id="cNewChat">New Chat</span></a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="newfolder"><i class="bi bi-folder-plus me-2"></i><span id="cNewFolder">New Folder</span></a></li>
+    <li><hr></li>
+    <li class="fw-bold ps-2">Folders</li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
+    <li><hr></li>
+    <li class="fw-bold ps-2">Chat History</li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat1"><i class="bi bi-chat-left-text me-2"></i>C1 – Marketing Plan</a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat2"><i class="bi bi-chat-left-text me-2"></i>C2 – Budget Review</a></li>
+    <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat3"><i class="bi bi-chat-left-text me-2"></i>C3 – Client Feedback</a></li>
+  </ul>
+</div>
+</aside>
+
+<main id="main">
+  <div class="container-fluid">
+    <h4 id="pageTitle" class="mb-3">Dashboard</h4>
+    <div id="pageContent" class="row g-3">
+      <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-graph-up"></i> Monthly Revenue</h6><p>$25,000</p></div></div>
+      <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-person-lines-fill"></i> Active Customers</h6><p>132</p></div></div>
+      <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-bar-chart"></i> Net Profit</h6><p>$7,200</p></div></div>
+      <div class="col-md-6 col-xl-3"><div class="card p-3 shadow-sm"><h6><i class="bi bi-flag"></i> Goals Progress</h6><p>68%</p></div></div>
+    </div>
+  </div>
+</main>
+
+<div class="chat-box">
+  <button class="btn btn-light border"><i class="bi bi-plus"></i></button>
+  <input type="text" id="chatInput" class="form-control rounded-pill" placeholder="Type a message...">
+  <button class="btn btn-light border"><i class="bi bi-mic"></i></button>
+  <button class="btn btn-light border"><i class="bi bi-soundwave"></i></button>
+  <button class="btn btn-primary border" id="sendBtn"><i class="bi bi-send-fill text-white"></i></button>
+</div>
+
+<div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.1);z-index:1029"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+(()=>{"use strict";
+let lang=localStorage.getItem("lang")||"en";
+let dark=localStorage.getItem("darkMode")==="true";
+let model=localStorage.getItem("aiModel")||"GPT-4.0-mini";
+const $=(s)=>document.querySelector(s),$$=(s)=>document.querySelectorAll(s);
+
+const loginPage=$("#loginPage"),dash=$("#dashboardPage"),loginUser=$("#loginUser"),loginPass=$("#loginPass"),loginBtn=$("#btnLogin"),loginAlert=$("#loginAlert"),loginLang=$("#loginLangToggle");
+const sidebar=$("#sidebar"),overlay=$("#overlay"),toggleSidebar=$("#toggleSidebar"),tabM=$("#tabModules"),tabC=$("#tabChats"),modTab=$("#modulesTab"),chatTab=$("#chatsTab");
+const pageTitle=$("#pageTitle"),pageContent=$("#pageContent"),toggleDark=$("#toggleDark"),logout=$("#logout"),chatInput=$("#chatInput"),sendBtn=$("#sendBtn");
+
+function setDark(){document.body.classList[dark?"add":"remove"]("dark");localStorage.setItem("darkMode",dark);}
+function switchLang(l){lang=l;localStorage.setItem("lang",l);location.reload();}
+function switchModel(m){model=m;localStorage.setItem("aiModel",m);console.log("Model:",m);}
+
+loginBtn.onclick=()=>{if(loginUser.value==="bizcore360"&&loginPass.value==="1234"){localStorage.setItem("loggedIn","1");loginPage.style.display="none";dash.style.display="block";}else loginAlert.style.display="block";}
+loginLang.onclick=()=>switchLang(lang==="en"?"es":"en");
+logout.onclick=()=>{localStorage.removeItem("loggedIn");dash.style.display="none";loginPage.style.display="flex";};
+
+toggleDark.onclick=()=>{dark=!dark;setDark();};
+$$(".lang-choice").forEach(b=>b.onclick=()=>switchLang(b.dataset.lang));
+$$(".model-select").forEach(b=>b.onclick=()=>switchModel(b.dataset.model));
+
+toggleSidebar.onclick=()=>{sidebar.classList.toggle("show");overlay.style.display=sidebar.classList.contains("show")?"block":"none";};
+overlay.onclick=()=>{sidebar.classList.remove("show");overlay.style.display="none";};
+tabM.onclick=()=>{tabM.classList.add("active");tabC.classList.remove("active");modTab.style.display="block";chatTab.style.display="none";};
+tabC.onclick=()=>{tabC.classList.add("active");tabM.classList.remove("active");modTab.style.display="none";chatTab.style.display="block";};
+
+$$('[data-section]').forEach(a=>a.onclick=(e)=>{e.preventDefault();$$('[data-section]').forEach(x=>x.classList.remove("active"));a.classList.add("active");const s=a.dataset.section;pageTitle.textContent=s;pageContent.innerHTML=`<div class='card p-4 shadow-sm'><h5>${s}</h5><p>Placeholder for ${s}</p></div>`;if(window.innerWidth<992){sidebar.classList.remove("show");overlay.style.display="none";}});
+sendBtn.onclick=()=>{if(chatInput.value.trim()){console.log("Send:",chatInput.value);chatInput.value="";}}
+
+if(localStorage.getItem("loggedIn")){loginPage.style.display="none";dash.style.display="block";}
+setDark();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+/* Sidebar tabs underline fix */
+.side-tabs button.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+  border-radius: 0; /* removes curve */
+  background-color: #f9fafb;
+}
+
+/* Limit visible folders to 3 items with 'See more...' link */
+.sidebar .folder-list > li:nth-child(n+4) {
+  display: none;
+}
+.sidebar .folder-list > li.see-more {
+  display: list-item;
+  cursor: pointer;
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* New Chat behavior */
+document.getElementById("newChatBtn").addEventListener("click", () => {
+  loadPage("newChat"); // Opens blank chat area directly
+});
+
+// Render only first 3 folders, then "See more..."
+function renderFolders() {
+  const folderList = document.getElementById("foldersList");
+  folderList.innerHTML = ""; 
+  const visibleFolders = folders.slice(0, 3);
+  
+  visibleFolders.forEach((folder, i) => {
+    const li = document.createElement("li");
+    li.classList.add("nav-item");
+    li.innerHTML = `<i class="bi bi-folder"></i> ${folder}`;
+    folderList.appendChild(li);
+  });
+
+  if (folders.length > 3) {
+    const seeMore = document.createElement("li");
+    seeMore.classList.add("nav-item", "see-more");
+    seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more...`;
+    seeMore.addEventListener("click", () => loadPage("allFolders"));
+    folderList.appendChild(seeMore);
+  }
+}
