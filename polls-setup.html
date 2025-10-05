@@ -71,9 +71,6 @@
     </div>
   </div>
 
-  <!-- your OpenAI key -->
-  <script src="config.js"></script>
-
   <script>
     const generateBtn = document.getElementById("generateBtn");
     const loadingDiv = document.getElementById("loading");
@@ -105,32 +102,65 @@ Then add 6 more personas relevant to the ${industry} industry.
 Return the result as a valid JSON array.
 `;
       try {
-        const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        // Use relative path for API calls - works in all environments
+        const apiUrl = '/api/openai';
+        
+        console.log("API URL:", apiUrl);
+        console.log("Sending prompt to API...");
+        console.log("Prompt:", prompt);
+        
+        const response = await fetch(apiUrl, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${OPENAI_API_KEY}`
+            "Content-Type": "application/json"
           },
           body: JSON.stringify({
-            model: "gpt-4o-mini",
-            messages: [
-              { role: "system", content: "You are an assistant that returns JSON only." },
-              { role: "user", content: prompt }
-            ],
-            temperature: 0.8
+            prompt: prompt
           })
         });
 
+        console.log("Response status:", response.status);
+        console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+        
         const data = await response.json();
-        const text = data.choices?.[0]?.message?.content || "[]";
-        const personas = JSON.parse(text);
+        console.log("Received response data:", data);
+        
+        if (!response.ok) {
+          console.error("❌ API Error Response:", data);
+          console.error("❌ Response status:", response.status);
+          throw new Error(data.error || data.message || `HTTP error! status: ${response.status}`);
+        }
+        
+        const text = data.reply || "[]";
+        console.log("Parsing personas from:", text);
+        
+        let personas;
+        try {
+          personas = JSON.parse(text);
+        } catch (parseError) {
+          console.error("Failed to parse personas JSON:", parseError);
+          console.error("Raw response text:", text);
+          throw new Error("Invalid JSON response from API");
+        }
 
+        console.log("Successfully parsed personas:", personas);
         localStorage.setItem("bizcore_focus_personas", JSON.stringify(personas));
         localStorage.setItem("bizcore_focus_industry", industry);
         return personas;
       } catch (err) {
-        console.error("Error generating personas:", err);
-        alert("Something went wrong while contacting OpenAI API. Check console for details.");
+        console.error("❌ Error generating personas:", err);
+        console.error("❌ Error details:", {
+          message: err.message,
+          stack: err.stack,
+          name: err.name
+        });
+        
+        // Show user-friendly error in UI
+        const errorMessage = err.message.includes('fetch') 
+          ? 'Network connection failed. Please check your internet connection and try again.'
+          : `Error creating focus group: ${err.message}`;
+          
+        alert(errorMessage + '\n\nCheck browser console (F12) for technical details.');
         return [];
       }
     }
@@ -155,7 +185,14 @@ Return the result as a valid JSON array.
     });
 
     continueBtn.addEventListener("click", () => {
-      window.location.href = "polls.html"; // next module page
+      // Check if we're running inside the main dashboard
+      if (typeof loadPage === 'function') {
+        // We're in the dashboard, use the dashboard's navigation system
+        loadPage('polls');
+      } else {
+        // We're running standalone, navigate directly
+        window.location.href = "polls.html";
+      }
     });
 
     function showPersonas(personas) {

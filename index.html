@@ -220,7 +220,7 @@ input,
       <!-- AI tools quick icons -->
       <i class="bi bi-robot fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-title="AI Business Coach" role="button" data-section="aicoach"></i>
       <i class="bi bi-people fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-title="AI Advisory Board" role="button" data-section="aiadvisory"></i>
-      <i class="bi bi-bar-chart-line fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-title="Polls" role="button" data-section="polls"></i>
+      <i id="polls-icon" class="bi bi-bar-chart-line fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-title="Polls" role="button" data-section="polls"></i>
 
       <!-- language selector -->
       <div class="dropdown">
@@ -367,7 +367,7 @@ input,
         </div>
       </div>
 
-      <div id="pageContent" class="row g-3">
+      <div id="pageContent" class="main-content row g-3">
         <!-- Dashboard Default Cards -->
         <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-graph-up me-2"></i>Monthly Revenue</h6><p>$25,000</p></div></div>
         <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-person-lines-fill me-2"></i>Active Customers</h6><p>132</p></div></div>
@@ -445,6 +445,389 @@ document.querySelectorAll('[data-section="aicoach"],[data-section="aiadvisory"]'
     if (typeof loadPage === 'function') loadPage(section);
   });
 });
+
+// Enhanced topbar icon highlighting
+function updateTopbarIconStates(activeSection) {
+  document.querySelectorAll('.topbar i[data-section]').forEach(icon => {
+    if (icon.dataset.section === activeSection) {
+      icon.classList.remove('text-secondary');
+      icon.classList.add('text-primary');
+    } else {
+      icon.classList.remove('text-primary');
+      icon.classList.add('text-secondary');
+    }
+  });
+}
+
+// Function to load polls.html dynamically
+async function loadPollsPage() {
+  pageTitle.textContent = "Active Polls";
+  
+  try {
+    const response = await fetch('polls.html');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const html = await response.text();
+    
+    // Parse the HTML and extract the content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Get the container content and remove the py-5 class for better integration
+    const container = doc.querySelector('.container');
+    if (container) {
+      container.classList.remove('py-5');
+      pageContent.innerHTML = container.innerHTML;
+      
+      // Execute any scripts that were in the polls.html file
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            eval(script.textContent);
+          } catch (e) {
+            console.warn('Error executing polls script:', e);
+          }
+        }
+      });
+      
+      // Add event listeners for "New Poll" buttons after content is loaded
+      setupPollsPageEventListeners();
+    } else {
+      // Fallback if container not found
+      const bodyContent = doc.querySelector('body').innerHTML;
+      pageContent.innerHTML = bodyContent;
+      setupPollsPageEventListeners();
+    }
+    
+  } catch (error) {
+    console.error('Failed to load polls page:', error);
+    pageContent.innerHTML = `
+      <div class='alert alert-warning d-flex align-items-center' role='alert'>
+        <i class='bi bi-exclamation-triangle-fill me-2'></i>
+        <div>
+          <strong>Unable to load Polls page.</strong> 
+          Please check your connection and try again.
+        </div>
+      </div>
+      <div class='card p-3 shadow-sm'>
+        <h4 class='mb-3'><i class='bi bi-bar-chart-line'></i> Active Polls (Fallback)</h4>
+        <p>Create, view, and manage community or team polls.</p>
+        <button class='btn btn-primary' onclick='loadPollsPage()'>Retry Loading</button>
+      </div>`;
+  }
+}
+
+// Function to set up event listeners for the polls page
+function setupPollsPageEventListeners() {
+  // Add event listeners for all "New Poll" buttons using the class selector
+  const newPollButtons = document.querySelectorAll('.new-poll-btn, button[data-action="new-poll"]');
+  
+  console.log('Found New Poll buttons:', newPollButtons.length);
+  
+  newPollButtons.forEach((button, index) => {
+    // Remove any existing onclick attribute to avoid conflicts
+    button.removeAttribute('onclick');
+    
+    // Add new event listener
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log(`New Poll button ${index + 1} clicked`);
+      loadPage('polls-setup');
+    });
+    
+    console.log(`Event listener added to button ${index + 1}:`, button.textContent.trim());
+  });
+  
+  console.log('Polls page event listeners setup complete');
+}
+
+// Function to load polls-setup.html dynamically in the dashboard
+async function loadPollsSetupPageInDashboard() {
+  pageTitle.textContent = "Create New Poll";
+  
+  try {
+    const response = await fetch('polls-setup.html');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const html = await response.text();
+    
+    // Parse the HTML and extract the content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Get the container content and remove the py-5 class for better integration
+    const container = doc.querySelector('.container');
+    if (container) {
+      container.classList.remove('py-5');
+      pageContent.innerHTML = container.innerHTML;
+      
+      // Execute any scripts that were in the polls-setup.html file
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            // Create a new script element to execute in global context
+            const globalScript = document.createElement('script');
+            globalScript.textContent = script.textContent;
+            document.head.appendChild(globalScript);
+            // Remove it after a brief delay
+            setTimeout(() => {
+              if (document.head.contains(globalScript)) {
+                document.head.removeChild(globalScript);
+              }
+            }, 100);
+          } catch (e) {
+            console.warn('Error executing polls-setup script:', e);
+          }
+        }
+      });
+      
+      // Set up event listeners after content and scripts are loaded
+      setTimeout(() => {
+        setupPollsSetupEventListeners();
+      }, 150);
+    } else {
+      // Fallback if container not found
+      const bodyContent = doc.querySelector('body').innerHTML;
+      pageContent.innerHTML = bodyContent;
+      
+      // Execute scripts for fallback case too
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            const globalScript = document.createElement('script');
+            globalScript.textContent = script.textContent;
+            document.head.appendChild(globalScript);
+            setTimeout(() => {
+              if (document.head.contains(globalScript)) {
+                document.head.removeChild(globalScript);
+              }
+            }, 100);
+          } catch (e) {
+            console.warn('Error executing polls-setup script:', e);
+          }
+        }
+      });
+      
+      setTimeout(() => {
+        setupPollsSetupEventListeners();
+      }, 150);
+    }
+    
+  } catch (error) {
+    console.error('Failed to load polls setup page:', error);
+    pageContent.innerHTML = `
+      <div class='alert alert-warning d-flex align-items-center' role='alert'>
+        <i class='bi bi-exclamation-triangle-fill me-2'></i>
+        <div>
+          <strong>Unable to load Polls Setup page.</strong> 
+          Please check your connection and try again.
+        </div>
+      </div>
+      <div class='card p-3 shadow-sm'>
+        <h4 class='mb-3'><i class='bi bi-plus-circle'></i> Create New Poll (Fallback)</h4>
+        <p>Set up your AI Focus Group poll.</p>
+        <button class='btn btn-primary' onclick='loadPollsSetupPageInDashboard()'>Retry Loading</button>
+      </div>`;
+  }
+}
+
+// Function to set up event listeners for the polls setup page
+function setupPollsSetupEventListeners() {
+  // Wait for DOM to be ready
+  setTimeout(() => {
+    const generateBtn = document.getElementById("generateBtn");
+    const regenerateBtn = document.getElementById("regenerateBtn");
+    const continueBtn = document.getElementById("continueBtn");
+    
+    console.log("Setting up polls-setup event listeners...");
+    console.log("Generate button found:", !!generateBtn);
+    console.log("Regenerate button found:", !!regenerateBtn);
+    console.log("Continue button found:", !!continueBtn);
+    
+    if (generateBtn) {
+      // Remove any existing event listeners
+      generateBtn.replaceWith(generateBtn.cloneNode(true));
+      const newGenerateBtn = document.getElementById("generateBtn");
+      
+      newGenerateBtn.addEventListener("click", async () => {
+        console.log("Generate button clicked!");
+        const industry = document.getElementById("industry").value.trim();
+        console.log("Industry entered:", industry);
+        
+        if (!industry) {
+          alert("Please enter an industry.");
+          return;
+        }
+        
+        const setupContainer = document.getElementById("setup-container");
+        const loadingDiv = document.getElementById("loading");
+        
+        if (setupContainer && loadingDiv) {
+          setupContainer.querySelector(".card").classList.add("d-none");
+          loadingDiv.classList.remove("d-none");
+        }
+
+        // Generate personas using AI
+        try {
+          const personas = await generatePersonasFromAI_Dashboard(industry);
+          if (personas.length) {
+            showPersonas_Dashboard(personas);
+          }
+        } catch (error) {
+          console.error("Error generating personas:", error);
+          alert("Error creating focus group. Please check your internet connection and try again.");
+        }
+      });
+    }
+    
+    if (regenerateBtn) {
+      regenerateBtn.replaceWith(regenerateBtn.cloneNode(true));
+      const newRegenerateBtn = document.getElementById("regenerateBtn");
+      
+      newRegenerateBtn.addEventListener("click", async () => {
+        console.log("Regenerate button clicked!");
+        const industry = localStorage.getItem("bizcore_focus_industry") || "General";
+        try {
+          const personas = await generatePersonasFromAI_Dashboard(industry);
+          showPersonas_Dashboard(personas);
+        } catch (error) {
+          console.error("Error regenerating personas:", error);
+          alert("Error regenerating focus group. Please try again.");
+        }
+      });
+    }
+    
+    if (continueBtn) {
+      continueBtn.replaceWith(continueBtn.cloneNode(true));
+      const newContinueBtn = document.getElementById("continueBtn");
+      
+      newContinueBtn.addEventListener("click", () => {
+        console.log("Continue button clicked!");
+        // Check if we're running inside the main dashboard
+        if (typeof loadPage === 'function') {
+          // We're in the dashboard, use the dashboard's navigation system
+          loadPage('polls');
+        } else {
+          // We're running standalone, navigate directly
+          window.location.href = "polls.html";
+        }
+      });
+    }
+  }, 100); // Small delay to ensure DOM is ready
+}
+
+// AI generation function for dashboard context
+async function generatePersonasFromAI_Dashboard(industry) {
+  const prompt = `Generate 11 AI personas for a ${industry} company focus group. Include 5 core roles:
+1. Marketing Director - Focus on branding, customer acquisition, and market positioning
+2. Finance Manager - Focus on budgets, ROI, cost control, and financial planning
+3. HR Director - Focus on talent management, employee experience, and culture
+4. Legal Advisor - Focus on compliance, contracts, risk management, and regulations
+5. Operations Manager - Focus on efficiency, processes, supply chain, and day-to-day operations
+
+Then add 6 more personas relevant to the ${industry} industry.
+Return the result as a valid JSON array.
+`;
+
+  try {
+    console.log("Generating personas for industry:", industry);
+    console.log("Making request to /api/openai...");
+    
+    const response = await fetch('/api/openai', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        prompt: prompt
+      })
+    });
+
+    console.log("Response status:", response.status);
+    console.log("Response ok:", response.ok);
+
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
+      }
+      console.error("API Error Response:", errorData);
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log("API Response data:", data);
+    const text = data.reply || "[]";
+    
+    let personas;
+    try {
+      personas = JSON.parse(text);
+    } catch (parseError) {
+      console.error("Failed to parse personas JSON:", parseError);
+      console.error("Raw text:", text);
+      throw new Error("Invalid JSON response from API");
+    }
+
+    console.log("Successfully generated personas:", personas.length);
+    localStorage.setItem("bizcore_focus_personas", JSON.stringify(personas));
+    localStorage.setItem("bizcore_focus_industry", industry);
+    return personas;
+  } catch (err) {
+    console.error("Detailed error generating personas:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    
+    // Provide more specific error messages
+    if (err.message.includes('fetch')) {
+      throw new Error('Network connection failed. Please check your internet connection and try again.');
+    } else if (err.message.includes('HTTP 4')) {
+      throw new Error('API request error. Please check your API configuration.');
+    } else if (err.message.includes('HTTP 5')) {
+      throw new Error('Server error. Please try again in a few moments.');
+    } else {
+      throw new Error(`Error: ${err.message}`);
+    }
+  }
+}
+
+// Show personas function for dashboard context
+function showPersonas_Dashboard(personas) {
+  const loadingDiv = document.getElementById("loading");
+  const setupContainer = document.getElementById("setup-container");
+  const personasContainer = document.getElementById("personas-container");
+  const personasList = document.getElementById("personas-list");
+  
+  if (loadingDiv) loadingDiv.classList.add("d-none");
+  if (setupContainer) setupContainer.classList.add("d-none");
+  if (personasContainer) personasContainer.classList.remove("d-none");
+  
+  if (personasList) {
+    personasList.innerHTML = "";
+    personas.forEach(p => {
+      personasList.innerHTML += `
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="persona-card h-100">
+            <div class="persona-avatar"><i class="bi bi-person"></i></div>
+            <h6 class="fw-bold mb-1">${p.name}</h6>
+            <p class="text-primary mb-1">${p.role}</p>
+            <p class="small text-muted">${p.description}</p>
+          </div>
+        </div>
+      `;
+    });
+  }
+}
 
 /* ========== LOGIN LOGIC ========== */
 btnLogin.addEventListener("click", () => {
@@ -543,9 +926,21 @@ document.querySelectorAll("[data-section]").forEach(link => {
     e.preventDefault();
     const section = link.dataset.section;
     loadPage(section);
-    document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
-    link.classList.add("active");
-    if (window.innerWidth < 992) { sidebar.classList.remove("show"); overlay.style.display = "none"; }
+    
+    // Handle sidebar nav-link active states (only for sidebar links, not topbar icons)
+    if (link.classList.contains('nav-link')) {
+      document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+    }
+    
+    // Handle topbar icon highlighting
+    updateTopbarIconStates(section);
+    
+    // Close sidebar on mobile
+    if (window.innerWidth < 992) { 
+      sidebar.classList.remove("show"); 
+      overlay.style.display = "none"; 
+    }
   });
 });
 
@@ -604,13 +999,12 @@ function loadPage(section) {
       </ul></div>`;
       break;
     case "polls":
-      pageTitle.textContent = "Active Polls";
-      html = `
-      <div class='card p-3 shadow-sm'>
-        <h4 class='mb-3'><i class='bi bi-bar-chart-line'></i> Active Polls</h4>
-        <p>Create, view, and manage community or team polls.</p>
-        <button class='btn btn-primary'>Create New Poll</button>
-      </div>`;
+      loadPollsPage();
+      return; // Early return since we handle this asynchronously
+      break;
+    case "polls-setup":
+      loadPollsSetupPageInDashboard();
+      return; // Early return since we handle this asynchronously
       break;
     default:
       pageTitle.textContent = section.replace(/^\w/, c => c.toUpperCase());

@@ -2,7 +2,12 @@
   "name": "bizcore360-ai",
   "version": "1.0.0",
   "type": "module",
+  "scripts": {
+    "dev": "node local-server.js",
+    "start": "node local-server.js"
+  },
   "dependencies": {
-    "openai": "^4.68.4"
+    "openai": "^4.68.4",
+    "node-fetch": "^3.3.2"
   }
 }
