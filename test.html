@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>API Test Page</title>
+    <!-- Config for BASE_URL -->
+    <script src="config.js"></script>
     <style>
         body { font-family: Arial, sans-serif; margin: 2rem; }
         .result { background: #f5f5f5; padding: 1rem; margin: 1rem 0; border-radius: 4px; }
@@ -37,9 +39,13 @@ Include these roles:
 Return the result as a valid JSON array with each persona having: name, role, description.`;
 
             try {
-                console.log("🚀 Sending request to /api/openai...");
+                // Use centralized BASE_URL from config.js
+                console.log("Using BASE_URL from config:", BASE_URL);
                 
-                const response = await fetch("/api/openai", {
+                console.log("🚀 Sending request to /api/openai...");
+                console.log("Using BASE_URL:", BASE_URL);
+                
+                const response = await fetch(`${BASE_URL}/api/openai`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json"

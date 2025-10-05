@@ -1,5 +1,15 @@
 // config.js
 
+// Detect whether you're on local or live (Vercel)
+const BASE_URL = window.location.hostname.includes("vercel.app")
+  ? "https://bizcore360-ai.vercel.app"  // your deployed domain
+  : "http://127.0.0.1:5500";             // your local environment
+
+// Make BASE_URL globally available
+window.BASE_URL = BASE_URL;
+
+console.log("🔧 Config loaded - BASE_URL set to:", BASE_URL);
+
 async function createFocusGroup() {
   const setupContainer = document.getElementById("setup-container");
   const personasContainer = document.getElementById("personas-container");
@@ -15,7 +25,7 @@ async function createFocusGroup() {
   `;
 
   try {
-    const response = await fetch("/api/openai", {
+    const response = await fetch(`${BASE_URL}/api/openai`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

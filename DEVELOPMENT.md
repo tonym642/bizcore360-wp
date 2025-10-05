@@ -38,7 +38,12 @@ OPENAI_API_KEY=sk-your-actual-openai-api-key-here
 ### 1. Browser Console Test
 Open browser console (F12) and run:
 ```javascript
-fetch('/api/openai', {
+// Smart API URL detection
+const BASE_URL = window.location.hostname.includes("vercel.app")
+  ? "https://bizcore360-ai.vercel.app"
+  : "http://127.0.0.1:5500";
+
+fetch(`${BASE_URL}/api/openai`, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify({ prompt: 'Create 3 test personas in JSON format' })

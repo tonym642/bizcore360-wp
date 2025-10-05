@@ -13,9 +13,15 @@ Return the result as a valid JSON array with each persona having: name, role, de
 
 async function testAPI() {
   try {
-    console.log("Testing /api/openai endpoint...");
+    // Use centralized BASE_URL (if available) or fallback to detection
+    const BASE_URL = window.BASE_URL || (window.location.hostname.includes("vercel.app")
+      ? "https://bizcore360-ai.vercel.app"
+      : "http://127.0.0.1:5500");
     
-    const response = await fetch("/api/openai", {
+    console.log("Testing /api/openai endpoint...");
+    console.log("Using BASE_URL:", BASE_URL);
+    
+    const response = await fetch(`${BASE_URL}/api/openai`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

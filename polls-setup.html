@@ -6,6 +6,9 @@
   <title>BizCore360 AI Polls Setup</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  
+  <!-- Config for BASE_URL -->
+  <script src="config.js"></script>
   <style>
     body {
       background-color: #f8f9fa;
@@ -102,8 +105,8 @@ Then add 6 more personas relevant to the ${industry} industry.
 Return the result as a valid JSON array.
 `;
       try {
-        // Use relative path for API calls - works in all environments
-        const apiUrl = '/api/openai';
+        // Use centralized BASE_URL from config.js
+        const apiUrl = `${BASE_URL}/api/openai`;
         
         console.log("API URL:", apiUrl);
         console.log("Sending prompt to API...");
