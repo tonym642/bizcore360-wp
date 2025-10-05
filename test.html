@@ -27,7 +27,11 @@
     <script>
         async function testAPI() {
             const results = document.getElementById('results');
-            results.innerHTML = '<div class="result">🔄 Testing API connection...</div>';
+            if (results) {
+                results.innerHTML = '<div class="result">🔄 Testing API connection...</div>';
+            } else {
+                console.warn('⏩ #results element not found; skipping testUI updates.');
+            }
             
             const testPrompt = `Create 3 AI personas for a focus group in the Technology industry.
 
@@ -61,7 +65,8 @@ Return the result as a valid JSON array with each persona having: name, role, de
                 console.log("📨 Response data:", data);
 
                 if (response.ok) {
-                    results.innerHTML = `
+                    if (results) {
+                        results.innerHTML = `
                         <div class="result success">
                             <h3>✅ API Test Successful!</h3>
                             <p><strong>Status:</strong> ${response.status}</p>
@@ -69,47 +74,58 @@ Return the result as a valid JSON array with each persona having: name, role, de
                             <pre>${JSON.stringify(data, null, 2)}</pre>
                         </div>
                     `;
-                    
+                    }
+
                     // Try to parse the reply as JSON
                     try {
                         const personas = JSON.parse(data.reply);
-                        results.innerHTML += `
-                            <div class="result success">
-                                <h3>✅ JSON Parsing Successful!</h3>
-                                <p><strong>Personas Count:</strong> ${personas.length}</p>
-                                <p><strong>Sample Persona:</strong></p>
-                                <pre>${JSON.stringify(personas[0], null, 2)}</pre>
-                            </div>
-                        `;
+                        if (results) {
+                            results.innerHTML += `
+                                <div class="result success">
+                                    <h3>✅ JSON Parsing Successful!</h3>
+                                    <p><strong>Personas Count:</strong> ${personas.length}</p>
+                                    <p><strong>Sample Persona:</strong></p>
+                                    <pre>${JSON.stringify(personas[0], null, 2)}</pre>
+                                </div>
+                            `;
+                        }
                     } catch (parseError) {
-                        results.innerHTML += `
+                        if (results) {
+                            results.innerHTML += `
+                                <div class="result error">
+                                    <h3>❌ JSON Parsing Failed</h3>
+                                    <p><strong>Error:</strong> ${parseError.message}</p>
+                                    <p><strong>Raw Reply:</strong></p>
+                                    <pre>${data.reply}</pre>
+                                </div>
+                            `;
+                        }
+                    }
+                } else {
+                    if (results) {
+                        results.innerHTML = `
                             <div class="result error">
-                                <h3>❌ JSON Parsing Failed</h3>
-                                <p><strong>Error:</strong> ${parseError.message}</p>
-                                <p><strong>Raw Reply:</strong></p>
-                                <pre>${data.reply}</pre>
+                                <h3>❌ API Error</h3>
+                                <p><strong>Status:</strong> ${response.status}</p>
+                                <p><strong>Error:</strong></p>
+                                <pre>${JSON.stringify(data, null, 2)}</pre>
                             </div>
                         `;
                     }
-                } else {
-                    results.innerHTML = `
-                        <div class="result error">
-                            <h3>❌ API Error</h3>
-                            <p><strong>Status:</strong> ${response.status}</p>
-                            <p><strong>Error:</strong></p>
-                            <pre>${JSON.stringify(data, null, 2)}</pre>
-                        </div>
-                    `;
                 }
             } catch (error) {
                 console.error("❌ Network error:", error);
-                results.innerHTML = `
+                if (results) {
+                    results.innerHTML = `
                     <div class="result error">
                         <h3>❌ Network Error</h3>
                         <p><strong>Error:</strong> ${error.message}</p>
                         <p>Make sure your server is running and the API endpoint is accessible.</p>
                     </div>
                 `;
+                } else {
+                    console.warn('⏩ #results element not found; skipping network error UI update.');
+                }
             }
         }
     </script>

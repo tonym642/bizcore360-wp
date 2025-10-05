@@ -181,27 +181,39 @@ Return the result as a valid JSON array.
       if (personas.length) showPersonas(personas);
     });
 
-    regenerateBtn.addEventListener("click", async () => {
-      const industry = localStorage.getItem("bizcore_focus_industry") || "General";
-      const personas = await generatePersonasFromAI(industry);
-      showPersonas(personas);
-    });
+    if (regenerateBtn) {
+      regenerateBtn.addEventListener("click", async () => {
+        const industry = localStorage.getItem("bizcore_focus_industry") || "General";
+        const personas = await generatePersonasFromAI(industry);
+        showPersonas(personas);
+      });
+    } else {
+      console.warn("⏩ regenerateBtn not found; skipping listener.");
+    }
 
-    continueBtn.addEventListener("click", () => {
-      // Check if we're running inside the main dashboard
-      if (typeof loadPage === 'function') {
-        // We're in the dashboard, use the dashboard's navigation system
-        loadPage('polls');
-      } else {
-        // We're running standalone, navigate directly
-        window.location.href = "polls.html";
-      }
-    });
+    if (continueBtn) {
+      continueBtn.addEventListener("click", () => {
+        // Check if we're running inside the main dashboard
+        if (typeof loadPage === 'function') {
+          // We're in the dashboard, use the dashboard's navigation system
+          loadPage('polls');
+        } else {
+          // We're running standalone, navigate directly
+          window.location.href = "polls.html";
+        }
+      });
+    } else {
+      console.warn("⏩ continueBtn not found; skipping listener.");
+    }
 
     function showPersonas(personas) {
-      loadingDiv.classList.add("d-none");
-      setupContainer.classList.add("d-none");
-      personasContainer.classList.remove("d-none");
+      if (loadingDiv) loadingDiv.classList.add("d-none");
+      if (setupContainer) setupContainer.classList.add("d-none");
+      if (personasContainer) personasContainer.classList.remove("d-none");
+      if (!personasList) {
+        console.warn("⏩ personasList not found; cannot render personas.");
+        return;
+      }
       personasList.innerHTML = "";
       personas.forEach(p => {
         personasList.innerHTML += `

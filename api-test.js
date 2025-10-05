@@ -25,7 +25,11 @@ function updateConsoleDisplay() {
         consoleContent.innerHTML = consoleOutput.map(line => 
             `<div style="margin-bottom: 0.25rem;">${escapeHtml(line)}</div>`
         ).join('');
-        consoleDiv.style.display = 'block';
+        if (consoleDiv) consoleDiv.style.display = 'block';
+    } else {
+        // If consoleContent is missing, skip UI update but keep logs in memory
+        // so they can be inspected later.
+        // This avoids errors when script runs on pages that don't include the test UI.
     }
 }
 
@@ -73,9 +77,11 @@ async function runAPITest() {
     // Reset console output
     consoleOutput = [];
     
-    // Disable button and show loading
-    testButton.disabled = true;
-    testButton.textContent = '⏳ Testing...';
+    // Disable button and show loading (if button exists)
+    if (testButton) {
+        testButton.disabled = true;
+        testButton.textContent = '⏳ Testing...';
+    }
     
     showLoading('Running API test...');
     
@@ -146,14 +152,20 @@ async function runAPITest() {
             showError('Unknown Error: ' + error.message, error);
         }
     } finally {
-        // Re-enable button
-        testButton.disabled = false;
-        testButton.textContent = '🔄 Run Test Again';
+        // Re-enable button if it exists
+        if (testButton) {
+            testButton.disabled = false;
+            testButton.textContent = '🔄 Run Test Again';
+        }
     }
 }
 
 function showLoading(message) {
     const resultDiv = document.getElementById('test-result');
+    if (!resultDiv) {
+        console.warn('⏩ showLoading(): #test-result not found; skipping UI update.');
+        return;
+    }
     resultDiv.innerHTML = `
         <div class="loading">
             ⏳ ${message}
@@ -163,6 +175,10 @@ function showLoading(message) {
 
 function showSuccess(data, responseTime) {
     const resultDiv = document.getElementById('test-result');
+    if (!resultDiv) {
+        console.warn('⏩ showSuccess(): #test-result not found; skipping UI update.');
+        return;
+    }
     const reply = data.reply || 'No reply content';
     
     resultDiv.innerHTML = `
@@ -185,6 +201,10 @@ function showSuccess(data, responseTime) {
 
 function showError(message, error) {
     const resultDiv = document.getElementById('test-result');
+    if (!resultDiv) {
+        console.warn('⏩ showError(): #test-result not found; skipping UI update.');
+        return;
+    }
     resultDiv.innerHTML = `
         <div class="error">
             <h3>❌ API Test Failed</h3>

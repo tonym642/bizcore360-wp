@@ -61,7 +61,9 @@
     ];
 
     const container = document.getElementById("polls-list");
-    if (polls.length > 0) {
+    if (!container) {
+      console.warn("⏩ polls-list container not found; skipping polls render.");
+    } else if (polls.length > 0) {
       // Sort polls by most recent date (newest first)
       const sortedPolls = polls.sort((a, b) => b.dateObj - a.dateObj);
       

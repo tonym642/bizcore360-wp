@@ -19,47 +19,44 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-// Load any page into main content area
-function loadPage(page) {
-  const mainContent = document.getElementById("mainContent");
-  if (!mainContent) {
-    console.error("Main content container not found.");
-    return;
+// ✅ FINAL BIZCORE360 Dynamic Page Loader
+async function loadPage(page) {
+  try {
+    console.log("🔍 Trying to load page:", page);
+
+    // Always fetch from /pages/
+    const response = await fetch(`pages/${page}`);
+
+    if (!response.ok) throw new Error(`Failed to load ${page}`);
+
+    const content = await response.text();
+
+    // Flexible container targeting
+    const container =
+      document.getElementById("mainContent") ||
+      document.getElementById("pageContent") ||
+      document.getElementById("main");
+
+    if (!container) {
+      console.error("❌ No valid content container found.");
+      return;
+    }
+
+    container.innerHTML = content;
+    console.log(`✅ Loaded page: ${page}`);
+  } catch (error) {
+    console.error("⚠️ Error loading page:", error);
+    const fallback =
+      document.getElementById("mainContent") ||
+      document.getElementById("pageContent") ||
+      document.getElementById("main");
+    if (fallback)
+      fallback.innerHTML = `
+        <div class="alert alert-warning m-4">
+          ⚠️ Could not load <strong>${page}</strong>.<br>
+          Make sure the file exists in the <code>/pages/</code> folder.
+        </div>`;
   }
-
-  // Show loading spinner
-  mainContent.innerHTML = `
-    <div class="text-center py-5">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-3">Loading ${page.replace(".html", "")}...</p>
-    </div>
-  `;
-
-  // Fetch and fade in new content
-  fetch(`pages/${page}`)
-    .then(res => {
-      if (!res.ok) throw new Error("Page not found");
-      return res.text();
-    })
-    .then(data => {
-      mainContent.style.opacity = 0;
-      setTimeout(() => {
-        mainContent.innerHTML = data;
-        mainContent.style.transition = "opacity 0.3s ease-in-out";
-        mainContent.style.opacity = 1;
-        window.scrollTo(0, 0);
-      }, 150);
-    })
-    .catch(err => {
-      mainContent.innerHTML = `
-        <div class="alert alert-danger text-center mt-5">
-          ⚠️ Error loading <strong>${page}</strong>: ${err.message}
-        </div>
-      `;
-      console.error(err);
-    });
 }
 
 // Alert utility
