@@ -1,0 +1,46 @@
+<div class="card shadow-sm p-4 rounded-4" id="competitorsProfileCard">
+  <h2 class="mb-3 fw-bold text-primary">Competitors Profile</h2>
+
+  <form id="competitorsProfileForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Competitor Name</label>
+        <input type="text" class="form-control" id="competitorName" placeholder="Enter competitor name" required />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Website</label>
+        <input type="url" class="form-control" id="competitorWebsite" placeholder="https://competitor.com" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Products / Services</label>
+        <textarea class="form-control" id="competitorProducts" rows="2" placeholder="List main products or services"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Strengths</label>
+        <textarea class="form-control" id="competitorStrengths" rows="2" placeholder="List observed strengths"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Weaknesses</label>
+        <textarea class="form-control" id="competitorWeaknesses" rows="2" placeholder="List observed weaknesses"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Market Strategy</label>
+        <textarea class="form-control" id="competitorStrategy" rows="2" placeholder="Briefly describe marketing strategy"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Save Competitor</button>
+    </div>
+  </form>
+
+  <div id="competitorsProfileAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Competitor profile saved successfully!
+  </div>
+</div>

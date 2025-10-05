@@ -1,0 +1,54 @@
+<div class="card shadow-sm p-4 rounded-4" id="aiAdvisoryBoardCard">
+  <h2 class="mb-3 fw-bold text-primary">AI Advisory Board</h2>
+  <p class="text-muted mb-4">Simulate expert discussions and strategic advice from your personalized AI board members.</p>
+
+  <form id="aiAdvisoryForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Discussion Topic</label>
+        <input type="text" class="form-control" id="advisoryTopic" placeholder="Enter topic for your AI board to discuss" required />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Choose Advisory Members</label>
+        <div class="d-flex flex-wrap gap-3">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="advisor1" checked />
+            <label class="form-check-label" for="advisor1">Finance Expert</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="advisor2" checked />
+            <label class="form-check-label" for="advisor2">Marketing Strategist</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="advisor3" checked />
+            <label class="form-check-label" for="advisor3">Operations Specialist</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="advisor4" checked />
+            <label class="form-check-label" for="advisor4">Leadership Coach</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Your Question</label>
+        <textarea class="form-control" id="advisoryQuestion" rows="3" placeholder="Example: What’s the best way to scale operations efficiently?"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">AI Board Discussion</label>
+        <textarea class="form-control" id="advisoryResponse" rows="6" placeholder="AI-generated discussion will appear here..." readonly></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Start Discussion</button>
+    </div>
+  </form>
+
+  <div id="aiAdvisoryAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Advisory discussion completed!
+  </div>
+</div>

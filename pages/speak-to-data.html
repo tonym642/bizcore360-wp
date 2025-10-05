@@ -1,0 +1,37 @@
+<div class="card shadow-sm p-4 rounded-4" id="speakToDataCard">
+  <h2 class="mb-3 fw-bold text-primary">Speak to Data</h2>
+  <p class="text-muted mb-4">Ask questions or upload documents to teach your AI assistant about your business.</p>
+
+  <form id="speakToDataForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Type or Speak Your Question</label>
+        <textarea class="form-control" id="dataQuestion" rows="3" placeholder="Example: What were my top 3 expenses last month?"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <button type="button" class="btn btn-outline-primary me-2" id="startRecording">🎙 Start Recording</button>
+        <button type="button" class="btn btn-outline-secondary" id="stopRecording">⏹ Stop</button>
+      </div>
+
+      <div class="col-md-12 mt-3">
+        <label class="form-label fw-semibold">Upload Supporting Files</label>
+        <input type="file" class="form-control" id="dataFileUpload" multiple accept=".pdf,.docx,.txt,.csv" />
+      </div>
+
+      <div class="col-md-12 mt-3">
+        <label class="form-label fw-semibold">AI Response</label>
+        <textarea class="form-control" id="aiDataResponse" rows="4" placeholder="AI response will appear here..." readonly></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Send Query</button>
+    </div>
+  </form>
+
+  <div id="speakToDataAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Data query sent successfully!
+  </div>
+</div>

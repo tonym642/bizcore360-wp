@@ -1,0 +1,31 @@
+<div class="card shadow-sm p-4 rounded-4" id="openAiKeyCard">
+  <h2 class="mb-3 fw-bold text-primary">OpenAI API Key Configuration</h2>
+  <p class="text-muted mb-4">Enter or update your API key to enable AI functionality within BizCore360.</p>
+
+  <form id="openAiKeyForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Current API Key</label>
+        <input type="password" class="form-control" id="apiKeyInput" placeholder="sk-****************" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Confirm API Key</label>
+        <input type="password" class="form-control" id="apiKeyConfirm" placeholder="Re-enter your API key" />
+      </div>
+
+      <div class="col-md-12">
+        <small class="text-muted">⚠️ Your API key is encrypted and stored securely on your server. Keep it private.</small>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Save Key</button>
+    </div>
+  </form>
+
+  <div id="openAiKeyAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ API key saved successfully!
+  </div>
+</div>

@@ -1,0 +1,56 @@
+<div class="card shadow-sm p-4 rounded-4" id="companyProfileCard">
+  <h2 class="mb-3 fw-bold text-primary">Company Profile</h2>
+
+  <form id="companyProfileForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Company Name</label>
+        <input type="text" class="form-control" id="companyName" placeholder="Enter company name" required />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Industry</label>
+        <input type="text" class="form-control" id="companyIndustry" placeholder="e.g. Real Estate, Tech, Retail..." />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Mission Statement</label>
+        <textarea class="form-control" id="companyMission" rows="2" placeholder="Enter mission statement"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Vision Statement</label>
+        <textarea class="form-control" id="companyVision" rows="2" placeholder="Enter vision statement"></textarea>
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Owner / Founder</label>
+        <input type="text" class="form-control" id="companyOwner" placeholder="Enter owner or founder name" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Website</label>
+        <input type="url" class="form-control" id="companyWebsite" placeholder="https://example.com" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Email</label>
+        <input type="email" class="form-control" id="companyEmail" placeholder="info@company.com" />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Phone Number</label>
+        <input type="text" class="form-control" id="companyPhone" placeholder="+1 (555) 555-5555" />
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Save Profile</button>
+    </div>
+  </form>
+
+  <div id="companyProfileAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Company profile saved successfully!
+  </div>
+</div>

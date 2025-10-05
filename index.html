@@ -351,8 +351,10 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse list-unstyled submenu" id="marketingMenu">
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="marketingplan"><i class="bi bi-megaphone me-2"></i>Marketing Plan</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="brandhub"><i class="bi bi-palette me-2"></i>Brand Hub</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="marketinglibrary"><i class="bi bi-collection me-2"></i>Marketing Library</a></li>
             <li><a href="#" class="nav-link d-flex align-items-center" data-section="contentcreator"><i class="bi bi-pencil-square me-2"></i>Content Creator</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="ravingfans"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
           </ul>
         </li>
 
@@ -363,6 +365,7 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse list-unstyled submenu" id="resourcesMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-section="industrynews"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
             <li><a href="#" class="nav-link d-flex align-items-center" data-section="prompts"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
             <li><a href="#" class="nav-link d-flex align-items-center" data-section="blueprint"><i class="bi bi-briefcase me-2"></i>New Business Blueprint</a></li>
           </ul>
@@ -397,7 +400,7 @@ input,
         <h4 id="pageTitle">Dashboard</h4>
         <div class="form-check form-switch">
           <input class="form-check-input" type="checkbox" id="toggleDesc">
-          <label class="form-check-label" for="toggleDesc">View / Hide Description</label>
+          <label class="form-check-label" for="toggleDesc" id="toggleDescLabel">View Description</label>
         </div>
       </div>
 
@@ -1115,16 +1118,29 @@ function loadPage(section) {
 }
 
 /* ========== DESCRIPTION TOGGLE ========== */
+const toggleDescLabel = document.getElementById("toggleDescLabel");
+
 toggleDesc.addEventListener("change", () => {
   toggleDescriptions(toggleDesc.checked);
 });
+
 function toggleDescriptions(state) {
   document.querySelectorAll("#pageContent p").forEach(p => {
     p.style.display = state ? "block" : "none";
   });
+  // Update label text based on state
+  toggleDescLabel.textContent = state ? "Hide Description" : "View Description";
   localStorage.setItem("descVisible", state);
 }
-if (localStorage.getItem("descVisible") === "false") toggleDesc.checked = false;
+
+// Initialize toggle state from localStorage
+if (localStorage.getItem("descVisible") === "false") {
+  toggleDesc.checked = false;
+  toggleDescriptions(false);
+} else {
+  toggleDesc.checked = true;
+  toggleDescriptions(true);
+}
 
 /* ========== CHAT BOX PLACEHOLDER ========== */
 document.getElementById("sendBtn").addEventListener("click", () => {

@@ -1,0 +1,52 @@
+<div class="card shadow-sm p-4 rounded-4" id="newBusinessBlueprintCard">
+  <h2 class="mb-3 fw-bold text-primary">New Business Blueprint</h2>
+  <p class="text-muted mb-4">A quick setup guide to define the core foundations of your business idea.</p>
+
+  <form id="businessBlueprintForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Business Name</label>
+        <input type="text" class="form-control" id="blueprintName" placeholder="Enter your business name" required />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Industry</label>
+        <input type="text" class="form-control" id="blueprintIndustry" placeholder="e.g. Real Estate, Finance, Health" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Mission Statement</label>
+        <textarea class="form-control" id="blueprintMission" rows="2" placeholder="What is the purpose of your business?"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Target Market</label>
+        <textarea class="form-control" id="blueprintMarket" rows="2" placeholder="Who are your ideal customers?"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Revenue Model</label>
+        <textarea class="form-control" id="blueprintRevenue" rows="2" placeholder="How will your business make money?"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Startup Costs ($)</label>
+        <input type="number" class="form-control" id="blueprintCost" placeholder="0.00" step="0.01" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Timeline / Milestones</label>
+        <textarea class="form-control" id="blueprintTimeline" rows="2" placeholder="List major milestones with estimated completion dates"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Save Blueprint</button>
+    </div>
+  </form>
+
+  <div id="blueprintAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Business blueprint saved successfully!
+  </div>
+</div>

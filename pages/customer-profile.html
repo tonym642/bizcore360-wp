@@ -1,0 +1,51 @@
+<div class="card shadow-sm p-4 rounded-4" id="customerProfileCard">
+  <h2 class="mb-3 fw-bold text-primary">Customer Profile</h2>
+
+  <form id="customerProfileForm" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Customer Segment</label>
+        <input type="text" class="form-control" id="segmentName" placeholder="e.g. First-time home buyers" required />
+      </div>
+
+      <div class="col-md-6">
+        <label class="form-label fw-semibold">Age Range</label>
+        <input type="text" class="form-control" id="ageRange" placeholder="e.g. 25-40" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Occupation / Lifestyle</label>
+        <input type="text" class="form-control" id="occupation" placeholder="e.g. Young professionals, small business owners" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Primary Needs</label>
+        <textarea class="form-control" id="primaryNeeds" rows="2" placeholder="List main customer needs"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Pain Points</label>
+        <textarea class="form-control" id="painPoints" rows="2" placeholder="List main frustrations or problems"></textarea>
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Preferred Communication Channels</label>
+        <input type="text" class="form-control" id="channels" placeholder="e.g. Email, WhatsApp, Instagram" />
+      </div>
+
+      <div class="col-md-12">
+        <label class="form-label fw-semibold">Customer Motivation</label>
+        <textarea class="form-control" id="motivation" rows="2" placeholder="Why they buy or engage with your product/service"></textarea>
+      </div>
+    </div>
+
+    <div class="mt-4 d-flex justify-content-end">
+      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+      <button type="submit" class="btn btn-primary">Save Profile</button>
+    </div>
+  </form>
+
+  <div id="customerProfileAlert" class="alert alert-success mt-3 d-none" role="alert">
+    ✅ Customer profile saved successfully!
+  </div>
+</div>
