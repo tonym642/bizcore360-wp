@@ -1,0 +1,13 @@
+/* Local styles for BizCore360 - copied from existing stylesheet */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Inter', sans-serif;
+}
+
+.card {
+  border-radius: 1rem;
+}
+
+.text-primary {
+  color: #0d6efd !important;
+}

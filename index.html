@@ -10,8 +10,10 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-<!-- Config for BASE_URL -->
-<script src="config.js"></script>
+<!-- Local CSS -->
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<!-- Config for BASE_URL (loaded at end of body) -->
 
 <style>
 :root{--sidebar-w:260px;}
@@ -34,7 +36,9 @@ main{margin-left:var(--sidebar-w);padding:1.25rem;padding-top:4.5rem;transition:
   #modelMenu{display:none}
   #langMenu{display:none}
   #darkModeIcon{display:none}
-  .topbar > div:last-child{gap:0.75rem}
+  .topbar{padding:0 0.5rem !important}
+  .topbar > div:last-child{gap:0.5rem !important}
+  .topbar .d-flex{gap:0.5rem !important}
 }
 /* dark mode */
 body.dark{background:#212529;color:#f8f9fa}
@@ -246,7 +250,7 @@ input,
     </div>
     <div class="d-flex align-items-center gap-3">
       <!-- search icon -->
-      <i class="bi bi-search" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Search"></i>
+      <i class="bi bi-search fs-6 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Search" role="button"></i>
 
       <!-- dark mode toggle -->
       <i class="bi bi-sun fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Theme" role="button" id="darkModeIcon"></i>
@@ -274,9 +278,9 @@ input,
       </div>
 
       <!-- AI tools quick icons -->
-      <i class="bi bi-robot fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Business Coach" role="button" data-section="aicoach"></i>
-      <i class="bi bi-people fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Advisory Board" role="button" data-section="aiadvisory"></i>
-      <i id="polls-icon" class="bi bi-bullseye fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Polls" role="button" data-section="polls"></i>
+  <i class="bi bi-robot fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Business Coach" role="button" data-page="aicoach.html"></i>
+  <i class="bi bi-people fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Advisory Board" role="button" data-page="ai-advisory-board.html"></i>
+  <i id="polls-icon" class="bi bi-bullseye fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Polls" role="button" data-page="polls.html"></i>
 
       <!-- avatar dropdown -->
       <div class="dropdown">
@@ -289,9 +293,9 @@ input,
           <li class="desktop-menu-item"><a class="dropdown-item" data-page="settings.html" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
           <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
           <li class="desktop-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
-          <li class="desktop-menu-item"><a class="dropdown-item" data-section="company" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
-          <li class="desktop-menu-item"><a class="dropdown-item" data-section="customers" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
-          <li class="desktop-menu-item"><a class="dropdown-item" data-section="competitors" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
           <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
           <li class="desktop-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
           <li class="desktop-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
@@ -304,9 +308,9 @@ input,
           <li class="mobile-menu-item"><button class="dropdown-item" id="mobileDarkMode"><i class="bi bi-sun me-2"></i>Dark Mode</button></li>
           <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
           <li class="mobile-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
-          <li class="mobile-menu-item"><a class="dropdown-item" data-section="company" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
-          <li class="mobile-menu-item"><a class="dropdown-item" data-section="customers" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
-          <li class="mobile-menu-item"><a class="dropdown-item" data-section="competitors" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
           <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
           <li class="mobile-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
           <li class="mobile-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
@@ -354,7 +358,7 @@ input,
       <ul class="list-unstyled" id="modulesList">
         <!-- Dashboard -->
         <li>
-          <a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-section="dashboard">
+          <a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-page="dashboard.html">
             <i class="bi bi-speedometer2"></i>Dashboard
           </a>
         </li>
@@ -366,11 +370,11 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse show list-unstyled submenu" id="financialsMenu">
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="budget"><i class="bi bi-wallet2 me-2"></i>Budget</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="balancesheet"><i class="bi bi-columns me-2"></i>Balance Sheet</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="cashflow"><i class="bi bi-currency-exchange me-2"></i>Cash Flow</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="pl"><i class="bi bi-bar-chart me-2"></i>P&L</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="forecasts"><i class="bi bi-graph-up-arrow me-2"></i>Forecasts</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="budget.html"><i class="bi bi-wallet2 me-2"></i>Budget</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="balance-sheet.html"><i class="bi bi-columns me-2"></i>Balance Sheet</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="cash-flow.html"><i class="bi bi-currency-exchange me-2"></i>Cash Flow</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="pl.html"><i class="bi bi-bar-chart me-2"></i>P&L</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="forecasts.html"><i class="bi bi-graph-up-arrow me-2"></i>Forecasts</a></li>
           </ul>
         </li>
 
@@ -381,12 +385,12 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse show list-unstyled submenu" id="planningMenu">
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="businessplan"><i class="bi bi-journal-text me-2"></i>Business Plan</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="goals"><i class="bi bi-flag me-2"></i>Goals</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="ravingfans"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="sops"><i class="bi bi-list-check me-2"></i>SOPs</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="swot"><i class="bi bi-diagram-3 me-2"></i>SWOT</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="workflow"><i class="bi bi-diagram-3-fill me-2"></i>Workflow Builder</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="business-plan.html"><i class="bi bi-journal-text me-2"></i>Business Plan</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="goals.html"><i class="bi bi-flag me-2"></i>Goals</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="raving-fan.html"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sops.html"><i class="bi bi-list-check me-2"></i>SOPs</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="swot.html"><i class="bi bi-diagram-3 me-2"></i>SWOT</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="workflow-builder.html"><i class="bi bi-diagram-3-fill me-2"></i>Workflow Builder</a></li>
           </ul>
         </li>
 
@@ -397,10 +401,10 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse show list-unstyled submenu" id="marketingMenu">
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="brandhub"><i class="bi bi-palette me-2"></i>Brand Hub</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="marketinglibrary"><i class="bi bi-collection me-2"></i>Marketing Library</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="contentcreator"><i class="bi bi-pencil-square me-2"></i>Content Creator</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="ravingfans"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="brand-hub.html"><i class="bi bi-palette me-2"></i>Brand Hub</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="marketing-library.html"><i class="bi bi-collection me-2"></i>Marketing Library</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="content-creator.html"><i class="bi bi-pencil-square me-2"></i>Content Creator</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="raving-fan.html"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
           </ul>
         </li>
 
@@ -411,9 +415,9 @@ input,
             <i class="bi bi-chevron-right chevron"></i>
           </a>
           <ul class="collapse list-unstyled submenu" id="resourcesMenu">
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="industrynews"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="prompts"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-section="blueprint"><i class="bi bi-briefcase me-2"></i>New Business Blueprint</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="industry-news.html"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sample-prompts.html"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="new-business-blueprint.html"><i class="bi bi-briefcase me-2"></i>New Business Blueprint</a></li>
           </ul>
         </li>
       </ul>
@@ -422,19 +426,19 @@ input,
     <!-- CHATS TAB -->
     <div id="chatsTab" class="p-2" style="display:none">
       <ul class="list-unstyled">
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="newchat"><i class="bi bi-chat-dots me-2"></i>New Chat</a></li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="newfolder"><i class="bi bi-folder-plus me-2"></i>New Folder</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newchat"><i class="bi bi-chat-dots me-2"></i>New Chat</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newfolder"><i class="bi bi-folder-plus me-2"></i>New Folder</a></li>
         <li class="fw-bold ps-2 mt-2"><i class="bi bi-folder me-2"></i>Folders</li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
-        <li class="nav-item see-more"><a href="#" class="nav-link text-primary ps-4" data-section="allfolders"><i class="bi bi-three-dots"></i> See more...</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
+  <li class="nav-item see-more"><a href="#" class="nav-link text-primary ps-4" data-page="allfolders"><i class="bi bi-three-dots"></i> See more...</a></li>
 
-        <li class="fw-bold ps-2 mt-3"><i class="bi bi-clock me-2"></i>Chat History</li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat1"><i class="bi bi-clock me-2"></i>C1 – Marketing Plan</a></li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat2"><i class="bi bi-clock me-2"></i>C2 – Budget Review</a></li>
-        <li><a href="#" class="nav-link d-flex align-items-center" data-section="chat3"><i class="bi bi-clock me-2"></i>C3 – Client Feedback</a></li>
-        <li><a href="#" class="nav-link text-primary ps-4" data-section="allchats">See more...</a></li>
+  <li class="fw-bold ps-2 mt-3"><i class="bi bi-clock me-2"></i>Chat History</li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat1"><i class="bi bi-clock me-2"></i>C1 – Marketing Plan</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat2"><i class="bi bi-clock me-2"></i>C2 – Budget Review</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat3"><i class="bi bi-clock me-2"></i>C3 – Client Feedback</a></li>
+  <li><a href="#" class="nav-link text-primary ps-4" data-page="allchats">See more...</a></li>
       </ul>
     </div>
   </aside>
@@ -479,6 +483,10 @@ input,
 
 <!-- BOOTSTRAP + JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Local Scripts -->
+<script src="js/scripts.js"></script>
+<script src="config.js"></script>
 
 <script>
 /* ======================================================
@@ -534,18 +542,18 @@ document.querySelectorAll('.lang-choice').forEach(btn => {
 });
 
 // Quick AI icons act as shortcuts to sections
-document.querySelectorAll('[data-section="aicoach"],[data-section="aiadvisory"]').forEach(icon => {
+document.querySelectorAll('[data-page="aicoach.html"],[data-page="ai-advisory-board.html"]').forEach(icon => {
   icon.style.cursor = 'pointer';
   icon.addEventListener('click', (e) => {
-    const section = icon.dataset.section;
-    if (typeof loadPage === 'function') loadPage(section);
+    const page = icon.getAttribute('data-page');
+    if (typeof loadPage === 'function') loadPage(page);
   });
 });
 
 // Enhanced topbar icon highlighting
 function updateTopbarIconStates(activeSection) {
-  document.querySelectorAll('.topbar i[data-section]').forEach(icon => {
-    if (icon.dataset.section === activeSection) {
+  document.querySelectorAll('.topbar i[data-page]').forEach(icon => {
+    if (icon.getAttribute('data-page') === activeSection) {
       icon.classList.remove('text-secondary');
       icon.classList.add('text-primary');
     } else {
@@ -1139,11 +1147,12 @@ if (mobileModelSelect) {
 }
 
 /* ========== PAGE SWITCHING ========== */
-document.querySelectorAll("[data-section]").forEach(link => {
+document.querySelectorAll("[data-page], [data-section]").forEach(link => {
   link.addEventListener("click", e => {
     e.preventDefault();
-    const section = link.dataset.section;
-    loadPage(section);
+    // Prefer data-page, fall back to data-section for older entries
+    const page = link.getAttribute('data-page') || link.getAttribute('data-section');
+    if (page && typeof loadPage === 'function') loadPage(page);
     
     // Handle sidebar nav-link active states (only for sidebar links, not topbar icons)
     if (link.classList.contains('nav-link')) {
@@ -1151,8 +1160,8 @@ document.querySelectorAll("[data-section]").forEach(link => {
       link.classList.add("active");
     }
     
-    // Handle topbar icon highlighting
-    updateTopbarIconStates(section);
+  // Handle topbar icon highlighting
+  updateTopbarIconStates(page);
     
     // Close sidebar on mobile
     if (window.innerWidth < 992) { 
@@ -1163,6 +1172,10 @@ document.querySelectorAll("[data-section]").forEach(link => {
 });
 
 function loadPage(section) {
+  // Normalize some legacy section keys to real page filenames
+  if (section === 'apikey') section = 'openai-key.html';
+  if (section === 'polls') section = 'polls.html';
+  if (section === 'polls-setup') section = 'polls-setup.html';
   let html = "";
   switch (section) {
     case "dashboard":
@@ -1312,17 +1325,24 @@ document.getElementById("sendBtn").addEventListener("click", () => {
 /* New Folder Modal + Storage */
 function createFolder(name){
   const li=document.createElement("li");
-  li.innerHTML=`<a href="#" class="nav-link d-flex align-items-center" data-section="${name.toLowerCase()}"><i class="bi bi-folder me-2"></i>${name}</a>`;
-  document.querySelector("#chatsTab ul").insertBefore(li, document.querySelector('[data-section="allfolders"]').parentElement);
+  // Use data-page attribute for new folders so routing works consistently
+  const pageAttr = `data-page="${name.toLowerCase().replace(/\s+/g,'-')}.html"`;
+  li.innerHTML = `<a href="#" class="nav-link d-flex align-items-center" ${pageAttr}><i class="bi bi-folder me-2"></i>${name}</a>`;
+  const insertBeforeEl = document.querySelector('[data-page="allfolders"]') || document.querySelector('[data-section="allfolders"]');
+  document.querySelector("#chatsTab ul").insertBefore(li, insertBeforeEl ? insertBeforeEl.parentElement : null);
   const stored=JSON.parse(localStorage.getItem("folders")||"[]");
   stored.push(name);
   localStorage.setItem("folders",JSON.stringify(stored));
   bootstrap.Toast.getOrCreateInstance(document.getElementById("toastNewFolder")).show();
 }
-document.querySelector('[data-section="newfolder"]').addEventListener("click",()=>{
+// Attach to the newfolder control using data-page (fallback to legacy selector if needed)
+const newFolderTrigger = document.querySelector('[data-page="newfolder"]') || document.querySelector('[data-section="newfolder"]');
+if (newFolderTrigger) {
+  newFolderTrigger.addEventListener("click",()=>{
   const name=prompt("Enter new folder name:");
   if(name)createFolder(name);
-});
+  });
+}
 window.addEventListener("DOMContentLoaded",()=>{
   const saved=JSON.parse(localStorage.getItem("folders")||"[]");
   saved.forEach((folder) => {
