@@ -23,7 +23,17 @@ main{margin-left:var(--sidebar-w);padding:1.25rem;padding-top:4.5rem;transition:
 .chat-box{position:fixed;left:var(--sidebar-w);right:0;bottom:0;background:#fff;border-top:1px solid #dee2e6;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:center;transition:left .3s}
 .fade-swap{opacity:0;transition:opacity .35s ease}
 .fade-swap.show{opacity:1}
-@media(max-width:991px){.sidebar{left:-260px}.sidebar.show{left:0}main{margin-left:0}.chat-box{left:0}}
+@media(max-width:991px){
+  .sidebar{left:-260px}
+  .sidebar.show{left:0}
+  main{margin-left:0}
+  .chat-box{left:0}
+  .brand{display:none}
+  .brand.show-mobile{display:inline}
+  #currentModel{display:none}
+  #modelMenu .bi-cpu{margin-right:0!important}
+  #modelMenu::after{display:none}
+}
 /* dark mode */
 body.dark{background:#212529;color:#f8f9fa}
 body.dark .topbar{background:#343a40;border-bottom-color:#495057}
@@ -209,7 +219,7 @@ input,
 
       <!-- compact AI model selector + quick icons -->
       <div class="dropdown">
-        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="modelMenu" data-bs-toggle="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="modelMenu" data-bs-toggle="dropdown" title="AI Model Selector">
           <i class="bi bi-cpu me-1"></i><span id="currentModel">GPT-4.0-mini</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
@@ -875,10 +885,27 @@ logoutBtn.addEventListener("click", () => {
 toggleSidebarBtn.addEventListener("click", () => {
   sidebar.classList.toggle("show");
   overlay.style.display = sidebar.classList.contains("show") ? "block" : "none";
+  
+  // Toggle brand visibility on mobile
+  const brand = document.querySelector(".brand");
+  const isSidebarOpen = sidebar.classList.contains("show");
+  if (window.innerWidth <= 991) {
+    if (isSidebarOpen) {
+      brand.classList.add("show-mobile");
+    } else {
+      brand.classList.remove("show-mobile");
+    }
+  }
 });
 overlay.addEventListener("click", () => {
   sidebar.classList.remove("show");
   overlay.style.display = "none";
+  
+  // Hide brand on mobile when sidebar closes
+  const brand = document.querySelector(".brand");
+  if (window.innerWidth <= 991) {
+    brand.classList.remove("show-mobile");
+  }
 });
 
 /* Sidebar tab switching */
@@ -1109,6 +1136,34 @@ window.addEventListener("DOMContentLoaded",()=>{
   });
   localStorage.setItem("folders", JSON.stringify(folders));
   renderFolders();
+  
+  // Initialize brand visibility on page load
+  const brand = document.querySelector(".brand");
+  const sidebar = document.getElementById("sidebar");
+  
+  if (window.innerWidth <= 991) {
+    // On mobile, hide brand initially (sidebar is closed by default)
+    brand.classList.remove("show-mobile");
+  }
+});
+
+// Handle brand visibility on window resize
+window.addEventListener("resize", () => {
+  const brand = document.querySelector(".brand");
+  const sidebar = document.getElementById("sidebar");
+  
+  if (window.innerWidth > 991) {
+    // Desktop: always show brand
+    brand.classList.remove("show-mobile");
+  } else {
+    // Mobile: only show if sidebar is open
+    const isSidebarOpen = sidebar.classList.contains("show");
+    if (isSidebarOpen) {
+      brand.classList.add("show-mobile");
+    } else {
+      brand.classList.remove("show-mobile");
+    }
+  }
 });
 
 // --- Folder Management ---
