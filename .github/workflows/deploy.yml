@@ -18,7 +18,7 @@ jobs:
           server: ${{ secrets.SG_FTP_SERVER }}
           username: ${{ secrets.SG_FTP_USER }}
           password: ${{ secrets.SG_FTP_PASS }}
-          protocol: ftps
+          protocol: ftp
           port: 21
           local-dir: "./"
           server-dir: "/apps.bizmate360.com/public_html/wp-content/plugins/bizcore360/"
