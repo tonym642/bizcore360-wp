@@ -17,7 +17,6 @@
 
 <style>
 :root{--sidebar-w:260px;}
-body{font-family:'Inter',sans-serif;background:#f8f9fa;color:#212529;transition:background .3s,color .3s}
 .topbar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #dee2e6;z-index:1040;display:flex;align-items:center;justify-content:space-between;padding:0 .75rem}
 .brand{font-weight:700;font-size:1.25rem;color:#000;margin-left:.25rem}
 .sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:#fff;border-right:1px solid #dee2e6;overflow-y:auto;z-index:1030;transition:left .3s}
@@ -431,7 +430,8 @@ input,
   <li><a href="#" class="nav-link d-flex align-items-center" data-page="newchat"><i class="bi bi-chat-dots me-2"></i>New Chat</a></li>
   <li><a href="#" class="nav-link d-flex align-items-center" data-page="newfolder"><i class="bi bi-folder-plus me-2"></i>New Folder</a></li>
         <li class="fw-bold ps-2 mt-2"><i class="bi bi-folder me-2"></i>Folders</li>
-  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+        <ul class="list-unstyled" id="foldersList"></ul>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
   <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
   <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
   <li class="nav-item see-more"><a href="#" class="nav-link text-primary ps-4" data-page="allfolders"><i class="bi bi-three-dots"></i> See more...</a></li>
@@ -1095,7 +1095,7 @@ if (mobileDarkMode) {
 }
 
 /* ========== LANGUAGE ========== */
-let currentLang = localStorage.getItem("lang") || "en";
+let currentLang = localStorage.getItem("language") || "en";
 const langMenuElement = document.getElementById("langMenu");
 if (langMenuElement) {
   langMenuElement.textContent = currentLang.toUpperCase();
@@ -1105,7 +1105,7 @@ if (langMenuElement) {
 document.querySelectorAll(".lang-choice").forEach(btn => {
   btn.addEventListener("click", () => {
     currentLang = btn.dataset.lang;
-    localStorage.setItem("lang", currentLang);
+    localStorage.setItem("language", currentLang);
     if (langMenuElement) {
       langMenuElement.textContent = currentLang.toUpperCase();
     }
@@ -1115,8 +1115,8 @@ document.querySelectorAll(".lang-choice").forEach(btn => {
 // Mobile language selector
 document.querySelectorAll(".mobile-lang-choice").forEach(btn => {
   btn.addEventListener("click", () => {
-    currentLang = btn.dataset.lang;
-    localStorage.setItem("lang", currentLang);
+  currentLang = btn.dataset.lang;
+  localStorage.setItem("language", currentLang);
     if (langMenuElement) {
       langMenuElement.textContent = currentLang.toUpperCase();
     }
@@ -1185,8 +1185,8 @@ document.querySelectorAll("[data-page], [data-section]").forEach(link => {
       link.classList.add("active");
     }
     
-  // Handle topbar icon highlighting
-  updateTopbarIconStates(page);
+  // Handle topbar icon highlighting (only if page defined)
+  if (page) updateTopbarIconStates(page);
     
     // Close sidebar on mobile
     if (window.innerWidth < 992) { 
@@ -1319,7 +1319,8 @@ function loadPage(section) {
         const seeMore = document.createElement("li");
         seeMore.classList.add("nav-item", "see-more");
         seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more...`;
-        seeMore.addEventListener("click", () => loadPage("allFolders"));
+        // Normalize to allfolders (lowercase) to match page filename
+        seeMore.addEventListener("click", () => loadPage("allfolders"));
         folderList.appendChild(seeMore);
       }
     }
@@ -1452,13 +1453,13 @@ function renderFolders() {
     folderList.appendChild(li);
   });
 
-  if (folders.length > 3) {
-    const seeMore = document.createElement("li");
-    seeMore.classList.add("nav-item", "see-more");
-    seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more…`;
-    seeMore.addEventListener("click", () => loadPage("allFolders"));
-    folderList.appendChild(seeMore);
-  }
+    if (folders.length > 3) {
+      const seeMore = document.createElement("li");
+      seeMore.classList.add("nav-item", "see-more");
+      seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more…`;
+      seeMore.addEventListener("click", () => loadPage("allfolders"));
+      folderList.appendChild(seeMore);
+    }
 }
 
 // Add folder with duplicate prevention
@@ -1467,12 +1468,20 @@ function addFolder(name) {
   if (folders.includes(name)) return alert("Folder already exists.");
   folders.push(name);
   localStorage.setItem("folders", JSON.stringify(folders));
-  renderFolders();
+  if (typeof renderFolders === "function" && document.getElementById("foldersList")) {
+    renderFolders();
+  } else {
+    console.warn('⏩ Skipping renderFolders() after addFolder(): not available or #foldersList missing.');
+  }
 }
 
 // --- All Folders Page ---
 function renderAllFolders() {
-  const main = document.getElementById("mainContent");
+  const main = document.getElementById("mainContent") || document.getElementById("pageContent") || document.getElementById("main");
+  if (!main) {
+    console.warn('⏩ Skipping renderAllFolders(): no main container found.');
+    return;
+  }
   main.innerHTML = `
     <div class="card p-3 shadow-sm">
       <h4 class="mb-3"><i class="bi bi-folder2-open"></i> All Folders</h4>
@@ -1505,7 +1514,11 @@ function deleteFolder(i) {
 let chats = JSON.parse(localStorage.getItem("chats")) || [];
 
 function renderAllChats() {
-  const main = document.getElementById("mainContent");
+  const main = document.getElementById("mainContent") || document.getElementById("pageContent") || document.getElementById("main");
+  if (!main) {
+    console.warn('⏩ Skipping renderAllChats(): no main container found.');
+    return;
+  }
   main.innerHTML = `
     <h4>All Chats</h4>
     <div class="list-group">

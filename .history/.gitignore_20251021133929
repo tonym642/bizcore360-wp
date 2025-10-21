@@ -1,0 +1,15 @@
+# Ignore everything by default
+*
+
+# Allow these plugin files to be deployed
+!bizcore360.php
+!bizcore360-app.php
+
+# Allow the GitHub workflow folder
+!.github/
+!.github/workflows/
+
+# Optional: allow readme or license if you want them visible in WP
+!README*
+!LICENSE*
+

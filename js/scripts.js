@@ -34,8 +34,13 @@ document.addEventListener("click", (e) => {
 // Load any page into main content area
 async function loadPage(page) {
   try {
-    const response = await fetch(`pages/${page}`);
-    if (!response.ok) throw new Error(`Failed to load ${page}`);
+    // Normalize page path: allow callers to pass "foo" or "foo.html" or "pages/foo.html"
+    let normalized = String(page || "").trim();
+    if (normalized.startsWith('pages/')) normalized = normalized.replace(/^pages\//, '');
+    if (!normalized.endsWith('.html')) normalized = `${normalized}.html`;
+
+    const response = await fetch(`pages/${normalized}`);
+    if (!response.ok) throw new Error(`Failed to load ${normalized} (status ${response.status})`);
     const content = await response.text();
 
     // Prefer #mainContent, fallback to #pageContent or #main
@@ -46,7 +51,7 @@ async function loadPage(page) {
     }
 
     mainContent.innerHTML = content;
-    console.log(`✅ Loaded page: ${page}`);
+    console.log(`✅ Loaded page: ${normalized}`);
   } catch (error) {
     console.error("Error loading page:", error);
     const mainContent = document.getElementById("mainContent") || document.getElementById("pageContent") || document.getElementById("main");
