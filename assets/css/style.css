@@ -1,0 +1,46 @@
+/* ====== Global Layout Fixes ====== */
+body {
+  background-color: #f8f9fb;
+}
+
+#main-content {
+  padding: 40px 30px 60px 30px;
+  min-height: calc(100vh - 80px);
+}
+
+.card {
+  border: none;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-radius: 12px;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+h4.fw-semibold.text-primary {
+  font-size: 1.25rem;
+  color: #007bff;
+}
+
+/* ====== Form Layout ====== */
+.form-label {
+  font-weight: 500;
+}
+
+.form-control, .form-select {
+  border-radius: 8px;
+  font-size: 0.95rem;
+  padding: 0.55rem 0.75rem;
+}
+
+.text-end button {
+  min-width: 120px;
+  font-weight: 500;
+}
+
+/* ====== Page container ====== */
+.container-fluid {
+  max-width: 1200px;
+  margin: 0 auto;
+}

@@ -1,0 +1,74 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Advisory Board</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="aiAdvisoryBoardCard">
+          <h2 class="mb-3 fw-bold text-primary">AI Advisory Board</h2>
+          <p class="text-muted mb-4">Simulate expert discussions and strategic advice from your personalized AI board members.</p>
+          <form id="aiAdvisoryForm" class="needs-validation" novalidate>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label class="form-label fw-medium">Discussion Topic</label>
+                <input type="text" class="form-control" id="advisoryTopic" placeholder="Enter topic for your AI board to discuss" required />
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label class="form-label fw-medium">Choose Advisory Members</label>
+                <div class="d-flex flex-wrap gap-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="advisor1" checked />
+                    <label class="form-check-label" for="advisor1">Finance Expert</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="advisor2" checked />
+                    <label class="form-check-label" for="advisor2">Marketing Strategist</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="advisor3" checked />
+                    <label class="form-check-label" for="advisor3">Operations Specialist</label>
+                  </div>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="advisor4" checked />
+                    <label class="form-check-label" for="advisor4">Leadership Coach</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label class="form-label fw-medium">Your Question</label>
+                <textarea class="form-control" id="advisoryQuestion" rows="3" placeholder="Example: What’s the best way to scale operations efficiently?"></textarea>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-md-12">
+                <label class="form-label fw-medium">AI Board Discussion</label>
+                <textarea class="form-control" id="advisoryResponse" rows="6" placeholder="AI-generated discussion will appear here..." readonly></textarea>
+              </div>
+            </div>
+            <div class="text-end">
+              <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+              <button type="submit" class="btn btn-primary">Start Discussion</button>
+            </div>
+          </form>
+          <div id="aiAdvisoryAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ Advisory discussion completed!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

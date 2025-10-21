@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Industry News</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="industryNewsCard">
+          <h2 class="mb-3 fw-bold text-primary">Industry News</h2>
+          <p class="text-muted mb-4">Stay informed with the latest updates and insights from your sector. News summaries will appear below.</p>
+          <div id="newsFeed" class="list-group">
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">🏗 Real Estate Market Trends</h6>
+              <p class="mb-2 small">New data shows rising demand for sustainable housing projects in Latin America.</p>
+              <a href="#" target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+            </div>
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">💰 Financial Insights</h6>
+              <p class="mb-2 small">Global interest rates remain steady amid inflation stabilization trends.</p>
+              <a href="#" target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+            </div>
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">🌐 Tech Innovation</h6>
+              <p class="mb-2 small">AI-driven analytics now leading business strategy shifts in SMB markets.</p>
+              <a href="#" target="_blank" class="btn btn-sm btn-outline-primary">Read More</a>
+            </div>
+          </div>
+          <div class="text-center mt-4">
+            <button id="refreshNews" class="btn btn-primary">🔄 Refresh News Feed</button>
+          </div>
+          <div id="newsAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ News feed updated!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

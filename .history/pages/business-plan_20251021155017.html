@@ -1,0 +1,41 @@
+
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="mb-3 fw-semibold text-primary">Business Plan</h4>
+      <form id="businessPlanForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Executive Summary</label>
+          <textarea class="form-control" id="executiveSummary" rows="3" placeholder="Write a brief overview of your business"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Company Description</label>
+          <textarea class="form-control" id="companyDescription" rows="3" placeholder="Describe your company’s mission, structure, and goals"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Market Analysis</label>
+          <textarea class="form-control" id="marketAnalysis" rows="3" placeholder="Summarize target market research and findings"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Organization & Management</label>
+          <textarea class="form-control" id="orgManagement" rows="3" placeholder="Detail ownership and team structure"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Services or Products</label>
+          <textarea class="form-control" id="productsServices" rows="3" placeholder="Describe products or services offered"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Financial Plan</label>
+          <textarea class="form-control" id="financialPlan" rows="3" placeholder="Add funding, revenue, and projections details"></textarea>
+        </div>
+        <div class="text-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Business Plan</button>
+        </div>
+      </form>
+      <div id="businessPlanAlert" class="alert alert-success mt-3 d-none" role="alert">
+        ✅ Business plan saved successfully!
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="mb-3 fw-semibold text-primary">Marketing Plan</h4>
+      <form id="marketingPlanForm" class="needs-validation" novalidate>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Target Market</label>
+          <textarea class="form-control" id="targetMarket" rows="2" placeholder="Define your audience and customer segments"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Unique Selling Proposition (USP)</label>
+          <input type="text" class="form-control" id="usp" placeholder="Describe what sets your business apart" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Pricing Strategy</label>
+          <textarea class="form-control" id="pricingStrategy" rows="2" placeholder="Outline your pricing approach"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Promotion Channels</label>
+          <input type="text" class="form-control" id="promotionChannels" placeholder="e.g. Social Media, Email Marketing, Ads" />
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Sales Goals</label>
+          <textarea class="form-control" id="salesGoals" rows="2" placeholder="List your marketing and sales goals"></textarea>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Budget Allocation</label>
+          <input type="number" class="form-control" id="marketingBudget" placeholder="0.00" step="0.01" />
+        </div>
+        <div class="text-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Marketing Plan</button>
+        </div>
+      </form>
+      <div id="marketingPlanAlert" class="alert alert-success mt-3 d-none" role="alert">
+        ✅ Marketing plan saved successfully!
+      </div>
+    </div>
+  </div>
+</div>

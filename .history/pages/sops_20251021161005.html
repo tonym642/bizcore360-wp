@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Standard Operating Procedures (SOPs)</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="sopsCard">
+          <h2 class="mb-3 fw-bold text-primary">Standard Operating Procedures (SOPs)</h2>
+          <form id="sopsForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Procedure Title</label>
+                <input type="text" class="form-control" id="sopTitle" placeholder="Enter SOP title" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Department</label>
+                <input type="text" class="form-control" id="sopDepartment" placeholder="e.g. Sales, HR, Marketing" />
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Procedure Description</label>
+                <textarea class="form-control" id="sopDescription" rows="3" placeholder="Describe the process"></textarea>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Responsible Person</label>
+                <input type="text" class="form-control" id="sopOwner" placeholder="Person responsible for execution" />
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Frequency</label>
+                <select class="form-select" id="sopFrequency">
+                  <option value="">Select frequency</option>
+                  <option>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                  <option>Yearly</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Checklist / Steps</label>
+                <textarea class="form-control" id="sopSteps" rows="3" placeholder="Outline key steps of this SOP"></textarea>
+              </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-end">
+              <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+              <button type="submit" class="btn btn-primary">Save SOP</button>
+            </div>
+          </form>
+          <div id="sopsAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ SOP saved successfully!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
