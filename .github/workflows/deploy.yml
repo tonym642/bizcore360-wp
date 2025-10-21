@@ -1,0 +1,29 @@
+name: Deploy BizCore360 Plugin to SiteGround
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout latest code
+        uses: actions/checkout@v3
+
+      - name: Deploy via FTP to SiteGround
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ secrets.SG_FTP_SERVER }}
+          username: ${{ secrets.SG_FTP_USER }}
+          password: ${{ secrets.SG_FTP_PASS }}
+          protocol: ftps
+          port: 21
+          local-dir: "./"
+          server-dir: "/apps.bizmate360.com/public_html/wp-content/plugins/bizcore360/"
+          exclude: |
+            **/.git*
+            **/.github*
+            **/node_modules/*
+            **/*.zip
