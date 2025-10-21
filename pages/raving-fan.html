@@ -1,48 +1,46 @@
-<div class="card shadow-sm p-4 rounded-4" id="ravingFansCard">
-  <h2 class="mb-3 fw-bold text-primary">Raving Fans</h2>
 
-  <form id="ravingFansForm" class="needs-validation" novalidate>
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Customer Name</label>
-        <input type="text" class="form-control" id="fanName" placeholder="Enter customer name" required />
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Customer Type</label>
-        <input type="text" class="form-control" id="fanType" placeholder="e.g. Buyer, Subscriber, Partner" />
-      </div>
-
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">Feedback / Testimonial</label>
-        <textarea class="form-control" id="fanFeedback" rows="3" placeholder="Enter customer testimonial or comment"></textarea>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Rating</label>
-        <select class="form-select" id="fanRating">
-          <option value="">Select rating</option>
-          <option>⭐️⭐️⭐️⭐️⭐️</option>
-          <option>⭐️⭐️⭐️⭐️</option>
-          <option>⭐️⭐️⭐️</option>
-          <option>⭐️⭐️</option>
-          <option>⭐️</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Date</label>
-        <input type="date" class="form-control" id="fanDate" />
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="fw-semibold text-primary mb-3">Raving Fans</h4>
+      <form id="ravingFansForm" class="needs-validation" novalidate>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Customer Name</label>
+            <input type="text" class="form-control" id="fanName" placeholder="Enter customer name" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Customer Type</label>
+            <input type="text" class="form-control" id="fanType" placeholder="e.g. Buyer, Subscriber, Partner" />
+          </div>
+          <div class="col-md-12">
+            <label class="form-label fw-semibold">Feedback / Testimonial</label>
+            <textarea class="form-control" id="fanFeedback" rows="3" placeholder="Enter customer testimonial or comment"></textarea>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Rating</label>
+            <select class="form-select" id="fanRating">
+              <option value="">Select rating</option>
+              <option>⭐️⭐️⭐️⭐️⭐️</option>
+              <option>⭐️⭐️⭐️⭐️</option>
+              <option>⭐️⭐️⭐️</option>
+              <option>⭐️⭐️</option>
+              <option>⭐️</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-semibold">Date</label>
+            <input type="date" class="form-control" id="fanDate" />
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Feedback</button>
+        </div>
+      </form>
+      <div id="ravingFansAlert" class="alert alert-success mt-3 d-none" role="alert">
+        ✅ Raving fan feedback saved successfully!
       </div>
     </div>
-
-    <div class="mt-4 d-flex justify-content-end">
-      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
-      <button type="submit" class="btn btn-primary">Save Feedback</button>
-    </div>
-  </form>
-
-  <div id="ravingFansAlert" class="alert alert-success mt-3 d-none" role="alert">
-    ✅ Raving fan feedback saved successfully!
   </div>
 </div>

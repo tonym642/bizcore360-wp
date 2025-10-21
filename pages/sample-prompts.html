@@ -1,34 +1,49 @@
-<div class="card shadow-sm p-4 rounded-4" id="samplePromptsCard">
-  <h2 class="mb-3 fw-bold text-primary">Sample Prompts Library</h2>
-  <p class="text-muted mb-4">Use or customize these AI prompt templates to boost productivity, planning, and marketing creativity.</p>
 
-  <div class="list-group">
-    <div class="list-group-item mb-2 rounded-3">
-      <h6 class="fw-semibold">🧠 Business Strategy</h6>
-      <p class="mb-2 small">"Create a 90-day action plan to increase profitability for a [industry] company."</p>
-      <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
-    </div>
-
-    <div class="list-group-item mb-2 rounded-3">
-      <h6 class="fw-semibold">💬 Marketing Content</h6>
-      <p class="mb-2 small">"Write a persuasive Instagram caption for a product launch targeting [audience]."</p>
-      <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
-    </div>
-
-    <div class="list-group-item mb-2 rounded-3">
-      <h6 class="fw-semibold">📈 Productivity</h6>
-      <p class="mb-2 small">"Suggest a daily schedule to balance work, exercise, and personal time for an entrepreneur."</p>
-      <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
-    </div>
-
-    <div class="list-group-item mb-2 rounded-3">
-      <h6 class="fw-semibold">💼 Customer Service</h6>
-      <p class="mb-2 small">"Write a professional email response to a dissatisfied customer requesting a refund."</p>
-      <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Prompts Library</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="samplePromptsCard">
+          <h2 class="mb-3 fw-bold text-primary">Sample Prompts Library</h2>
+          <p class="text-muted mb-4">Use or customize these AI prompt templates to boost productivity, planning, and marketing creativity.</p>
+          <div class="list-group">
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">🧠 Business Strategy</h6>
+              <p class="mb-2 small">"Create a 90-day action plan to increase profitability for a [industry] company."</p>
+              <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
+            </div>
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">💬 Marketing Content</h6>
+              <p class="mb-2 small">"Write a persuasive Instagram caption for a product launch targeting [audience]."</p>
+              <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
+            </div>
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">📈 Productivity</h6>
+              <p class="mb-2 small">"Suggest a daily schedule to balance work, exercise, and personal time for an entrepreneur."</p>
+              <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
+            </div>
+            <div class="list-group-item mb-2 rounded-3">
+              <h6 class="fw-semibold">💼 Customer Service</h6>
+              <p class="mb-2 small">"Write a professional email response to a dissatisfied customer requesting a refund."</p>
+              <button class="btn btn-sm btn-outline-primary copyPrompt">Copy</button>
+            </div>
+          </div>
+          <div id="samplePromptsAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ Prompt copied to clipboard!
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div id="samplePromptsAlert" class="alert alert-success mt-3 d-none" role="alert">
-    ✅ Prompt copied to clipboard!
-  </div>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

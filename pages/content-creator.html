@@ -1,53 +1,66 @@
-<div class="card shadow-sm p-4 rounded-4" id="contentCreatorCard">
-  <h2 class="mb-3 fw-bold text-primary">Content Creator</h2>
 
-  <form id="contentCreatorForm" class="needs-validation" novalidate>
-    <div class="row g-3">
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">Topic or Keyword</label>
-        <input type="text" class="form-control" id="contentTopic" placeholder="Enter topic (e.g., Social Media Growth Tips)" required />
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Content Type</label>
-        <select class="form-select" id="contentType" required>
-          <option value="">Select type</option>
-          <option>Social Post</option>
-          <option>Blog Article</option>
-          <option>Email Campaign</option>
-          <option>Ad Copy</option>
-        </select>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Tone of Voice</label>
-        <select class="form-select" id="contentTone">
-          <option value="">Select tone</option>
-          <option>Professional</option>
-          <option>Friendly</option>
-          <option>Inspirational</option>
-          <option>Funny</option>
-        </select>
-      </div>
-
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">Main Message / Prompt</label>
-        <textarea class="form-control" id="contentPrompt" rows="3" placeholder="Describe what you want the content to say"></textarea>
-      </div>
-
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">AI Output</label>
-        <textarea class="form-control" id="contentOutput" rows="5" placeholder="Generated content will appear here..." readonly></textarea>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Content Creator</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="contentCreatorCard">
+          <h2 class="mb-3 fw-bold text-primary">Content Creator</h2>
+          <form id="contentCreatorForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Topic or Keyword</label>
+                <input type="text" class="form-control" id="contentTopic" placeholder="Enter topic (e.g., Social Media Growth Tips)" required />
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Content Type</label>
+                <select class="form-select" id="contentType" required>
+                  <option value="">Select type</option>
+                  <option>Social Post</option>
+                  <option>Blog Article</option>
+                  <option>Email Campaign</option>
+                  <option>Ad Copy</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold">Tone of Voice</label>
+                <select class="form-select" id="contentTone">
+                  <option value="">Select tone</option>
+                  <option>Professional</option>
+                  <option>Friendly</option>
+                  <option>Inspirational</option>
+                  <option>Funny</option>
+                </select>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">Main Message / Prompt</label>
+                <textarea class="form-control" id="contentPrompt" rows="3" placeholder="Describe what you want the content to say"></textarea>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label fw-semibold">AI Output</label>
+                <textarea class="form-control" id="contentOutput" rows="5" placeholder="Generated content will appear here..." readonly></textarea>
+              </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-end">
+              <button type="button" class="btn btn-outline-secondary me-2" id="clearContent">Clear</button>
+              <button type="button" class="btn btn-primary" id="generateContent">Generate</button>
+            </div>
+          </form>
+          <div id="contentCreatorAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ Content generated successfully!
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="mt-4 d-flex justify-content-end">
-      <button type="button" class="btn btn-outline-secondary me-2" id="clearContent">Clear</button>
-      <button type="button" class="btn btn-primary" id="generateContent">Generate</button>
-    </div>
-  </form>
-
-  <div id="contentCreatorAlert" class="alert alert-success mt-3 d-none" role="alert">
-    ✅ Content generated successfully!
   </div>
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
