@@ -1,41 +1,15 @@
-# Environment variables
-.env
-.env.local
-.env.production
+# Ignore everything by default
+*
 
-# Node modules
-node_modules/
+# Allow these plugin files to be deployed
+!bizcore360.php
+!bizcore360-app.php
 
-# Logs
-logs
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+# Allow the GitHub workflow folder
+!.github/
+!.github/workflows/
 
-# Runtime data
-pids
-*.pid
-*.seed
-*.pid.lock
+# Optional: allow readme or license if you want them visible in WP
+!README*
+!LICENSE*
 
-# Optional npm cache directory
-.npm
-
-# Optional ESLint cache
-.eslintcache
-
-# Output of 'npm pack'
-*.tgz
-
-# Yarn Integrity file
-.yarn-integrity
-
-# dotenv environment variables file
-.env
-
-# Vercel
-.vercel
-
-# Local development
-config.js
