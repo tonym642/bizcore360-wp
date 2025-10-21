@@ -1,5 +1,4 @@
 name: Deploy BizCore360 Plugin to SiteGround
-# Version: 1.0.2 - Deploy test
 
 on:
   push:
@@ -25,5 +24,22 @@ jobs:
           exclude: |
             **/.git*
             **/.github*
+            **/.gitignore
+            **/.history*
+            **/.env*
             **/node_modules/**
-            **/.DS_Store
+            **/api/**
+            **/assets/**
+            **/docs/**
+            **/js/**
+            **/mds/**
+            **/pages/**
+            **/vercel/**
+            **/config.js
+            **/index.html
+            **/package.json
+            **/local-server.js
+            **/polls.html
+            **/DEVELOPMENT.md
+            **/README.md
+            **/New Text Document.txt
