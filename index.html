@@ -445,28 +445,8 @@ input,
     </div>
   </aside>
 
-  <!-- MAIN CONTENT -->
-  <main id="main">
-    <div class="container-fluid">
-      <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 id="pageTitle">Dashboard</h4>
-        <div class="form-check form-switch">
-          <input class="form-check-input" type="checkbox" id="toggleDesc">
-          <label class="form-check-label" for="toggleDesc" id="toggleDescLabel">View Description</label>
-        </div>
-      </div>
-
-      <div id="pageContent" class="main-content row g-3">
-        <!-- Dashboard Default Cards -->
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-graph-up me-2"></i>Monthly Revenue</h6><p>$25,000</p></div></div>
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-person-lines-fill me-2"></i>Active Customers</h6><p>132</p></div></div>
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-bar-chart me-2"></i>Net Profit</h6><p>$7,200</p></div></div>
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-flag me-2"></i>Goals Progress</h6><p>68%</p></div></div>
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-graph-up-arrow me-2"></i>Sales Growth</h6><p>23%</p></div></div>
-        <div class="col-md-6 col-xl-4"><div class="card p-3 shadow-sm"><h6><i class="bi bi-wallet2 me-2"></i>Expenses</h6><p>$8,400</p></div></div>
-      </div>
-    </div>
-  </main>
+  <!-- MAIN CONTENT DYNAMIC LOADER -->
+  <div id="main-content"></div>
 
   <!-- CHAT BOX -->
   <div class="chat-box">
@@ -1550,6 +1530,31 @@ function deleteChat(i) {
     </div>
   </div>
 </div>
+
+<!-- Dynamic Page Loader Script -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const links = document.querySelectorAll(".sidebar a[data-page]");
+  const content = document.querySelector("#main-content");
+
+  links.forEach(link => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const page = link.getAttribute("data-page");
+      if (page && content) {
+        try {
+          const response = await fetch(`pages/${page}`);
+          const html = await response.text();
+          content.innerHTML = html;
+        } catch (err) {
+          content.innerHTML = `<p style=\"color:red;\">Error loading ${page}</p>`;
+          console.error(err);
+        }
+      }
+    });
+  });
+});
+</script>
 </body>
 </html>
 
