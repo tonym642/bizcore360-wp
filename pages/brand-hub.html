@@ -1,46 +1,45 @@
-<div class="card shadow-sm p-4 rounded-4" id="brandHubCard">
-  <h2 class="mb-3 fw-bold text-primary">Brand Hub</h2>
 
-  <form id="brandHubForm" class="needs-validation" novalidate>
-    <div class="row g-3">
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Brand Name</label>
-        <input type="text" class="form-control" id="brandName" placeholder="Enter your brand name" required />
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Tagline / Slogan</label>
-        <input type="text" class="form-control" id="brandTagline" placeholder="Enter brand tagline" />
-      </div>
-
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">Brand Description</label>
-        <textarea class="form-control" id="brandDescription" rows="3" placeholder="Describe your brand identity, purpose, and story"></textarea>
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Primary Color</label>
-        <input type="color" class="form-control form-control-color" id="brandPrimaryColor" value="#0d6efd" />
-      </div>
-
-      <div class="col-md-6">
-        <label class="form-label fw-semibold">Secondary Color</label>
-        <input type="color" class="form-control form-control-color" id="brandSecondaryColor" value="#6c757d" />
-      </div>
-
-      <div class="col-md-12">
-        <label class="form-label fw-semibold">Logo Upload</label>
-        <input type="file" class="form-control" id="brandLogo" accept="image/*" />
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="mb-3 fw-semibold text-primary">Brand Hub</h4>
+      <form id="brandHubForm" class="needs-validation" novalidate>
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label fw-medium">Brand Name</label>
+            <input type="text" class="form-control" id="brandName" placeholder="Enter your brand name" required />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Tagline / Slogan</label>
+            <input type="text" class="form-control" id="brandTagline" placeholder="Enter brand tagline" />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Brand Description</label>
+          <textarea class="form-control" id="brandDescription" rows="3" placeholder="Describe your brand identity, purpose, and story"></textarea>
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <label class="form-label fw-medium">Primary Color</label>
+            <input type="color" class="form-control form-control-color" id="brandPrimaryColor" value="#0d6efd" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label fw-medium">Secondary Color</label>
+            <input type="color" class="form-control form-control-color" id="brandSecondaryColor" value="#6c757d" />
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label fw-medium">Logo Upload</label>
+          <input type="file" class="form-control" id="brandLogo" accept="image/*" />
+        </div>
+        <div class="text-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Brand</button>
+        </div>
+      </form>
+      <div id="brandHubAlert" class="alert alert-success mt-3 d-none" role="alert">
+        ✅ Brand details saved successfully!
       </div>
     </div>
-
-    <div class="mt-4 d-flex justify-content-end">
-      <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
-      <button type="submit" class="btn btn-primary">Save Brand</button>
-    </div>
-  </form>
-
-  <div id="brandHubAlert" class="alert alert-success mt-3 d-none" role="alert">
-    ✅ Brand details saved successfully!
   </div>
 </div>
