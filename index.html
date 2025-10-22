@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>BizCore360</title>
+<title>BizCore360 Dashboard v5.7</title>
 
 <!-- Bootstrap / Icons / Font -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -227,66 +227,238 @@ input,
 
 <body>
 
-
-<div id="app-wrapper">
-  <!-- LOGIN PAGE -->
-  <div id="loginPage" class="login-wrapper fade-swap show">
-    <div class="login-card position-relative">
-      <button id="loginLangToggle" class="btn btn-sm btn-outline-secondary lang-toggle">ES</button>
-      <div class="login-title">BizCore360</div>
-      <div class="mb-2"><label id="lblUser" class="form-label">Username</label><input id="loginUser" type="text" class="form-control" autocomplete="off"></div>
-      <div class="mb-2"><label id="lblPass" class="form-label">Password</label><input id="loginPass" type="password" class="form-control" autocomplete="off"></div>
-      <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="rememberMe"><label id="lblRemember" class="form-check-label" for="rememberMe">Remember me</label></div>
-      <button id="btnLogin" class="btn btn-primary w-100">Login</button>
-      <div id="loginAlert" class="text-danger text-center small mt-2" style="display:none">Invalid credentials</div>
-    </div>
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-wrapper fade-swap show">
+  <div class="login-card position-relative">
+    <button id="loginLangToggle" class="btn btn-sm btn-outline-secondary lang-toggle">ES</button>
+    <div class="login-title">BizCore360</div>
+    <div class="mb-2"><label id="lblUser" class="form-label">Username</label><input id="loginUser" type="text" class="form-control" autocomplete="off"></div>
+    <div class="mb-2"><label id="lblPass" class="form-label">Password</label><input id="loginPass" type="password" class="form-control" autocomplete="off"></div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="rememberMe"><label id="lblRemember" class="form-check-label" for="rememberMe">Remember me</label></div>
+    <button id="btnLogin" class="btn btn-primary w-100">Login</button>
+    <div id="loginAlert" class="text-danger text-center small mt-2" style="display:none">Invalid credentials</div>
   </div>
+</div>
 
-  <!-- DASHBOARD PAGE -->
-  <div id="dashboardPage" class="fade-swap" style="display:none">
-    <!-- TOPBAR -->
-    <nav class="topbar">
-      ...existing code...
-    </nav>
+<!-- DASHBOARD PAGE -->
+<div id="dashboardPage" class="fade-swap" style="display:none">
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button id="toggleSidebar" class="btn btn-link text-dark p-0"><i class="bi bi-list fs-4"></i></button>
+      <span class="brand">BizCore360</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <!-- search icon -->
+      <i class="bi bi-search fs-6 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Search" role="button"></i>
 
-    <!-- SIDEBAR -->
-    <aside id="sidebar" class="sidebar">
-      <div class="side-tabs mb-2">
-        <button id="tabModules" class="active">Modules</button>
-        <button id="tabChats">Chats</button>
-      </div>
-      <div id="modulesTab">
-        <ul class="nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link" data-page="cash-flow.html"><i class="bi bi-cash-coin me-2"></i>Cash Flow</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="budget.html"><i class="bi bi-wallet2 me-2"></i>Budget</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="pl.html"><i class="bi bi-bar-chart me-2"></i>P&amp;L</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="forecasts.html"><i class="bi bi-graph-up-arrow me-2"></i>Forecasts</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="balance-sheet.html"><i class="bi bi-journal me-2"></i>Balance Sheet</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="goals.html"><i class="bi bi-flag me-2"></i>Goals</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="marketing-plan.html"><i class="bi bi-megaphone me-2"></i>Marketing Plan</a></li>
-          <li class="nav-item"><a href="#" class="nav-link" data-page="business-plan.html"><i class="bi bi-file-earmark-text me-2"></i>Business Plan</a></li>
+      <!-- dark mode toggle -->
+      <i class="bi bi-sun fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Theme" role="button" id="darkModeIcon"></i>
+
+      <!-- AI model selector (no icon) -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="modelMenu" data-bs-toggle="dropdown" aria-expanded="false">
+          <span id="currentModel">GPT-4.0-mini</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0-mini">GPT-4.0-mini</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0">GPT-4.0</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0">GPT-5.0</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0-turbo">GPT-5.0-turbo</button></li>
         </ul>
       </div>
-      <div id="chatsTab" style="display:none">
-        <ul class="nav flex-column">
-          <li class="nav-item"><a href="#" class="nav-link" data-page="allchats.html"><i class="bi bi-chat-dots me-2"></i>All Chats</a></li>
+
+      <!-- language selector -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="langMenu" data-bs-toggle="dropdown" aria-expanded="false">EN</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item lang-choice" data-lang="en">EN</button></li>
+          <li><button class="dropdown-item lang-choice" data-lang="es">ES</button></li>
         </ul>
       </div>
-    </aside>
 
-    <!-- MAIN CONTENT WRAPPER -->
-    <main id="main-content">
-      <div id="page-content"></div>
-    </main>
+      <!-- AI tools quick icons -->
+  <i class="bi bi-robot fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Business Coach" role="button" data-page="aicoach.html"></i>
+  <i class="bi bi-people fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Advisory Board" role="button" data-page="ai-advisory-board.html"></i>
+  <i id="polls-icon" class="bi bi-bullseye fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Polls" role="button" data-page="polls.html"></i>
 
-    <!-- CHAT BOX -->
-    <div class="chat-box">
-      ...existing code...
+      <!-- avatar dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="userMenu" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <!-- Desktop Menu Items -->
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="profile.html" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="settings.html" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <li><a class="dropdown-item" data-page="master-specs.html" href="#"><i class="bi bi-file-earmark-text me-2"></i>Master Specs</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item text-danger" id="logout" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+          
+          <!-- Mobile Menu Items -->
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="profile.html" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="settings.html" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="master-specs.html" href="#"><i class="bi bi-file-earmark-text me-2"></i>Master Specs</a></li>
+          <li class="mobile-menu-item"><button class="dropdown-item" id="mobileDarkMode"><i class="bi bi-sun me-2"></i>Dark Mode</button></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item">
+            <div class="dropdown-item">
+              <div class="mobile-lang-selector">
+                <select class="form-select form-select-sm" id="mobileLangSelect">
+                  <option value="en">EN</option>
+                  <option value="es">ES</option>
+                </select>
+              </div>
+            </div>
+          </li>
+          <li class="mobile-menu-item">
+            <div class="dropdown-item">
+              <div class="mobile-model-selector">
+                <select class="form-select form-select-sm" id="mobileModelSelect">
+                  <option value="GPT-4.0-mini">GPT-4.0-mini</option>
+                  <option value="GPT-4.0">GPT-4.0</option>
+                  <option value="GPT-5.0">GPT-5.0</option>
+                  <option value="GPT-5.0-turbo">GPT-5.0-turbo</option>
+                </select>
+              </div>
+            </div>
+          </li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item text-danger" id="mobileLogout" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="side-tabs d-flex">
+      <button id="tabModules" class="btn btn-light flex-fill active">Modules</button>
+      <button id="tabChats" class="btn btn-light flex-fill">Chats</button>
     </div>
 
-    <!-- OVERLAY (mobile sidebar) -->
-    <div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.1);z-index:1029"></div>
+    <!-- MODULES TAB -->
+    <div id="modulesTab" class="p-2">
+      <ul class="list-unstyled" id="modulesList">
+        <!-- Dashboard -->
+        <li>
+          <a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-page="dashboard.html">
+            <i class="bi bi-speedometer2"></i>Dashboard
+          </a>
+        </li>
+
+        <!-- Financials -->
+        <li class="mt-2">
+          <a href="#financialsMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-cash-stack"></i>Financials</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="financialsMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="budget.html"><i class="bi bi-wallet2 me-2"></i>Budget</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="balance-sheet.html"><i class="bi bi-columns me-2"></i>Balance Sheet</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="cash-flow.html"><i class="bi bi-currency-exchange me-2"></i>Cash Flow</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="pl.html"><i class="bi bi-bar-chart me-2"></i>P&L</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="forecasts.html"><i class="bi bi-graph-up-arrow me-2"></i>Forecasts</a></li>
+          </ul>
+        </li>
+
+        <!-- Planning -->
+        <li class="mt-2">
+          <a href="#planningMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-journal-text"></i>Planning</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="planningMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="business-plan.html"><i class="bi bi-journal-text me-2"></i>Business Plan</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="goals.html"><i class="bi bi-flag me-2"></i>Goals</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sops.html"><i class="bi bi-list-check me-2"></i>SOPs</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="swot.html"><i class="bi bi-diagram-3 me-2"></i>SWOT</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="workflow-builder.html"><i class="bi bi-diagram-3-fill me-2"></i>Workflow Builder</a></li>
+          </ul>
+        </li>
+
+        <!-- Marketing -->
+        <li class="mt-2">
+          <a href="#marketingMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-bullseye"></i>Marketing</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="marketingMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="brand-hub.html"><i class="bi bi-palette me-2"></i>Brand Hub</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="marketing-library.html"><i class="bi bi-collection me-2"></i>Marketing Library</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="content-creator.html"><i class="bi bi-pencil-square me-2"></i>Content Creator</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="raving-fan.html"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
+          </ul>
+        </li>
+
+        <!-- Resources -->
+        <li class="mt-2">
+          <a href="#resourcesMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-boxes"></i>Resources</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse list-unstyled submenu" id="resourcesMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="industry-news.html"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sample-prompts.html"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="new-business-blueprint.html"><i class="bi bi-briefcase me-2"></i>New Business Blueprint</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHATS TAB -->
+    <div id="chatsTab" class="p-2" style="display:none">
+      <ul class="list-unstyled">
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newchat"><i class="bi bi-chat-dots me-2"></i>New Chat</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newfolder"><i class="bi bi-folder-plus me-2"></i>New Folder</a></li>
+        <li class="fw-bold ps-2 mt-2"><i class="bi bi-folder me-2"></i>Folders</li>
+        <ul class="list-unstyled" id="foldersList"></ul>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
+  <li class="nav-item see-more"><a href="#" class="nav-link text-primary ps-4" data-page="allfolders"><i class="bi bi-three-dots"></i> See more...</a></li>
+
+  <li class="fw-bold ps-2 mt-3"><i class="bi bi-clock me-2"></i>Chat History</li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat1"><i class="bi bi-clock me-2"></i>C1 – Marketing Plan</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat2"><i class="bi bi-clock me-2"></i>C2 – Budget Review</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat3"><i class="bi bi-clock me-2"></i>C3 – Client Feedback</a></li>
+  <li><a href="#" class="nav-link text-primary ps-4" data-page="allchats">See more...</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT DYNAMIC LOADER -->
+  <div id="main-content"></div>
+
+  <!-- CHAT BOX -->
+  <div class="chat-box">
+    <button class="btn btn-light border"><i class="bi bi-plus"></i></button>
+    <input type="text" id="chatInput" class="form-control rounded-pill" placeholder="Type a message...">
+    <button class="btn btn-light border"><i class="bi bi-mic"></i></button>
+    <button class="btn btn-light border"><i class="bi bi-soundwave"></i></button>
+    <button class="btn btn-primary border" id="sendBtn"><i class="bi bi-send-fill text-white"></i></button>
   </div>
+
+  <!-- OVERLAY (mobile sidebar) -->
+  <div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.1);z-index:1029"></div>
 </div>
 
 
@@ -1361,14 +1533,27 @@ function deleteChat(i) {
 
 <!-- Dynamic Page Loader Script -->
 <script>
-function loadPage(page) {
-  // Ensure .html extension and always load from /pages/
-  let file = page.endsWith('.html') ? page : page + '.html';
-  fetch('pages/' + file)
-    .then(res => res.text())
-    .then(html => { document.getElementById('page-content').innerHTML = html; })
-    .catch(err => console.error('Error loading page:', err));
-}
+document.addEventListener("DOMContentLoaded", () => {
+  const links = document.querySelectorAll(".sidebar a[data-page]");
+  const content = document.querySelector("#main-content");
+
+  links.forEach(link => {
+    link.addEventListener("click", async (e) => {
+      e.preventDefault();
+      const page = link.getAttribute("data-page");
+      if (page && content) {
+        try {
+          const response = await fetch(`pages/${page}`);
+          const html = await response.text();
+          content.innerHTML = html;
+        } catch (err) {
+          content.innerHTML = `<p style=\"color:red;\">Error loading ${page}</p>`;
+          console.error(err);
+        }
+      }
+    });
+  });
+});
 </script>
 </body>
 </html>
@@ -1376,3 +1561,5 @@ function loadPage(page) {
 
 
 
+
+<!-- forced-sync: 2025-10-21 17:41:55 -->
