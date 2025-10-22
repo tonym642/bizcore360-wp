@@ -418,7 +418,7 @@ input,
           <ul class="collapse list-unstyled submenu" id="resourcesMenu">
             <li><a href="#" class="nav-link d-flex align-items-center" data-page="industry-news.html"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
             <li><a href="#" class="nav-link d-flex align-items-center" data-page="sample-prompts.html"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
-            <li><a href="#" class="nav-link d-flex align-items-center" data-page="new-business-blueprint.html"><i class="bi bi-briefcase me-2"></i>New Business Blueprint</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="new-business-blueprint.html"><i class="bi bi-briefcase me-2"></i>Business Blueprint</a></li>
           </ul>
         </li>
       </ul>
@@ -1531,28 +1531,75 @@ function deleteChat(i) {
   </div>
 </div>
 
-<!-- Dynamic Page Loader Script -->
+<!-- ✅ UNIVERSAL PAGE LOADER (FINAL VERSION) -->
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-  const links = document.querySelectorAll(".sidebar a[data-page]");
-  const content = document.querySelector("#main-content");
+  const content = document.querySelector("#main-content") || document.querySelector("#pageContent");
+  const loader = document.getElementById("loader");
 
-  links.forEach(link => {
-    link.addEventListener("click", async (e) => {
-      e.preventDefault();
-      const page = link.getAttribute("data-page");
-      if (page && content) {
-        try {
-          const response = await fetch(`pages/${page}`);
-          const html = await response.text();
-          content.innerHTML = html;
-        } catch (err) {
-          content.innerHTML = `<p style=\"color:red;\">Error loading ${page}</p>`;
-          console.error(err);
-        }
-      }
+  if (!content) {
+    console.error("❌ No #main-content or #pageContent found.");
+    return;
+  }
+
+  // Automatically load dashboard after login
+  if (localStorage.getItem("loggedIn") === "true") {
+    loadPage("dashboard.html");
+  }
+
+  // Global click handler for all data-page links (sidebar, topbar, avatar)
+  document.body.addEventListener("click", async (e) => {
+    const link = e.target.closest("[data-page]");
+    if (!link) return;
+
+    e.preventDefault();
+    const page = link.getAttribute("data-page");
+    if (!page) return;
+
+    // Reset and highlight active item
+    document.querySelectorAll("[data-page]").forEach(el => {
+      el.classList.remove("active", "text-primary");
+      el.style.backgroundColor = "";
     });
+    link.classList.add("active", "text-primary");
+    link.style.backgroundColor = "#eaf2ff";
+
+    await loadPage(page);
   });
+
+  // ✅ Function to load pages dynamically
+  async function loadPage(page) {
+    if (loader) loader.style.display = "flex";
+    try {
+      const response = await fetch(`pages/${page}`);
+      if (!response.ok) throw new Error(`Failed to load ${page}`);
+      const html = await response.text();
+      content.innerHTML = html;
+
+      // Execute inline <script> tags
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      doc.querySelectorAll("script").forEach(script => {
+        if (script.textContent.trim()) {
+          const s = document.createElement("script");
+          s.textContent = script.textContent;
+          document.body.appendChild(s);
+          document.body.removeChild(s);
+        }
+      });
+
+      console.log(`✅ Loaded: ${page}`);
+    } catch (err) {
+      console.error("❌ Page load error:", err);
+      content.innerHTML = `
+        <div class="alert alert-danger m-3">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          Error loading <strong>${page}</strong>. Please check the file path.
+        </div>`;
+    } finally {
+      if (loader) loader.style.display = "none";
+    }
+  }
 });
 </script>
 </body>
