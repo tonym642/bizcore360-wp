@@ -3,7 +3,7 @@
 Plugin Name: BizCore360
 Plugin URI: https://github.com/tonym642/bizcore360-wp
 Description: AI-powered business management plugin for WordPress.
-Version: 1.0.3
+Version: 1.0.4
 Author: Tony Medina
 Author URI: https://bizcore360.ai
 */
@@ -52,5 +52,3 @@ function bizcore360_app_shortcode()
     return ob_get_clean();
 }
 add_shortcode('bizcore360_app', 'bizcore360_app_shortcode');
-
-<!-- forced-sync: 2025-10-21 17:41:55 -->
