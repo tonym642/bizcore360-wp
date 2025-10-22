@@ -74,3 +74,5 @@ function safeSetHTML(id, html) {
 document.addEventListener("DOMContentLoaded", () => {
   console.log("BizCore360 config initialized successfully.");
 });
+
+<!-- forced-sync: 2025-10-21 17:41:55 -->

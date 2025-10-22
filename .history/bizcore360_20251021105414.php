@@ -16,3 +16,5 @@ if (!defined('ABSPATH')) {
 
 // Include the app file
 require_once plugin_dir_path(__FILE__) . 'bizcore360-app.php';
+
+<!-- forced-sync: 2025-10-21 17:41:54 -->

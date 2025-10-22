@@ -60,3 +60,5 @@ if (typeof window !== 'undefined') {
   window.testAPI = testAPI;
   console.log("Test function available. Run testAPI() in console to test the endpoint.");
 }
+
+<!-- forced-sync: 2025-10-21 17:41:55 -->

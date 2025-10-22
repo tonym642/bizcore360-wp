@@ -60,3 +60,5 @@ function bizcore360_app_shortcode()
     return ob_get_clean();
 }
 add_shortcode('bizcore360_app', 'bizcore360_app_shortcode');
+
+<!-- forced-sync: 2025-10-21 17:41:54 -->

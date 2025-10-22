@@ -142,3 +142,5 @@ server.listen(PORT, () => {
   console.log('📝 Make sure to set your OPENAI_API_KEY environment variable');
   console.log('💡 Example: OPENAI_API_KEY=sk-your-key node local-server.js');
 });
+
+<!-- forced-sync: 2025-10-21 17:41:55 -->

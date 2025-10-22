@@ -43,3 +43,5 @@ add_action('init', function() {
         error_log('BizCore360 Warning: Shortcode not registered. Check bizcore360-app.php include path.');
     }
 });
+
+<!-- forced-sync: 2025-10-21 17:41:54 -->
