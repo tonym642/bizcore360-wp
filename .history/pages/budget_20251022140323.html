@@ -1,0 +1,61 @@
+
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="mb-3 fw-semibold text-primary">Budget Planner</h4>
+      <form id="budgetForm" class="needs-validation" novalidate>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="budgetMonth" class="form-label fw-medium w-100 text-md-end text-start mb-0">Month</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="month" class="form-control text-start" id="budgetMonth" required />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="budgetYear" class="form-label fw-medium w-100 text-md-end text-start mb-0">Year</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="number" class="form-control text-start" id="budgetYear" placeholder="2025" min="2000" max="2100" />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="totalIncome" class="form-label fw-medium w-100 text-md-end text-start mb-0">Total Income ($)</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="number" class="form-control text-start" id="totalIncome" placeholder="0.00" step="0.01" />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="totalExpenses" class="form-label fw-medium w-100 text-md-end text-start mb-0">Total Expenses ($)</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="number" class="form-control text-start" id="totalExpenses" placeholder="0.00" step="0.01" />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="budgetNotes" class="form-label fw-medium w-100 text-md-end text-start mb-0">Notes</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <textarea class="form-control text-start" id="budgetNotes" rows="3" placeholder="Add budget notes..."></textarea>
+          </div>
+        </div>
+        <div class="text-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Budget</button>
+        </div>
+      </form>
+      <div id="budgetAlert" class="alert alert-success mt-3 d-none" role="alert">
+        ✅ Budget saved successfully!
+      </div>
+    </div>
+  </div>
+</div>
+<!-- test-version: 2025-10-21-19 -->
+
+
+<!-- forced-sync: 2025-10-21 17:41:54 -->

@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Balance Sheet | BizCore360</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    body { background-color:#f9fafb; }
+    .card { border:none; border-radius:12px; }
+    #moduleMenu .btn { border-radius:10px; transition:all .2s ease-in-out; padding:8px 14px; }
+    #moduleMenu .btn.active, #moduleMenu .btn:hover { background-color:#f5f8ff; border-color:#0d6efd; color:#0d6efd; }
+    .d-none { display:none!important; }
+    .dropdown-item { display:flex; justify-content:space-between; align-items:center; }
+    .delete-btn { color:#dc3545; font-size:.9rem; margin-left:8px; cursor:pointer; }
+    .delete-btn:hover { color:#a71d2a; }
+    .info-section h6 { color:#0d6efd; font-weight:600; margin-top:1rem; }
+  </style>
+</head>
+
+<body>
+<div id="balanceModule" class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 id="moduleTitle" class="fw-semibold text-primary mb-3">Balance Sheet</h4>
+
+      <!-- MENU -->
+      <div class="d-flex flex-wrap gap-3 mb-4" id="moduleMenu">
+        <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2 active" data-target="main">
+          <i class="bi bi-speedometer2 fs-5 text-primary"></i><span class="fw-medium">Overview</span>
+        </button>
+        <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2" data-target="info">
+          <i class="bi bi-info-circle fs-5 text-secondary"></i><span class="fw-medium">Info</span>
+        </button>
+        <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2" data-target="ai">
+          <i class="bi bi-robot fs-5 text-success"></i><span class="fw-medium">AI Agent</span>
+        </button>
+        <button class="btn btn-light border shadow-sm d-flex align-items-center gap-2" data-target="tech">
+          <i class="bi bi-gear fs-5 text-muted"></i><span class="fw-medium">Tech</span>
+        </button>
+      </div>
+
+      <!-- OVERVIEW -->
+      <div id="main" class="content-section">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 class="fw-semibold text-primary mb-0">Balance Sheet Overview</h5>
+          <div class="dropdown">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+              Compare Versions
+            </button>
+            <ul class="dropdown-menu" id="versionList"></ul>
+          </div>
+        </div>
+        <div id="moduleData" class="text-muted">
+          No active balance sheet yet. Use the AI Agent tab to create one.
+        </div>
+      </div>
+
+      <!-- INFO -->
+      <div id="info" class="content-section d-none">
+        <h5 class="fw-semibold mb-3 text-primary">About the Balance Sheet Module</h5>
+        <div class="info-section">
+          <h6>Purpose</h6>
+          <p>The Balance Sheet module helps you measure your company’s financial position at a specific point in time. 
+          It summarizes what your business owns (assets), owes (liabilities), and retains (equity), offering a snapshot 
+          of stability and solvency.</p>
+
+          <h6>How It Works</h6>
+          <p>Use the <strong>AI Agent</strong> to generate or update your balance sheet by entering details about cash, receivables, 
+          debts, and investments. The AI can guide you through categorizing short-term and long-term assets and liabilities 
+          while calculating net equity automatically.</p>
+
+          <h6>Understanding the Sections</h6>
+          <ul>
+            <li><strong>Assets:</strong> Everything your company owns—cash, inventory, property, and investments.</li>
+            <li><strong>Liabilities:</strong> Debts, accounts payable, and other financial obligations.</li>
+            <li><strong>Equity:</strong> The owner’s residual interest after liabilities are subtracted from assets.</li>
+          </ul>
+
+          <h6>Why It Matters</h6>
+          <p>A well-maintained balance sheet reveals your business’s true financial standing. It helps lenders evaluate 
+          creditworthiness, investors assess value, and management make informed growth decisions.</p>
+
+          <h6>Best Practices</h6>
+          <ul>
+            <li>Update your balance sheet every quarter or month.</li>
+            <li>Ensure total assets equal total liabilities plus equity.</li>
+            <li>Use it alongside your income statement and cash flow report for full insights.</li>
+            <li>Leverage the AI Agent to identify strengths, weaknesses, and potential risks.</li>
+          </ul>
+
+          <h6>Next Steps</h6>
+          <p>Switch to the <strong>AI Agent</strong> tab to begin. Once generated, you can save, compare, and refine 
+          your versions as your business evolves.</p>
+        </div>
+      </div>
+
+      <!-- AI TAB -->
+      <div id="ai" class="content-section d-none">
+        <h5 class="fw-semibold mb-3 text-primary">AI Agent</h5>
+        <div class="border rounded-3 p-3 bg-light" style="min-height:320px;max-height:500px;overflow-y:auto;" id="chatContainer">
+          <div id="chatMessages" class="d-flex flex-column gap-3">
+            <p class="text-muted small">Start chatting with the AI to create your first balance sheet.</p>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-3">
+          <button class="btn btn-outline-secondary" id="generateDemo">
+            <i class="bi bi-magic me-1"></i> Generate Sample Sheet
+          </button>
+          <button class="btn btn-success" id="makeActive">
+            <i class="bi bi-check-circle me-1"></i> Make Active
+          </button>
+        </div>
+
+        <div class="d-flex align-items-center mt-3 border rounded-pill px-3 py-2 bg-white shadow-sm position-relative">
+          <input type="file" id="fileInput" multiple hidden accept="image/*,.pdf,.doc,.docx,.txt" />
+          <button class="btn btn-link text-secondary p-0 me-2" id="chatAdd"><i class="bi bi-plus-circle fs-5"></i></button>
+          <input type="text" id="chatInput" class="form-control border-0 flex-grow-1" placeholder="Ask anything..." />
+          <button class="btn btn-link text-secondary p-0 ms-2 me-1" id="chatMic"><i class="bi bi-mic fs-5"></i></button>
+          <button class="btn btn-light border rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm me-2"
+                  id="chatVoice" style="width:36px;height:36px;" title="Enable Voice Response">
+            <i class="bi bi-soundwave fs-5 text-secondary"></i>
+          </button>
+          <button class="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"
+                  id="chatSend" style="width:36px;height:36px;">
+            <i class="bi bi-send-fill text-white fs-6"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- TECH -->
+      <div id="tech" class="content-section d-none">
+        <h5 class="fw-semibold mb-3 text-primary">Technical Data</h5>
+        <pre id="techData" class="small bg-light p-3 rounded-3"></pre>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const balanceObserver = new MutationObserver(() => {
+  const mod = document.getElementById('balanceModule');
+  if (mod && !window.balanceInitialized) {
+    window.balanceInitialized = true;
+    initBalanceModule();
+    setupChat();
+  }
+});
+balanceObserver.observe(document.body, { childList:true, subtree:true });
+
+function initBalanceModule() {
+  const STORAGE_KEY = "balanceVersions";
+  const ACTIVE_KEY = "balanceActive";
+  const moduleData = document.getElementById("moduleData");
+  const versionList = document.getElementById("versionList");
+
+  document.querySelectorAll("#moduleMenu button").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      document.querySelectorAll("#moduleMenu button").forEach(b=>b.classList.remove("active"));
+      btn.classList.add("active");
+      const t=btn.dataset.target;
+      document.querySelectorAll(".content-section").forEach(s=>s.classList.add("d-none"));
+      document.getElementById(t).classList.remove("d-none");
+    });
+  });
+
+  const loadVersions=()=>JSON.parse(localStorage.getItem(STORAGE_KEY)||"[]");
+  const saveVersions=v=>localStorage.setItem(STORAGE_KEY,JSON.stringify(v));
+  const renderData=b=>{
+    moduleData.innerHTML=`<div class="card bg-light p-3 rounded-3 shadow-sm">
+      <h6 class="fw-semibold mb-2 text-primary">${b.name}</h6>
+      <p class="small text-muted mb-2">Created: ${new Date(b.timestamp).toLocaleString()}</p>
+      <div>${b.output}</div></div>`;
+    localStorage.setItem(ACTIVE_KEY,JSON.stringify(b));
+  };
+  const refreshDropdown=()=>{
+    const versions=loadVersions();
+    versionList.innerHTML="";
+    if(!versions.length){versionList.innerHTML=`<li><span class="dropdown-item text-muted">No saved versions</span></li>`;return;}
+    versions.forEach((v,i)=>{
+      const li=document.createElement("li");
+      li.innerHTML=`<span class="dropdown-item"><span>${v.name}</span>
+      <i class="bi bi-trash delete-btn" data-index="${i}" title="Delete"></i></span>`;
+      li.querySelector(".dropdown-item").addEventListener("click",e=>{
+        if(e.target.classList.contains("delete-btn"))return;
+        renderData(v);
+      });
+      li.querySelector(".delete-btn").addEventListener("click",()=>{
+        if(confirm("Delete this version?")){
+          versions.splice(i,1); saveVersions(versions); refreshDropdown();
+        }
+      });
+      versionList.appendChild(li);
+    });
+  };
+  const loadActive=()=>{const a=localStorage.getItem(ACTIVE_KEY); if(a)renderData(JSON.parse(a));};
+
+  document.getElementById("generateDemo").addEventListener("click",()=>{
+    const demo={name:"Demo Balance Sheet",timestamp:Date.now(),output:`
+      <strong>Assets</strong><br>
+      - Cash: $25,000<br>- Accounts Receivable: $8,000<br>- Inventory: $10,000<br>- Equipment: $15,000<br><br>
+      <strong>Total Assets:</strong> $58,000<br><br>
+      <strong>Liabilities</strong><br>
+      - Accounts Payable: $6,000<br>- Short-Term Loans: $4,000<br>- Long-Term Debt: $12,000<br><br>
+      <strong>Total Liabilities:</strong> $22,000<br><br>
+      <strong>Owner’s Equity:</strong> $36,000<br>
+      <em>Notes:</em> Healthy liquidity with manageable liabilities.`};
+    const v=loadVersions(); v.push(demo); saveVersions(v);
+    renderData(demo); refreshDropdown(); document.querySelector('[data-target="main"]').click();
+  });
+
+  document.getElementById("makeActive").addEventListener("click",()=>{
+    const aiSheet={name:"AI-Generated Balance Sheet",timestamp:Date.now(),output:`
+      <strong>Assets</strong><br>
+      - Cash: $30,000<br>- Accounts Receivable: $9,000<br>- Equipment: $18,000<br><br>
+      <strong>Total Assets:</strong> $57,000<br><br>
+      <strong>Liabilities</strong><br>
+      - Accounts Payable: $7,000<br>- Notes Payable: $5,000<br><br>
+      <strong>Total Liabilities:</strong> $12,000<br><br>
+      <strong>Owner’s Equity:</strong> $45,000<br>
+      <em>Notes:</em> AI-adjusted projection reflecting asset growth and debt reduction.`};
+    const v=loadVersions(); v.push(aiSheet); saveVersions(v);
+    renderData(aiSheet); refreshDropdown(); document.querySelector('[data-target="main"]').click();
+  });
+
+  refreshDropdown(); loadActive();
+
+  // Embed technical documentation in Tech tab
+  const techBox = document.getElementById("techData");
+  if (techBox) {
+    techBox.textContent = `
+# Balance Sheet Module — Technical Notes (v1.0)
+**Author:** Tony Medina  
+**Environment:** BizCore360 Internal App  
+**Last Updated:** ${new Date().toLocaleString()}
+
+---
+
+## 1. Module Overview
+This module is a self-contained, front-end component within the BizCore360 ecosystem.
+It follows the same architecture and layout structure as the **Budget Planner**, using the **Universal Module Page Controller** pattern.
+
+The module provides:
+- Four interactive tabs (Overview, Info, AI Agent, Tech)
+- LocalStorage-based data persistence for offline testing
+- AI-assisted content generation with simulated responses
+- Full browser speech capabilities (speech-to-text + text-to-speech)
+- MutationObserver initialization to ensure proper load under the BizCore360 SPA loader
+
+---
+
+## 2. Core File Details
+**Filename:** /modules/finance/balance-sheet.html  
+**Dependencies:**
+- Bootstrap 5.3.2 (CSS + JS bundle)
+- Bootstrap Icons 1.11.3
+- Browser native APIs: SpeechRecognition / webkitSpeechRecognition, SpeechSynthesis, localStorage, MutationObserver
+
+**No external API calls are made**; all AI logic is simulated with placeholder text.
+When connected to the BizCore360 backend, responses will be fetched dynamically from aiEndpoint via the app’s internal proxy.
+
+---
+
+## 3. Initialization Flow
+1. MutationObserver detects when the module HTML is injected into the DOM by BizCore360.
+2. initBalanceModule() is executed once per session.
+3. setupChat() is called immediately after initialization to activate the AI chat controls.
+4. Data persistence is handled by two keys in localStorage:
+   - "balanceVersions" → stores an array of saved sheets.
+   - "balanceActive" → stores the currently active version.
+
+---
+
+## 4. Functional Sections
+- **Overview Tab:** Displays the active sheet with version dropdown.
+- **Info Tab:** Explains purpose, logic, and best practices.
+- **AI Agent Tab:** Includes simulated chat, voice input/output, and uploads.
+- **Tech Tab:** Developer-only reference (this file).
+
+---
+
+## 5. Data Model
+Each balance sheet version is stored as a JSON object in localStorage:
+{
+  name: "Demo Balance Sheet",
+  timestamp: 1730000000000,
+  output: "<formatted HTML for Overview display>"
+}
+
+---
+
+## 6. Integration Notes
+- Replace simulated setTimeout() AI replies with a real fetch() call to aiEndpoint.
+- Use session-authenticated requests to maintain security.
+- Store results in BizCore360’s encrypted storage for production.
+
+---
+
+## 7. Developer Contact
+Tony Medina — Project Lead  
+Pablo [Last Name] — Technical Partner  
+Repo: github.com/tonym642/bizcore360
+`;
+  }
+}
+
+/* ---------- CHAT SYSTEM (Voice + Upload + Speak) ---------- */
+function setupChat(){
+  const chatMessages=document.getElementById("chatMessages");
+  const chatInput=document.getElementById("chatInput");
+  const chatSend=document.getElementById("chatSend");
+  const chatAdd=document.getElementById("chatAdd");
+  const chatMic=document.getElementById("chatMic");
+  const chatVoice=document.getElementById("chatVoice");
+  const fileInput=document.getElementById("fileInput");
+
+  function addMessage(text,sender="user"){
+    const msg=document.createElement("div");
+    msg.className=sender==="user"?"align-self-end bg-primary text-white rounded-3 px-3 py-2":"align-self-start bg-secondary-subtle text-dark rounded-3 px-3 py-2";
+    msg.style.maxWidth="75%"; msg.innerText=text; chatMessages.appendChild(msg); chatMessages.scrollTop=chatMessages.scrollHeight;
+    if(sender==="ai"&&voiceEnabled){
+      const utter=new SpeechSynthesisUtterance(text); utter.lang="en-US"; speechSynthesis.speak(utter);
+    }
+  }
+  async function handleSend(){
+    const text=chatInput.value.trim(); if(!text)return;
+    addMessage(text,"user"); chatInput.value=""; addMessage("🤖 Thinking...","ai");
+    setTimeout(()=>{
+      const reply=`Balance Sheet insight for: "${text}"`;
+      chatMessages.lastChild.innerText=reply;
+      if(voiceEnabled){const utter=new SpeechSynthesisUtterance(reply); utter.lang="en-US"; speechSynthesis.speak(utter);}
+    },1000);
+  }
+  chatSend.addEventListener("click",handleSend);
+  chatInput.addEventListener("keypress",e=>{if(e.key==="Enter"){e.preventDefault();handleSend();}});
+  chatAdd.addEventListener("click",()=>fileInput.click());
+  fileInput.addEventListener("change",()=>{Array.from(fileInput.files).forEach(f=>addMessage(`📎 Uploaded: ${f.name}`,"user"));fileInput.value="";});
+
+  if("webkitSpeechRecognition"in window||"SpeechRecognition"in window){
+    const SR=window.SpeechRecognition||window.webkitSpeechRecognition; const recog=new SR();
+    recog.lang="en-US"; recog.interimResults=false;
+    chatMic.addEventListener("click",()=>{recog.start();chatMic.classList.add("text-primary");});
+    recog.onresult=e=>{const transcript=e.results[0][0].transcript;chatInput.value=transcript;chatMic.classList.remove("text-primary");};
+    recog.onerror=()=>chatMic.classList.remove("text-primary");
+    recog.onend=()=>chatMic.classList.remove("text-primary");
+  } else {chatMic.disabled=true; chatMic.title="Voice input not supported";}
+  let voiceEnabled=false;
+  chatVoice.addEventListener("click",()=>{
+    voiceEnabled=!voiceEnabled;
+    if(voiceEnabled){chatVoice.classList.add("bg-primary");chatVoice.querySelector("i").classList.add("text-white");}
+    else{chatVoice.classList.remove("bg-primary");chatVoice.querySelector("i").classList.remove("text-white");}
+  });
+}
+</script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

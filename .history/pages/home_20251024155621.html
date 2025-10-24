@@ -1,0 +1,133 @@
+<div class="container-fluid p-4">
+  <h4 class="fw-semibold text-primary mb-4 text-center">Welcome to BizCore360</h4>
+
+  <div class="glass-btns d-flex justify-content-center align-items-end flex-wrap mt-5">
+    <div class="glass-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+      title="Your personal AI partner for daily operations." data-link="executive-home.html">
+      <span class="icon"><i class="bi bi-person-badge"></i></span>
+      <span class="label">Executive<br>Assistant</span>
+    </div>
+
+    <div class="glass-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+      title="Generate your full business structure and plan." data-link="blueprint-home.html">
+      <span class="icon"><i class="bi bi-diagram-3"></i></span>
+      <span class="label">Business<br>Blueprint</span>
+    </div>
+
+    <div class="glass-btn center" data-bs-toggle="tooltip" data-bs-placement="top"
+      title="Personalized productivity and growth support." data-link="coach-home.html">
+      <span class="icon"><i class="bi bi-rocket"></i></span>
+      <span class="label">AI<br>Coaching</span>
+    </div>
+
+    <div class="glass-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+      title="Get expert guidance from AI specialists." data-link="advisory-home.html">
+      <span class="icon"><i class="bi bi-people"></i></span>
+      <span class="label">Advisory<br>Board</span>
+    </div>
+
+    <div class="glass-btn" data-bs-toggle="tooltip" data-bs-placement="top"
+      title="Test your ideas and gather simulated feedback." data-link="polls-home.html">
+      <span class="icon"><i class="bi bi-bar-chart"></i></span>
+      <span class="label">AI<br>Polls</span>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Initialize Bootstrap tooltips
+  const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+  tooltipTriggerList.forEach(el => new bootstrap.Tooltip(el));
+
+  // --- PAGE NAVIGATION LOGIC ---
+  document.querySelectorAll('.glass-btn').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const target = btn.dataset.link;
+      if (!target) return;
+
+      // Try to find and trigger a sidebar link (main loader)
+      const sidebarLink = document.querySelector(`.nav-link[href*="${target}"], .nav-link[data-link*="${target}"]`);
+      if (sidebarLink) {
+        sidebarLink.click(); // simulate same action as sidebar
+        return;
+      }
+
+      // Try dynamic fetch-based load
+      const mainContent = document.querySelector('#main-content');
+      if (mainContent && window.fetch) {
+        fetch(target)
+          .then(res => res.text())
+          .then(html => {
+            mainContent.innerHTML = html;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          })
+          .catch(err => console.error('Error loading page:', err));
+        return;
+      }
+
+      // Fallback: full redirect if no loader found
+      window.location.href = target;
+    });
+  });
+
+  // Highlight sidebar "Home" item
+  const navLinks = document.querySelectorAll('.nav-link');
+  navLinks.forEach(link => link.classList.remove('active'));
+  const homeLink = document.querySelector('.nav-link[href*="home.html"]');
+  if (homeLink) homeLink.classList.add('active');
+});
+</script>
+
+<style>
+.glass-btns {
+  gap: 2.5vw;
+}
+
+.glass-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 130px;
+  height: 130px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-radius: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+}
+
+.glass-btn:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.glass-btn .icon {
+  font-size: 1.8rem;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+.glass-btn .label {
+  text-align: center;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0d6efd;
+  line-height: 1.2rem;
+}
+
+/* Arc layout for visual balance */
+.glass-btn:nth-child(1) { margin-top: 40px; }
+.glass-btn:nth-child(2) { margin-top: 20px; }
+.glass-btn.center { margin-top: 0px; }
+.glass-btn:nth-child(4) { margin-top: 20px; }
+.glass-btn:nth-child(5) { margin-top: 40px; }
+
+@media (max-width: 992px) {
+  .glass-btns { flex-wrap: wrap; justify-content: center; }
+  .glass-btn { margin-top: 15px !important; }
+}
+</style>

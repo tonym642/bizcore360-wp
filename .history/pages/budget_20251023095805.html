@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Budget Module</title>
+
+  <!-- Bootstrap + Libraries -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <style>
+    body {
+      background-color: #fff;
+      color: #000;
+    }
+    .content-container {
+      padding: 1.5rem;
+      width: 100%;
+    }
+    .module-card {
+      background-color: #fff;
+      border: none;
+      box-shadow: none;
+      min-height: calc(100vh - 130px);
+    }
+    .inner-menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.25rem;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 0.5rem;
+    }
+    .inner-menu a {
+      text-decoration: none;
+      color: #000;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+    .inner-menu a:hover {
+      color: #007bff;
+    }
+    #page-content {
+      padding-top: 1rem;
+      min-height: 60vh;
+    }
+    canvas {
+      max-width: 100%;
+      height: 400px !important;
+    }
+
+    /* Smooth fade transition */
+    .fade {
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+    .fade.show {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body data-module="budget">
+  <div class="content-container">
+    <div class="card module-card">
+      <div class="card-body">
+
+        <!-- Inner menu -->
+        <div class="inner-menu">
+          <a onclick="showPage('overview')">💼 Overview</a>
+          <span>|</span>
+          <a onclick="showPage('info')">ℹ️ Info</a>
+          <span>|</span>
+          <a onclick="showPage('ai-agent')">🤖 AI Agent</a>
+          <span>|</span>
+          <a onclick="showPage('tech')">⚙️ Tech</a>
+          <span>|</span>
+          <a onclick="showPage('analytics')">📊 Analytics</a>
+          <span>|</span>
+          <a onclick="showPage('best-practices')">🧠 Best Practices</a>
+        </div>
+
+        <!-- Dynamic content area -->
+        <div id="page-content" class="fade show"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Shared script -->
+  <script src="/assets/js/modules.js"></script>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => showPage('overview'));
+  </script>
+</body>
+</html>

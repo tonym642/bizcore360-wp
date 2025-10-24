@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>New Business Blueprint</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="../assets/css/style.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="card shadow-sm p-4 rounded-4" id="newBusinessBlueprintCard">
+          <h2 class="mb-3 fw-bold text-primary">New Business Blueprint</h2>
+          <p class="text-muted mb-4">A quick setup guide to define the core foundations of your business idea.</p>
+          <form id="businessBlueprintForm" class="needs-validation" novalidate>
+            <div class="row mb-3 flex-row align-items-center">
+              <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+                <label for="blueprintName" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Business Name</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <input type="text" class="form-control text-start" id="blueprintName" placeholder="Enter your business name" required />
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-center">
+              <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+                <label for="blueprintIndustry" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Industry</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <input type="text" class="form-control text-start" id="blueprintIndustry" placeholder="e.g. Real Estate, Finance, Health" />
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-start">
+              <div class="col-5 col-md-4 d-flex align-self-start justify-content-md-end justify-content-start">
+                <label for="blueprintMission" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Mission Statement</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <textarea class="form-control text-start" id="blueprintMission" rows="2" placeholder="What is the purpose of your business?"></textarea>
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-start">
+              <div class="col-5 col-md-4 d-flex align-self-start justify-content-md-end justify-content-start">
+                <label for="blueprintMarket" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Target Market</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <textarea class="form-control text-start" id="blueprintMarket" rows="2" placeholder="Who are your ideal customers?"></textarea>
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-start">
+              <div class="col-5 col-md-4 d-flex align-self-start justify-content-md-end justify-content-start">
+                <label for="blueprintRevenue" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Revenue Model</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <textarea class="form-control text-start" id="blueprintRevenue" rows="2" placeholder="How will your business make money?"></textarea>
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-center">
+              <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+                <label for="blueprintCost" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Startup Costs ($)</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <input type="number" class="form-control text-start" id="blueprintCost" placeholder="0.00" step="0.01" />
+              </div>
+            </div>
+            <div class="row mb-3 flex-row align-items-start">
+              <div class="col-5 col-md-4 d-flex align-self-start justify-content-md-end justify-content-start">
+                <label for="blueprintTimeline" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Timeline / Milestones</label>
+              </div>
+              <div class="col-7 col-md-8">
+                <textarea class="form-control text-start" id="blueprintTimeline" rows="2" placeholder="List major milestones with estimated completion dates"></textarea>
+              </div>
+            </div>
+            <div class="mt-4 d-flex justify-content-end">
+              <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+              <button type="submit" class="btn btn-primary">Save Blueprint</button>
+            </div>
+          </form>
+          <div id="blueprintAlert" class="alert alert-success mt-3 d-none" role="alert">
+            ✅ Business blueprint saved successfully!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+<!-- forced-sync: 2025-10-21 17:41:54 -->

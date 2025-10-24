@@ -1,0 +1,1627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BizCore360</title>
+
+<!-- Bootstrap / Icons / Font -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+<!-- Local CSS -->
+<link rel="stylesheet" href="assets/css/styles.css">
+
+<!-- Config for BASE_URL (loaded at end of body) -->
+
+<style>
+:root{--sidebar-w:260px;}
+.topbar{position:fixed;top:0;left:0;right:0;height:56px;background:#fff;border-bottom:1px solid #dee2e6;z-index:1040;display:flex;align-items:center;justify-content:space-between;padding:0 .75rem}
+.brand{font-weight:700;font-size:1.25rem;color:#000;margin-left:.25rem}
+.sidebar{position:fixed;top:56px;bottom:0;left:0;width:var(--sidebar-w);background:#fff;border-right:1px solid #dee2e6;overflow-y:auto;z-index:1030;transition:left .3s}
+main{margin-left:var(--sidebar-w);padding:1.25rem;padding-top:4.5rem;transition:margin-left .3s}
+.chat-box{position:fixed;left:var(--sidebar-w);right:0;bottom:0;background:#fff;border-top:1px solid #dee2e6;padding:.5rem .75rem;display:flex;gap:.5rem;align-items:center;transition:left .3s}
+.fade-swap{opacity:0;transition:opacity .35s ease}
+.fade-swap.show{opacity:1}
+@media(max-width:991px){
+  .sidebar{left:-260px}
+  .sidebar.show{left:0}
+  main{margin-left:0}
+  .chat-box{left:0}
+  .brand{display:none}
+  .brand.show-mobile{display:inline}
+  #currentModel{display:none}
+  #modelMenu{display:none}
+  #langMenu{display:none}
+  #darkModeIcon{display:none}
+  .topbar{padding:0 0.5rem !important}
+  .topbar > div:last-child{gap:0.5rem !important}
+  .topbar .d-flex{gap:0.5rem !important}
+}
+/* dark mode */
+body.dark{background:#212529;color:#f8f9fa}
+body.dark .topbar{background:#343a40;border-bottom-color:#495057}
+body.dark .sidebar{background:#2b3035;border-right-color:#495057}
+body.dark .chat-box{background:#343a40;border-top-color:#495057}
+/* login */
+.login-wrapper{display:flex;align-items:center;justify-content:center;height:100vh;padding:1rem}
+.login-card{width:100%;max-width:380px;background:#fff;border:1px solid #e9ecef;border-radius:.75rem;box-shadow:0 8px 20px rgba(0,0,0,.06);padding:1.25rem}
+.login-title{text-align:center;font-weight:700;font-size:1.4rem;color:#0d6efd;margin-bottom:.75rem}
+.lang-toggle{position:absolute;top:.75rem;right:.75rem}
+.submenu a {padding-left:2.5rem!important;}
+#chatsTab a.nav-link {padding-left:2.5rem;}
+
+/* === BIZCORE360 v5.8 – UI RESTORE PATCH (Visual Refinement) === */
+
+/* ===== FONT + SIZE FIX ===== */
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0;
+  background-color: #f8f9fa;
+  --bs-body-line-height: 1.3;
+  color: #212529;
+}
+
+/* ===== TOPBAR ===== */
+.topbar {
+  height: 52px;
+  padding: 0 0.75rem;
+}
+.topbar .brand {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* ===== SIDEBAR ===== */
+.sidebar .nav-link {
+  font-size: 14px;
+  padding: 0.4rem 1rem;
+  line-height: 1.3;
+}
+.sidebar .submenu a {
+  padding-left: 2.25rem !important;
+}
+.sidebar .fw-bold {
+  font-size: 13.5px;
+}
+.sidebar i.bi {
+  font-size: 16px; /* smaller icons for compact style */
+}
+
+/* ===== TOPBAR DROPDOWN CONSISTENCY ===== */
+.topbar .dropdown-item {
+  font-size: 14px; /* Match sidebar nav-link font size */
+  padding: 0.4rem 1rem; /* Match sidebar nav-link padding */
+}
+
+/* ===== MOBILE/DESKTOP MENU SWITCHING ===== */
+.mobile-menu-item {
+  display: none;
+}
+.desktop-menu-item {
+  display: block;
+}
+
+/* ===== MOBILE LANGUAGE SELECTOR ===== */
+.mobile-lang-selector .form-select,
+.mobile-model-selector .form-select {
+  font-size: 12px;
+}
+
+@media(max-width:991px){
+  .mobile-menu-item {
+    display: block;
+  }
+  .desktop-menu-item {
+    display: none;
+  }
+}
+
+/* ===== MODULE / CHAT TAB BUTTONS ===== */
+.side-tabs .btn {
+  font-size: 13.5px;
+  padding: 0.45rem 0.25rem;
+}
+
+/* ===== DASHBOARD CARDS ===== */
+.card {
+  flex: 1 1 calc(33.333% - 1rem); /* Adjust width for larger cards */
+  height: auto;
+  padding: 2.5rem 2rem; /* Increase padding for larger content */
+}
+.card h6 {
+  font-size: 1rem; /* Revert title font size to normal */
+  font-weight: 600;
+}
+.card p {
+  font-size: 1rem; /* Revert text font size to normal */
+}
+
+/* ===== MAIN ===== */
+#pageTitle {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+/* ===== GENERAL ===== */
+.btn,
+input,
+.form-control {
+  font-size: 14px;
+}
+
+/* ===== HOVER FEEL ===== */
+.nav-link:hover {
+  background: #f1f3f5;
+}
+
+/* Active sidebar item line style */
+.sidebar .nav-item.active,
+.sidebar .folder-item.active,
+.sidebar .chat-item.active {
+  border-left: 3px solid #0d6efd;
+  background-color: #eaf2ff;
+  color: #0d6efd !important;
+}
+
+.sidebar .nav-item {
+  padding-left: 12px;
+  transition: all 0.2s ease-in-out;
+}
+
+.sidebar .nav-item:hover {
+  background-color: #f8f9fa;
+}
+
+/* === SIDEBAR TAB BAR FIX (Modules | Chats) === */
+.side-tabs {
+  display: flex;
+  border-bottom: 1px solid #e4e6eb;
+  background-color: #fff;
+}
+
+.side-tabs button {
+  flex: 1;
+  border: none;
+  background: none;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 0.75rem 0;
+  color: #212529;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease-in-out;
+}
+
+.side-tabs button.active {
+  color: #0d6efd;
+  border-bottom: 2px solid #0d6efd;
+  border-radius: 0; /* removes curve */
+  background-color: #f9fafb;
+}
+
+.side-tabs button:hover {
+  color: #0d6efd;
+  background-color: #f8f9fa;
+}
+
+/* Match folder spacing to chat history */
+.sidebar .folder-item {
+  padding: 0.75rem 1rem; /* Match chat history spacing */
+  border-bottom: 1px solid #e4e6eb; /* Add subtle divider */
+}
+
+.sidebar .folder-item:last-child {
+  border-bottom: none; /* Remove divider for last item */
+}
+
+.sidebar .folder-item i {
+  margin-right: 0.75rem; /* Match icon spacing */
+}
+</style>
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body>
+
+<script>
+  // Redirect to home.html on initial load if not already there
+  if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/" || window.location.pathname === "") {
+    window.location.replace("/pages/home.html");
+  }
+</script>
+<!-- LOGIN PAGE -->
+<div id="loginPage" class="login-wrapper fade-swap show">
+  <div class="login-card position-relative">
+    <button id="loginLangToggle" class="btn btn-sm btn-outline-secondary lang-toggle">ES</button>
+    <div class="login-title">BizCore360</div>
+    <div class="mb-2"><label id="lblUser" class="form-label">Username</label><input id="loginUser" type="text" class="form-control" autocomplete="off"></div>
+    <div class="mb-2"><label id="lblPass" class="form-label">Password</label><input id="loginPass" type="password" class="form-control" autocomplete="off"></div>
+    <div class="form-check mb-2"><input class="form-check-input" type="checkbox" id="rememberMe"><label id="lblRemember" class="form-check-label" for="rememberMe">Remember me</label></div>
+    <button id="btnLogin" class="btn btn-primary w-100">Login</button>
+    <div id="loginAlert" class="text-danger text-center small mt-2" style="display:none">Invalid credentials</div>
+  </div>
+</div>
+
+<!-- DASHBOARD PAGE -->
+<div id="dashboardPage" class="fade-swap" style="display:none">
+  <!-- TOPBAR -->
+  <nav class="topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button id="toggleSidebar" class="btn btn-link text-dark p-0"><i class="bi bi-list fs-4"></i></button>
+      <span class="brand">BizCore360</span>
+    </div>
+    <div class="d-flex align-items-center gap-3">
+      <!-- search icon -->
+      <i class="bi bi-search fs-6 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Search" role="button"></i>
+
+      <!-- dark mode toggle -->
+      <i class="bi bi-sun fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Toggle Theme" role="button" id="darkModeIcon"></i>
+
+      <!-- AI model selector (no icon) -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="modelMenu" data-bs-toggle="dropdown" aria-expanded="false">
+          <span id="currentModel">GPT-4.0-mini</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0-mini">GPT-4.0-mini</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-4.0">GPT-4.0</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0">GPT-5.0</button></li>
+          <li><button class="dropdown-item model-select" data-model="GPT-5.0-turbo">GPT-5.0-turbo</button></li>
+        </ul>
+      </div>
+
+      <!-- language selector -->
+      <div class="dropdown">
+        <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" id="langMenu" data-bs-toggle="dropdown" aria-expanded="false">EN</button>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <li><button class="dropdown-item lang-choice" data-lang="en">EN</button></li>
+          <li><button class="dropdown-item lang-choice" data-lang="es">ES</button></li>
+        </ul>
+      </div>
+
+      <!-- AI tools quick icons -->
+  <i class="bi bi-robot fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Business Coach" role="button" data-page="aicoach.html"></i>
+  <i class="bi bi-people fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="AI Advisory Board" role="button" data-page="ai-advisory-board.html"></i>
+  <i id="polls-icon" class="bi bi-bullseye fs-5 text-secondary" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Polls" role="button" data-page="polls.html"></i>
+
+      <!-- avatar dropdown -->
+      <div class="dropdown">
+        <a href="#" class="text-dark text-decoration-none dropdown-toggle" id="userMenu" data-bs-toggle="dropdown">
+          <i class="bi bi-person-circle fs-5"></i>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end">
+          <!-- Desktop Menu Items -->
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="profile.html" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="settings.html" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <li><a class="dropdown-item" data-page="master-specs.html" href="#"><i class="bi bi-file-earmark-text me-2"></i>Master Specs</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
+          <li class="desktop-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
+          <li class="desktop-menu-item"><hr class="dropdown-divider"></li>
+          <li class="desktop-menu-item"><a class="dropdown-item text-danger" id="logout" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+          
+          <!-- Mobile Menu Items -->
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="profile.html" href="#"><i class="bi bi-person me-2"></i>Profile</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="settings.html" href="#"><i class="bi bi-gear me-2"></i>Settings</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="master-specs.html" href="#"><i class="bi bi-file-earmark-text me-2"></i>Master Specs</a></li>
+          <li class="mobile-menu-item"><button class="dropdown-item" id="mobileDarkMode"><i class="bi bi-sun me-2"></i>Dark Mode</button></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="polls-setup.html" href="#"><i class="bi bi-gear-fill me-2"></i>Set Up</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="company-profile.html" href="#"><i class="bi bi-building me-2"></i>Company</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="customer-profile.html" href="#"><i class="bi bi-person me-2"></i>Customers</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="competitors-profile.html" href="#"><i class="bi bi-people me-2"></i>Competitors</a></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="data-vault.html" href="#"><i class="bi bi-archive me-2"></i>Data Vault</a></li>
+          <li class="mobile-menu-item"><a class="dropdown-item" data-page="about.html" href="#"><i class="bi bi-info-circle me-2"></i>About</a></li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item">
+            <div class="dropdown-item">
+              <div class="mobile-lang-selector">
+                <select class="form-select form-select-sm" id="mobileLangSelect">
+                  <option value="en">EN</option>
+                  <option value="es">ES</option>
+                </select>
+              </div>
+            </div>
+          </li>
+          <li class="mobile-menu-item">
+            <div class="dropdown-item">
+              <div class="mobile-model-selector">
+                <select class="form-select form-select-sm" id="mobileModelSelect">
+                  <option value="GPT-4.0-mini">GPT-4.0-mini</option>
+                  <option value="GPT-4.0">GPT-4.0</option>
+                  <option value="GPT-5.0">GPT-5.0</option>
+                  <option value="GPT-5.0-turbo">GPT-5.0-turbo</option>
+                </select>
+              </div>
+            </div>
+          </li>
+          <li class="mobile-menu-item"><hr class="dropdown-divider"></li>
+          <li class="mobile-menu-item"><a class="dropdown-item text-danger" id="mobileLogout" href="#"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+
+  <!-- SIDEBAR -->
+  <aside id="sidebar" class="sidebar">
+    <div class="side-tabs d-flex">
+      <button id="tabModules" class="btn btn-light flex-fill active">Modules</button>
+      <button id="tabChats" class="btn btn-light flex-fill">Chats</button>
+    </div>
+
+    <!-- MODULES TAB -->
+    <div id="modulesTab" class="p-2">
+      <ul class="list-unstyled" id="modulesList">
+        <!-- Home -->
+        <li>
+          <a href="#" class="nav-link d-flex align-items-center gap-2 ps-3" data-page="home.html">
+            <i class="bi bi-house"></i>Home
+          </a>
+        </li>
+        <!-- Dashboard -->
+        <li>
+          <a href="#" class="nav-link active d-flex align-items-center gap-2 ps-3" data-page="dashboard.html">
+            <i class="bi bi-speedometer2"></i>Dashboard
+          </a>
+        </li>
+
+        <!-- Financials -->
+        <li class="mt-2">
+          <a href="#financialsMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-cash-stack"></i>Financials</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="financialsMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="budget.html"><i class="bi bi-wallet2 me-2"></i>Budget</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="balance-sheet.html"><i class="bi bi-columns me-2"></i>Balance Sheet</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="cash-flow.html"><i class="bi bi-currency-exchange me-2"></i>Cash Flow</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="pl.html"><i class="bi bi-bar-chart me-2"></i>P&L</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="forecasts.html"><i class="bi bi-graph-up-arrow me-2"></i>Forecasts</a></li>
+          </ul>
+        </li>
+
+        <!-- Planning -->
+        <li class="mt-2">
+          <a href="#planningMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-journal-text"></i>Planning</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="planningMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="business-plan.html"><i class="bi bi-journal-text me-2"></i>Business Plan</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="goals.html"><i class="bi bi-flag me-2"></i>Goals</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sops.html"><i class="bi bi-list-check me-2"></i>SOPs</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="swot.html"><i class="bi bi-diagram-3 me-2"></i>SWOT</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="workflow-builder.html"><i class="bi bi-diagram-3-fill me-2"></i>Workflow Builder</a></li>
+          </ul>
+        </li>
+
+        <!-- Marketing -->
+        <li class="mt-2">
+          <a href="#marketingMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-bullseye"></i>Marketing</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse show list-unstyled submenu" id="marketingMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="brand-hub.html"><i class="bi bi-palette me-2"></i>Brand Hub</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="marketing-library.html"><i class="bi bi-collection me-2"></i>Marketing Library</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="content-creator.html"><i class="bi bi-pencil-square me-2"></i>Content Creator</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="raving-fan.html"><i class="bi bi-star me-2"></i>Raving Fans</a></li>
+          </ul>
+        </li>
+
+        <!-- Resources -->
+        <li class="mt-2">
+          <a href="#resourcesMenu" class="nav-link d-flex align-items-center justify-content-between ps-3" data-bs-toggle="collapse">
+            <span class="d-flex align-items-center gap-2"><i class="bi bi-boxes"></i>Resources</span>
+            <i class="bi bi-chevron-right chevron"></i>
+          </a>
+          <ul class="collapse list-unstyled submenu" id="resourcesMenu">
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="industry-news.html"><i class="bi bi-newspaper me-2"></i>Industry News</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="sample-prompts.html"><i class="bi bi-lightbulb me-2"></i>Sample Prompts</a></li>
+            <li><a href="#" class="nav-link d-flex align-items-center" data-page="new-business-blueprint.html"><i class="bi bi-briefcase me-2"></i>Business Blueprint</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+
+    <!-- CHATS TAB -->
+    <div id="chatsTab" class="p-2" style="display:none">
+      <ul class="list-unstyled">
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newchat"><i class="bi bi-chat-dots me-2"></i>New Chat</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="newfolder"><i class="bi bi-folder-plus me-2"></i>New Folder</a></li>
+        <li class="fw-bold ps-2 mt-2"><i class="bi bi-folder me-2"></i>Folders</li>
+        <ul class="list-unstyled" id="foldersList"></ul>
+        <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder1"><i class="bi bi-folder me-2"></i>F1 – Projects</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder2"><i class="bi bi-folder me-2"></i>F2 – Clients</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="folder3"><i class="bi bi-folder me-2"></i>F3 – Reports</a></li>
+  <li class="nav-item see-more"><a href="#" class="nav-link text-primary ps-4" data-page="allfolders"><i class="bi bi-three-dots"></i> See more...</a></li>
+
+  <li class="fw-bold ps-2 mt-3"><i class="bi bi-clock me-2"></i>Chat History</li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat1"><i class="bi bi-clock me-2"></i>C1 – Marketing Plan</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat2"><i class="bi bi-clock me-2"></i>C2 – Budget Review</a></li>
+  <li><a href="#" class="nav-link d-flex align-items-center" data-page="chat3"><i class="bi bi-clock me-2"></i>C3 – Client Feedback</a></li>
+  <li><a href="#" class="nav-link text-primary ps-4" data-page="allchats">See more...</a></li>
+      </ul>
+    </div>
+  </aside>
+
+  <!-- MAIN CONTENT DYNAMIC LOADER -->
+  <div id="main-content"></div>
+
+  <!-- CHAT BOX -->
+  <div class="chat-box">
+    <button class="btn btn-light border"><i class="bi bi-plus"></i></button>
+    <input type="text" id="chatInput" class="form-control rounded-pill" placeholder="Type a message...">
+    <button class="btn btn-light border"><i class="bi bi-mic"></i></button>
+    <button class="btn btn-light border"><i class="bi bi-soundwave"></i></button>
+    <button class="btn btn-primary border" id="sendBtn"><i class="bi bi-send-fill text-white"></i></button>
+  </div>
+
+  <!-- OVERLAY (mobile sidebar) -->
+  <div id="overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.1);z-index:1029"></div>
+</div>
+
+
+
+<!-- BOOTSTRAP + JS -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- BizCore360 Universal Module Controller -->
+<script src="assets/js/module-page.js"></script>
+
+<!-- Local Scripts -->
+<script src="js/scripts.js"></script>
+<script src="config.js"></script>
+
+<script>
+/* ======================================================
+   BIZCORE360 v5.7 – MAIN JS ENGINE
+====================================================== */
+
+// Shortcuts
+const loginPage = document.getElementById("loginPage");
+const dashboardPage = document.getElementById("dashboardPage");
+const btnLogin = document.getElementById("btnLogin");
+const loginAlert = document.getElementById("loginAlert");
+const toggleSidebarBtn = document.getElementById("toggleSidebar");
+const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const tabModules = document.getElementById("tabModules");
+const tabChats = document.getElementById("tabChats");
+const modulesTab = document.getElementById("modulesTab");
+const chatsTab = document.getElementById("chatsTab");
+const pageTitle = document.getElementById("pageTitle");
+const pageContent = document.getElementById("pageContent");
+const toggleDesc = document.getElementById("toggleDesc");
+const toggleDark = document.getElementById("toggleDark");
+const logoutBtn = document.getElementById("logout");
+
+// Initialize Bootstrap tooltips (needed for the topbar icons)
+Array.from(document.querySelectorAll('[data-bs-toggle="tooltip"]')).forEach(el => {
+  try { new bootstrap.Tooltip(el); } catch (e) { /* ignore if bootstrap not available yet */ }
+});
+
+// Compact model dropdown UX: close menu after choosing a model and update display
+document.querySelectorAll('.model-select').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const model = btn.dataset.model;
+    const cur = document.getElementById('currentModel'); if (cur) cur.textContent = model;
+    localStorage.setItem('model', model);
+    // hide dropdown (Bootstrap)
+    const dd = bootstrap.Dropdown.getOrCreateInstance(document.getElementById('modelMenu'));
+    try { dd.hide(); } catch (err) { /* ignore */ }
+  });
+});
+
+// Language selector event handling
+document.querySelectorAll('.lang-choice').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    const lang = btn.dataset.lang;
+    const langBtn = document.getElementById('langMenu');
+    if (langBtn) langBtn.textContent = lang.toUpperCase();
+    localStorage.setItem('language', lang);
+    // hide dropdown (Bootstrap)
+    const dd = bootstrap.Dropdown.getOrCreateInstance(document.getElementById('langMenu'));
+    try { dd.hide(); } catch (err) { /* ignore */ }
+  });
+});
+
+// Quick AI icons act as shortcuts to sections
+document.querySelectorAll('[data-page="aicoach.html"],[data-page="ai-advisory-board.html"]').forEach(icon => {
+  icon.style.cursor = 'pointer';
+  icon.addEventListener('click', (e) => {
+    const page = icon.getAttribute('data-page');
+    if (typeof loadPage === 'function') loadPage(page);
+  });
+});
+
+// Enhanced topbar icon highlighting
+function updateTopbarIconStates(activeSection) {
+  document.querySelectorAll('.topbar i[data-page]').forEach(icon => {
+    if (icon.getAttribute('data-page') === activeSection) {
+      icon.classList.remove('text-secondary');
+      icon.classList.add('text-primary');
+    } else {
+      icon.classList.remove('text-primary');
+      icon.classList.add('text-secondary');
+    }
+  });
+}
+
+// Function to load polls.html dynamically
+async function loadPollsPage() {
+  pageTitle.textContent = "Active Polls";
+  
+  try {
+    const response = await fetch('polls.html');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const html = await response.text();
+    
+    // Parse the HTML and extract the content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Get the container content and remove the py-5 class for better integration
+    const container = doc.querySelector('.container');
+    if (container) {
+      container.classList.remove('py-5');
+      if (typeof pageContent !== 'undefined' && pageContent) {
+        pageContent.innerHTML = container.innerHTML;
+      } else {
+        console.warn('⏩ Skipping polls page injection: pageContent container not found.');
+      }
+      
+      // Execute any scripts that were in the polls.html file
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            eval(script.textContent);
+          } catch (e) {
+            console.warn('Error executing polls script:', e);
+          }
+        }
+      });
+      
+      // Add event listeners for "New Poll" buttons after content is loaded
+      setupPollsPageEventListeners();
+    } else {
+      // Fallback if container not found
+      const bodyContent = doc.querySelector('body').innerHTML;
+      if (typeof pageContent !== 'undefined' && pageContent) {
+        pageContent.innerHTML = bodyContent;
+      } else {
+        console.warn('⏩ Skipping polls fallback injection: pageContent container not found.');
+      }
+      setupPollsPageEventListeners();
+    }
+    
+  } catch (error) {
+    console.error('Failed to load polls page:', error);
+    if (typeof pageContent !== 'undefined' && pageContent) {
+      pageContent.innerHTML = `
+      <div class='alert alert-warning d-flex align-items-center' role='alert'>
+        <i class='bi bi-exclamation-triangle-fill me-2'></i>
+        <div>
+          <strong>Unable to load Polls page.</strong> 
+          Please check your connection and try again.
+        </div>
+      </div>
+      <div class='card p-3 shadow-sm'>
+        <h4 class='mb-3'><i class='bi bi-bar-chart-line'></i> Active Polls (Fallback)</h4>
+        <p>Create, view, and manage community or team polls.</p>
+        <button class='btn btn-primary' onclick='loadPollsPage()'>Retry Loading</button>
+      </div>`;
+    } else {
+      console.warn('⏩ Skipping polls error UI: pageContent not found.');
+    }
+  }
+}
+
+// Function to set up event listeners for the polls page
+function setupPollsPageEventListeners() {
+  // Add event listeners for all "New Poll" buttons using the class selector
+  const newPollButtons = document.querySelectorAll('.new-poll-btn, button[data-action="new-poll"]');
+  
+  console.log('Found New Poll buttons:', newPollButtons.length);
+  
+  newPollButtons.forEach((button, index) => {
+    // Remove any existing onclick attribute to avoid conflicts
+    button.removeAttribute('onclick');
+    
+    // Add new event listener
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log(`New Poll button ${index + 1} clicked`);
+      loadPage('polls-setup');
+    });
+    
+    console.log(`Event listener added to button ${index + 1}:`, button.textContent.trim());
+  });
+  
+  console.log('Polls page event listeners setup complete');
+}
+
+// Function to load polls-setup.html dynamically in the dashboard
+async function loadPollsSetupPageInDashboard() {
+  pageTitle.textContent = "Create New Poll";
+  
+  try {
+    const response = await fetch('polls-setup.html');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const html = await response.text();
+    
+    // Parse the HTML and extract the content
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(html, 'text/html');
+    
+    // Get the container content and remove the py-5 class for better integration
+    const container = doc.querySelector('.container');
+    if (container) {
+      container.classList.remove('py-5');
+      if (typeof pageContent !== 'undefined' && pageContent) {
+        pageContent.innerHTML = container.innerHTML;
+      } else {
+        console.warn('⏩ Skipping polls-setup injection: pageContent container not found.');
+      }
+      
+      // Execute any scripts that were in the polls-setup.html file
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            // Create a new script element to execute in global context
+            const globalScript = document.createElement('script');
+            globalScript.textContent = script.textContent;
+            document.head.appendChild(globalScript);
+            // Remove it after a brief delay
+            setTimeout(() => {
+              if (document.head.contains(globalScript)) {
+                document.head.removeChild(globalScript);
+              }
+            }, 100);
+          } catch (e) {
+            console.warn('Error executing polls-setup script:', e);
+          }
+        }
+      });
+      
+      // Set up event listeners after content and scripts are loaded
+      setTimeout(() => {
+        setupPollsSetupEventListeners();
+      }, 150);
+    } else {
+      // Fallback if container not found
+      const bodyContent = doc.querySelector('body').innerHTML;
+      if (typeof pageContent !== 'undefined' && pageContent) {
+        pageContent.innerHTML = bodyContent;
+      } else {
+        console.warn('⏩ Skipping polls-setup fallback injection: pageContent container not found.');
+      }
+      // Execute scripts for fallback case too
+      const scripts = doc.querySelectorAll('script');
+      scripts.forEach(script => {
+        if (script.textContent) {
+          try {
+            const globalScript = document.createElement('script');
+            globalScript.textContent = script.textContent;
+            document.head.appendChild(globalScript);
+            setTimeout(() => {
+              if (document.head.contains(globalScript)) {
+                document.head.removeChild(globalScript);
+              }
+            }, 100);
+          } catch (e) {
+            console.warn('Error executing polls-setup script:', e);
+          }
+        }
+      });
+      
+      setTimeout(() => {
+        setupPollsSetupEventListeners();
+      }, 150);
+    }
+    
+  } catch (error) {
+    console.error('Failed to load polls setup page:', error);
+    if (typeof pageContent !== 'undefined' && pageContent) {
+      pageContent.innerHTML = `
+      <div class='alert alert-warning d-flex align-items-center' role='alert'>
+        <i class='bi bi-exclamation-triangle-fill me-2'></i>
+        <div>
+          <strong>Unable to load Polls Setup page.</strong> 
+          Please check your connection and try again.
+        </div>
+      </div>
+      <div class='card p-3 shadow-sm'>
+        <h4 class='mb-3'><i class='bi bi-plus-circle'></i> Create New Poll (Fallback)</h4>
+        <p>Set up your AI Focus Group poll.</p>
+        <button class='btn btn-primary' onclick='loadPollsSetupPageInDashboard()'>Retry Loading</button>
+      </div>`;
+    } else {
+      console.warn('⏩ Skipping polls-setup error UI: pageContent not found.');
+    }
+  }
+}
+
+// Function to set up event listeners for the polls setup page
+function setupPollsSetupEventListeners() {
+  // Wait for DOM to be ready
+  setTimeout(() => {
+    const generateBtn = document.getElementById("generateBtn");
+    const regenerateBtn = document.getElementById("regenerateBtn");
+    const continueBtn = document.getElementById("continueBtn");
+    
+    console.log("Setting up polls-setup event listeners...");
+    console.log("Generate button found:", !!generateBtn);
+    console.log("Regenerate button found:", !!regenerateBtn);
+    console.log("Continue button found:", !!continueBtn);
+    
+    if (generateBtn) {
+      // Remove any existing event listeners
+      generateBtn.replaceWith(generateBtn.cloneNode(true));
+      const newGenerateBtn = document.getElementById("generateBtn");
+      
+      newGenerateBtn.addEventListener("click", async () => {
+        console.log("Generate button clicked!");
+        const industry = document.getElementById("industry").value.trim();
+        console.log("Industry entered:", industry);
+        
+        if (!industry) {
+          alert("Please enter an industry.");
+          return;
+        }
+        
+        const setupContainer = document.getElementById("setup-container");
+        const loadingDiv = document.getElementById("loading");
+        
+        if (setupContainer && loadingDiv) {
+          setupContainer.querySelector(".card").classList.add("d-none");
+          loadingDiv.classList.remove("d-none");
+        }
+
+        // Generate personas using AI
+        try {
+          const personas = await generatePersonasFromAI_Dashboard(industry);
+          if (personas.length) {
+            showPersonas_Dashboard(personas);
+          }
+        } catch (error) {
+          console.error("Error generating personas:", error);
+          alert("Error creating focus group. Please check your internet connection and try again.");
+        }
+      });
+    }
+    
+    if (regenerateBtn) {
+      regenerateBtn.replaceWith(regenerateBtn.cloneNode(true));
+      const newRegenerateBtn = document.getElementById("regenerateBtn");
+      
+      newRegenerateBtn.addEventListener("click", async () => {
+        console.log("Regenerate button clicked!");
+        const industry = localStorage.getItem("bizcore_focus_industry") || "General";
+        try {
+          const personas = await generatePersonasFromAI_Dashboard(industry);
+          showPersonas_Dashboard(personas);
+        } catch (error) {
+          console.error("Error regenerating personas:", error);
+          alert("Error regenerating focus group. Please try again.");
+        }
+      });
+    }
+    
+    if (continueBtn) {
+      continueBtn.replaceWith(continueBtn.cloneNode(true));
+      const newContinueBtn = document.getElementById("continueBtn");
+      
+      newContinueBtn.addEventListener("click", () => {
+        console.log("Continue button clicked!");
+        // Check if we're running inside the main dashboard
+        if (typeof loadPage === 'function') {
+          // We're in the dashboard, use the dashboard's navigation system
+          loadPage('polls');
+        } else {
+          // We're running standalone, navigate directly
+          window.location.href = "polls.html";
+        }
+      });
+    }
+  }, 100); // Small delay to ensure DOM is ready
+}
+
+// AI generation function for dashboard context
+async function generatePersonasFromAI_Dashboard(industry) {
+  const prompt = `Generate 11 AI personas for a ${industry} company focus group. Include 5 core roles:
+1. Marketing Director - Focus on branding, customer acquisition, and market positioning
+2. Finance Manager - Focus on budgets, ROI, cost control, and financial planning
+3. HR Director - Focus on talent management, employee experience, and culture
+4. Legal Advisor - Focus on compliance, contracts, risk management, and regulations
+5. Operations Manager - Focus on efficiency, processes, supply chain, and day-to-day operations
+
+Then add 6 more personas relevant to the ${industry} industry.
+Return the result as a valid JSON array.
+`;
+
+  try {
+    console.log("Generating personas for industry:", industry);
+    
+    // Use centralized BASE_URL from config.js
+    const apiUrl = `${BASE_URL}/api/openai`;
+    
+    console.log("Making request to API URL:", apiUrl);
+    console.log("BASE_URL from config:", BASE_URL);
+    
+    const response = await fetch(apiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        prompt: prompt
+      })
+    });
+
+    console.log("Response status:", response.status);
+    console.log("Response ok:", response.ok);
+
+    if (!response.ok) {
+      let errorData;
+      try {
+        errorData = await response.json();
+      } catch (e) {
+        errorData = { error: `HTTP ${response.status}: ${response.statusText}` };
+      }
+      console.error("API Error Response:", errorData);
+      throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    console.log("API Response data:", data);
+    const text = data.reply || "[]";
+    
+    let personas;
+    try {
+      personas = JSON.parse(text);
+    } catch (parseError) {
+      console.error("Failed to parse personas JSON:", parseError);
+      console.error("Raw text:", text);
+      throw new Error("Invalid JSON response from API");
+    }
+
+    console.log("Successfully generated personas:", personas.length);
+    localStorage.setItem("bizcore_focus_personas", JSON.stringify(personas));
+    localStorage.setItem("bizcore_focus_industry", industry);
+    return personas;
+  } catch (err) {
+    console.error("Detailed error generating personas:", {
+      message: err.message,
+      stack: err.stack,
+      name: err.name
+    });
+    
+    // Provide more specific error messages
+    if (err.message.includes('fetch')) {
+      throw new Error('Network connection failed. Please check your internet connection and try again.');
+    } else if (err.message.includes('HTTP 4')) {
+      throw new Error('API request error. Please check your API configuration.');
+    } else if (err.message.includes('HTTP 5')) {
+      throw new Error('Server error. Please try again in a few moments.');
+    } else {
+      throw new Error(`Error: ${err.message}`);
+    }
+  }
+}
+
+// Show personas function for dashboard context
+function showPersonas_Dashboard(personas) {
+  const loadingDiv = document.getElementById("loading");
+  const setupContainer = document.getElementById("setup-container");
+  const personasContainer = document.getElementById("personas-container");
+  const personasList = document.getElementById("personas-list");
+  
+  if (loadingDiv) loadingDiv.classList.add("d-none");
+  if (setupContainer) setupContainer.classList.add("d-none");
+  if (personasContainer) personasContainer.classList.remove("d-none");
+  
+  if (personasList) {
+    personasList.innerHTML = "";
+    personas.forEach(p => {
+      personasList.innerHTML += `
+        <div class="col-md-4 col-lg-3 mb-4">
+          <div class="persona-card h-100">
+            <div class="persona-avatar"><i class="bi bi-person"></i></div>
+            <h6 class="fw-bold mb-1">${p.name}</h6>
+            <p class="text-primary mb-1">${p.role}</p>
+            <p class="small text-muted">${p.description}</p>
+          </div>
+        </div>
+      `;
+    });
+  }
+}
+
+/* ========== LOGIN LOGIC ========== */
+btnLogin.addEventListener("click", () => {
+  const user = document.getElementById("loginUser").value.trim();
+  const pass = document.getElementById("loginPass").value.trim();
+  if (user === "bizcore360" && pass === "1234") {
+    localStorage.setItem("loggedIn", "true");
+    loginPage.classList.remove("show");
+    setTimeout(() => {
+      loginPage.style.display = "none";
+      dashboardPage.style.display = "block";
+      setTimeout(() => dashboardPage.classList.add("show"), 50);
+    }, 300);
+  } else {
+    loginAlert.style.display = "block";
+  }
+});
+
+if (localStorage.getItem("loggedIn") === "true") {
+  loginPage.style.display = "none";
+  dashboardPage.style.display = "block";
+  dashboardPage.classList.add("show");
+}
+
+/* ========== LOGOUT ========== */
+function handleLogout() {
+  localStorage.removeItem("loggedIn");
+  dashboardPage.classList.remove("show");
+  setTimeout(() => {
+    dashboardPage.style.display = "none";
+    loginPage.style.display = "flex";
+    setTimeout(() => loginPage.classList.add("show"), 50);
+  }, 300);
+}
+
+logoutBtn.addEventListener("click", handleLogout);
+
+const mobileLogoutBtn = document.getElementById("mobileLogout");
+if (mobileLogoutBtn) {
+  mobileLogoutBtn.addEventListener("click", handleLogout);
+}
+
+/* ========== SIDEBAR BEHAVIOR ========== */
+toggleSidebarBtn.addEventListener("click", () => {
+  sidebar.classList.toggle("show");
+  overlay.style.display = sidebar.classList.contains("show") ? "block" : "none";
+  
+  // Toggle brand visibility on mobile
+  const brand = document.querySelector(".brand");
+  const isSidebarOpen = sidebar.classList.contains("show");
+  if (window.innerWidth <= 991) {
+    if (isSidebarOpen) {
+      brand.classList.add("show-mobile");
+    } else {
+      brand.classList.remove("show-mobile");
+    }
+  }
+});
+overlay.addEventListener("click", () => {
+  sidebar.classList.remove("show");
+  overlay.style.display = "none";
+  
+  // Hide brand on mobile when sidebar closes
+  const brand = document.querySelector(".brand");
+  if (window.innerWidth <= 991) {
+    brand.classList.remove("show-mobile");
+  }
+});
+
+/* Sidebar tab switching */
+tabModules.addEventListener("click", () => {
+  tabModules.classList.add("active");
+  tabChats.classList.remove("active");
+  modulesTab.style.display = "block";
+  chatsTab.style.display = "none";
+});
+tabChats.addEventListener("click", () => {
+  tabChats.classList.add("active");
+  tabModules.classList.remove("active");
+  modulesTab.style.display = "none";
+  chatsTab.style.display = "block";
+});
+
+/* ========== DARK MODE ========== */
+const darkModeIcon = document.getElementById("darkModeIcon");
+const mobileDarkMode = document.getElementById("mobileDarkMode");
+
+function updateDarkModeIcons(isDark) {
+  if (darkModeIcon) {
+    if (isDark) {
+      darkModeIcon.classList.remove("bi-sun");
+      darkModeIcon.classList.add("bi-moon");
+    } else {
+      darkModeIcon.classList.remove("bi-moon");
+      darkModeIcon.classList.add("bi-sun");
+    }
+  }
+  
+  if (mobileDarkMode) {
+    const icon = mobileDarkMode.querySelector("i");
+    if (isDark) {
+      icon.classList.remove("bi-sun");
+      icon.classList.add("bi-moon");
+      mobileDarkMode.innerHTML = '<i class="bi bi-moon me-2"></i>Dark Mode';
+    } else {
+      icon.classList.remove("bi-moon");
+      icon.classList.add("bi-sun");
+      mobileDarkMode.innerHTML = '<i class="bi bi-sun me-2"></i>Dark Mode';
+    }
+  }
+}
+
+if (localStorage.getItem("darkMode") === "true") {
+  document.body.classList.add("dark");
+  updateDarkModeIcons(true);
+}
+
+function toggleDarkMode() {
+  document.body.classList.toggle("dark");
+  const isDark = document.body.classList.contains("dark");
+  localStorage.setItem("darkMode", isDark);
+  updateDarkModeIcons(isDark);
+}
+
+if (darkModeIcon) {
+  darkModeIcon.addEventListener("click", toggleDarkMode);
+}
+
+if (mobileDarkMode) {
+  mobileDarkMode.addEventListener("click", toggleDarkMode);
+}
+
+/* ========== LANGUAGE ========== */
+let currentLang = localStorage.getItem("language") || "en";
+const langMenuElement = document.getElementById("langMenu");
+if (langMenuElement) {
+  langMenuElement.textContent = currentLang.toUpperCase();
+}
+
+// Desktop language selector
+document.querySelectorAll(".lang-choice").forEach(btn => {
+  btn.addEventListener("click", () => {
+    currentLang = btn.dataset.lang;
+    localStorage.setItem("language", currentLang);
+    if (langMenuElement) {
+      langMenuElement.textContent = currentLang.toUpperCase();
+    }
+  });
+});
+
+// Mobile language selector
+document.querySelectorAll(".mobile-lang-choice").forEach(btn => {
+  btn.addEventListener("click", () => {
+  currentLang = btn.dataset.lang;
+  localStorage.setItem("language", currentLang);
+    if (langMenuElement) {
+      langMenuElement.textContent = currentLang.toUpperCase();
+    }
+    // Update active state for mobile buttons
+    document.querySelectorAll(".mobile-lang-choice").forEach(b => b.classList.remove("btn-primary"));
+    btn.classList.add("btn-primary");
+  });
+});
+
+// Set initial active state for mobile language buttons
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".mobile-lang-choice").forEach(btn => {
+    if (btn.dataset.lang === currentLang) {
+      btn.classList.add("btn-primary");
+    }
+  });
+});
+
+/* ========== AI MODEL SELECTOR ========== */
+// Desktop model selector
+document.querySelectorAll(".model-select").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const model = btn.dataset.model;
+    const cur = document.getElementById("currentModel");
+    if (cur) cur.textContent = model;
+    localStorage.setItem("model", model);
+    
+    // Update mobile selector too
+    const mobileSelect = document.getElementById("mobileModelSelect");
+    if (mobileSelect) mobileSelect.value = model;
+  });
+});
+
+// Mobile model selector
+const mobileModelSelect = document.getElementById("mobileModelSelect");
+if (mobileModelSelect) {
+  mobileModelSelect.addEventListener("change", () => {
+    const model = mobileModelSelect.value;
+    const cur = document.getElementById("currentModel");
+    if (cur) cur.textContent = model;
+    localStorage.setItem("model", model);
+  });
+}
+
+// Set initial values
+const savedModel = localStorage.getItem("model") || "GPT-4.0-mini";
+const currentModelElement = document.getElementById("currentModel");
+if (currentModelElement) {
+  currentModelElement.textContent = savedModel;
+}
+if (mobileModelSelect) {
+  mobileModelSelect.value = savedModel;
+}
+
+/* ========== PAGE SWITCHING ========== */
+document.querySelectorAll("[data-page], [data-section]").forEach(link => {
+  link.addEventListener("click", e => {
+    e.preventDefault();
+    // Prefer data-page, fall back to data-section for older entries
+    const page = link.getAttribute('data-page') || link.getAttribute('data-section');
+    if (page && typeof loadPage === 'function') loadPage(page);
+    
+    // Handle sidebar nav-link active states (only for sidebar links, not topbar icons)
+    if (link.classList.contains('nav-link')) {
+      document.querySelectorAll(".nav-link").forEach(l => l.classList.remove("active"));
+      link.classList.add("active");
+    }
+    
+  // Handle topbar icon highlighting (only if page defined)
+  if (page) updateTopbarIconStates(page);
+    
+    // Close sidebar on mobile
+    if (window.innerWidth < 992) { 
+      sidebar.classList.remove("show"); 
+      overlay.style.display = "none"; 
+    }
+  });
+});
+
+function loadPage(section) {
+  // Normalize some legacy section keys to real page filenames
+  if (section === 'apikey') section = 'openai-key.html';
+  if (section === 'polls') section = 'polls.html';
+  if (section === 'polls-setup') section = 'polls-setup.html';
+  let html = "";
+  switch (section) {
+    case "dashboard":
+      pageTitle.textContent = "Dashboard";
+      html = `<div class='row g-3'>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-graph-up me-2'></i>Monthly Revenue</h6><p>$25,000</p></div></div>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-person-lines-fill me-2'></i>Active Customers</h6><p>132</p></div></div>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-bar-chart me-2'></i>Net Profit</h6><p>$7,200</p></div></div>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-flag me-2'></i>Goals Progress</h6><p>68%</p></div></div>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-graph-up-arrow me-2'></i>Sales Growth</h6><p>23%</p></div></div>
+        <div class='col-md-6 col-xl-4'><div class='card p-3 shadow-sm'><h6><i class='bi bi-wallet2 me-2'></i>Expenses</h6><p>$8,400</p></div></div>
+      </div>`;
+      break;
+    case "aicoach":
+      pageTitle.textContent = "AI Business Coach";
+      html = `<div class='card p-3 shadow-sm'><h6>AI Business Coach</h6><p>This section will provide personalized business coaching using your inputs.</p></div>`;
+      break;
+    case "aiadvisory":
+      pageTitle.textContent = "AI Advisory Board";
+      html = `<div class='card p-3 shadow-sm'><h6>AI Advisory Board</h6><p>Collaborate with your virtual advisory team for business insights and decisions.</p></div>`;
+      break;
+    case "apikey":
+      pageTitle.textContent = "OpenAI API Key";
+      html = `
+      <div class='card p-3 shadow-sm'>
+        <h6>OpenAI API Key</h6>
+        <p>Your key is stored locally for security.</p>
+        <input type='text' id='keyLabel' class='form-control mb-2' placeholder='Key Label (e.g. Main API)'>
+        <input type='password' id='apiKey' class='form-control mb-2' placeholder='Enter API Key'>
+        <button class='btn btn-primary' id='saveKey'>Save Key</button>
+      </div>`;
+      break;
+    case "settings":
+      pageTitle.textContent = "Settings";
+      html = `<div class='card p-3 shadow-sm'><h6>Settings</h6>
+      <div class='form-check form-switch'><input class='form-check-input' type='checkbox' id='globalDesc'><label class='form-check-label' for='globalDesc'>View / Hide All Descriptions</label></div></div>`;
+      break;
+    case "allfolders":
+      pageTitle.textContent = "All Folders";
+      html = `<div class='card p-3 shadow-sm'><h6>All Folders</h6>
+      <ul class='list-unstyled' id="foldersList">
+        <!-- Folders will be rendered here by JavaScript -->
+      </ul></div>`;
+      break;
+    case "allchats":
+      pageTitle.textContent = "All Chat Histories";
+      html = `<div class='card p-3 shadow-sm'><h6>All Chats</h6>
+      <ul class='list-unstyled'>
+        <li class='py-2'><i class='bi bi-clock me-2'></i>Marketing Plan – <small>10:45 AM</small></li>
+        <li class='py-2'><i class='bi bi-clock me-2'></i>Budget Review – <small>Yesterday</small></li>
+        <li class='py-2'><i class='bi bi-clock me-2'></i>Client Feedback – <small>2 days ago</small></li>
+      </ul></div>`;
+      break;
+    case "polls":
+      loadPollsPage();
+      return; // Early return since we handle this asynchronously
+      break;
+    case "polls-setup":
+      loadPollsSetupPageInDashboard();
+      return; // Early return since we handle this asynchronously
+      break;
+    default:
+      pageTitle.textContent = section.replace(/^\w/, c => c.toUpperCase());
+      html = `<div class='card p-3 shadow-sm'><h6>${pageTitle.textContent}</h6><p>Placeholder for ${section} module.</p></div>`;
+  }
+  if (typeof pageContent !== 'undefined' && pageContent) {
+    pageContent.innerHTML = html;
+  } else {
+    console.warn("⏩ Skipping pageContent update: pageContent container not found.");
+  }
+
+  // Local logic for API Key saving
+  if (section === "apikey") {
+    const saveKey = document.getElementById("saveKey");
+    const input = document.getElementById("apiKey");
+    const label = document.getElementById("keyLabel");
+    const stored = JSON.parse(localStorage.getItem("openaiKeys") || "[]");
+    if (saveKey && input && label) {
+      saveKey.addEventListener("click", () => {
+        stored.push({ name: label.value, key: input.value });
+        localStorage.setItem("openaiKeys", JSON.stringify(stored));
+        alert("API Key saved locally.");
+      });
+    } else {
+      console.warn("⏩ Skipping saveKey listener: apikey inputs not found.");
+    }
+  }
+
+  // Settings global description toggle
+  if (section === "settings") {
+    const g = document.getElementById("globalDesc");
+    g.checked = localStorage.getItem("descVisible") !== "false";
+    g.addEventListener("change", () => {
+      localStorage.setItem("descVisible", g.checked);
+      toggleDescriptions(g.checked);
+    });
+  }
+
+  // Render only first 3 folders, then "See more..."
+  if (section === "allfolders") {
+    const folderList = document.getElementById("foldersList");
+    if (!folderList) {
+      console.warn('⏩ #foldersList not found; skipping allfolders render.');
+    } else {
+      folderList.innerHTML = ""; 
+      const visibleFolders = folders.slice(0, 3);
+      
+      visibleFolders.forEach((folder, i) => {
+        const li = document.createElement("li");
+        li.classList.add("nav-item");
+        li.innerHTML = `<i class="bi bi-folder"></i> ${folder}`;
+        folderList.appendChild(li);
+      });
+
+      if (folders.length > 3) {
+        const seeMore = document.createElement("li");
+        seeMore.classList.add("nav-item", "see-more");
+        seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more...`;
+        // Normalize to allfolders (lowercase) to match page filename
+        seeMore.addEventListener("click", () => loadPage("allfolders"));
+        folderList.appendChild(seeMore);
+      }
+    }
+  }
+}
+
+/* ========== DESCRIPTION TOGGLE ========== */
+const toggleDescLabel = document.getElementById("toggleDescLabel");
+
+toggleDesc.addEventListener("change", () => {
+  toggleDescriptions(toggleDesc.checked);
+});
+
+function toggleDescriptions(state) {
+  document.querySelectorAll("#pageContent p").forEach(p => {
+    p.style.display = state ? "block" : "none";
+  });
+  // Update label text based on state
+  toggleDescLabel.textContent = state ? "Hide Description" : "View Description";
+  localStorage.setItem("descVisible", state);
+}
+
+// Initialize toggle state from localStorage
+if (localStorage.getItem("descVisible") === "false") {
+  toggleDesc.checked = false;
+  toggleDescriptions(false);
+} else {
+  toggleDesc.checked = true;
+  toggleDescriptions(true);
+}
+
+/* ========== CHAT BOX PLACEHOLDER ========== */
+document.getElementById("sendBtn").addEventListener("click", () => {
+  const val = document.getElementById("chatInput").value.trim();
+  if (!val) return;
+  console.log("Chat message:", val);
+  document.getElementById("chatInput").value = "";
+});
+
+/* New Folder Modal + Storage */
+function createFolder(name){
+  const li=document.createElement("li");
+  // Use data-page attribute for new folders so routing works consistently
+  const pageAttr = `data-page="${name.toLowerCase().replace(/\s+/g,'-')}.html"`;
+  li.innerHTML = `<a href="#" class="nav-link d-flex align-items-center" ${pageAttr}><i class="bi bi-folder me-2"></i>${name}</a>`;
+  const insertBeforeEl = document.querySelector('[data-page="allfolders"]') || document.querySelector('[data-section="allfolders"]');
+  const chatsTabUl = document.querySelector("#chatsTab ul");
+  if (chatsTabUl) {
+    chatsTabUl.insertBefore(li, insertBeforeEl ? insertBeforeEl.parentElement : null);
+  } else {
+    console.warn('⏩ #chatsTab ul not found; new folder item not inserted into UI.');
+  }
+  const stored=JSON.parse(localStorage.getItem("folders")||"[]");
+  stored.push(name);
+  localStorage.setItem("folders",JSON.stringify(stored));
+  bootstrap.Toast.getOrCreateInstance(document.getElementById("toastNewFolder")).show();
+}
+// Attach to the newfolder control using data-page (fallback to legacy selector if needed)
+const newFolderTrigger = document.querySelector('[data-page="newfolder"]') || document.querySelector('[data-section="newfolder"]');
+if (newFolderTrigger) {
+  newFolderTrigger.addEventListener("click",()=>{
+  const name=prompt("Enter new folder name:");
+  if(name)createFolder(name);
+  });
+}
+window.addEventListener("DOMContentLoaded",()=>{
+  const saved=JSON.parse(localStorage.getItem("folders")||"[]");
+  saved.forEach((folder) => {
+    if (!folders.includes(folder)) {
+      folders.push(folder);
+    }
+  });
+  localStorage.setItem("folders", JSON.stringify(folders));
+  if (typeof renderFolders === "function" && document.getElementById("foldersList")) {
+    renderFolders();
+  } else {
+    console.warn("⏩ Skipping initial renderFolders(): not available or #foldersList missing.");
+  }
+  
+  // Initialize brand visibility on page load
+  const brand = document.querySelector(".brand");
+  const sidebar = document.getElementById("sidebar");
+  
+  if (window.innerWidth <= 991) {
+    // On mobile, hide brand initially (sidebar is closed by default)
+    brand.classList.remove("show-mobile");
+  }
+});
+
+// Handle brand visibility on window resize
+window.addEventListener("resize", () => {
+  const brand = document.querySelector(".brand");
+  const sidebar = document.getElementById("sidebar");
+  
+  if (window.innerWidth > 991) {
+    // Desktop: always show brand
+    brand.classList.remove("show-mobile");
+  } else {
+    // Mobile: only show if sidebar is open
+    const isSidebarOpen = sidebar.classList.contains("show");
+    if (isSidebarOpen) {
+      brand.classList.add("show-mobile");
+    } else {
+      brand.classList.remove("show-mobile");
+    }
+  }
+});
+
+// --- Folder Management ---
+let folders = JSON.parse(localStorage.getItem("folders")) || [
+  "F1 – Projects",
+  "F2 – Clients",
+  "F3 – Reports"
+];
+
+// Render first 3 folders + "See more"
+function renderFolders() {
+  const folderList = document.getElementById("foldersList");
+  if (!folderList) {
+    console.warn("⏩ Skipping renderFolders(): #foldersList not found.");
+    return;
+  }
+  folderList.innerHTML = "";
+  const visible = folders.slice(0, 3);
+
+  visible.forEach((folder) => {
+    const li = document.createElement("li");
+    li.classList.add("nav-item", "folder-item");
+    li.innerHTML = `<i class="bi bi-folder"></i> ${folder}`;
+    folderList.appendChild(li);
+  });
+
+    if (folders.length > 3) {
+      const seeMore = document.createElement("li");
+      seeMore.classList.add("nav-item", "see-more");
+      seeMore.innerHTML = `<i class="bi bi-three-dots"></i> See more…`;
+      seeMore.addEventListener("click", () => loadPage("allfolders"));
+      folderList.appendChild(seeMore);
+    }
+}
+
+// Add folder with duplicate prevention
+function addFolder(name) {
+  if (!name.trim()) return;
+  if (folders.includes(name)) return alert("Folder already exists.");
+  folders.push(name);
+  localStorage.setItem("folders", JSON.stringify(folders));
+  if (typeof renderFolders === "function" && document.getElementById("foldersList")) {
+    renderFolders();
+  } else {
+    console.warn('⏩ Skipping renderFolders() after addFolder(): not available or #foldersList missing.');
+  }
+}
+
+// --- All Folders Page ---
+function renderAllFolders() {
+  const main = document.getElementById("mainContent") || document.getElementById("pageContent") || document.getElementById("main");
+  if (!main) {
+    console.warn('⏩ Skipping renderAllFolders(): no main container found.');
+    return;
+  }
+  main.innerHTML = `
+    <div class="card p-3 shadow-sm">
+      <h4 class="mb-3"><i class="bi bi-folder2-open"></i> All Folders</h4>
+      <div class="list-group border-0">
+        ${folders.map((f, i) => `
+          <div class="list-group-item border-0 d-flex justify-content-between align-items-center">
+            <span class="d-flex align-items-center">
+              <i class="bi bi-folder me-2 text-primary"></i> ${f}
+            </span>
+            <button class="btn btn-sm btn-outline-danger" onclick="deleteFolder(${i})">
+              <i class="bi bi-trash"></i>
+            </button>
+          </div>
+        `).join("")}
+      </div>
+    </div>`;
+}
+function deleteFolder(i) {
+  folders.splice(i, 1);
+  localStorage.setItem("folders", JSON.stringify(folders));
+  renderAllFolders();
+  if (typeof renderFolders === "function" && document.getElementById("foldersList")) {
+    renderFolders();
+  } else {
+    console.warn("⏩ Skipping post-delete renderFolders(): not available or #foldersList missing.");
+  }
+}
+
+// --- All Chats Page ---
+let chats = JSON.parse(localStorage.getItem("chats")) || [];
+
+function renderAllChats() {
+  const main = document.getElementById("mainContent") || document.getElementById("pageContent") || document.getElementById("main");
+  if (!main) {
+    console.warn('⏩ Skipping renderAllChats(): no main container found.');
+    return;
+  }
+  main.innerHTML = `
+    <h4>All Chats</h4>
+    <div class="list-group">
+      ${chats.map(
+        (c, i) => `
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <span><i class="bi bi-chat-dots"></i> ${c}</span>
+          <button class="btn btn-sm btn-outline-danger" onclick="deleteChat(${i})">
+            <i class="bi bi-trash"></i>
+          </button>
+        </div>
+      `
+      ).join("")}
+    </div>`;
+}
+
+function deleteChat(i) {
+  chats.splice(i, 1);
+  localStorage.setItem("chats", JSON.stringify(chats));
+  renderAllChats();
+}
+</script>
+
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index:1100">
+  <div id="toastNewFolder" class="toast align-items-center text-bg-success border-0" role="alert">
+    <div class="d-flex">
+      <div class="toast-body">New folder created!</div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ✅ UNIVERSAL PAGE LOADER (FINAL VERSION) -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const content = document.querySelector("#main-content") || document.querySelector("#pageContent");
+  const loader = document.getElementById("loader");
+
+  if (!content) {
+    console.error("❌ No #main-content or #pageContent found.");
+    return;
+  }
+
+  // Automatically load dashboard after login
+  if (localStorage.getItem("loggedIn") === "true") {
+    loadPage("dashboard.html");
+  }
+
+  // Global click handler for all data-page links (sidebar, topbar, avatar)
+  document.body.addEventListener("click", async (e) => {
+    const link = e.target.closest("[data-page]");
+    if (!link) return;
+
+    e.preventDefault();
+    const page = link.getAttribute("data-page");
+    if (!page) return;
+
+    // Reset and highlight active item
+    document.querySelectorAll("[data-page]").forEach(el => {
+      el.classList.remove("active", "text-primary");
+      el.style.backgroundColor = "";
+    });
+    link.classList.add("active", "text-primary");
+    link.style.backgroundColor = "#eaf2ff";
+
+    await loadPage(page);
+  });
+
+  // ✅ Function to load pages dynamically
+  async function loadPage(page) {
+    if (loader) loader.style.display = "flex";
+    try {
+      const response = await fetch(`pages/${page}`);
+      if (!response.ok) throw new Error(`Failed to load ${page}`);
+      const html = await response.text();
+      content.innerHTML = html;
+
+      // Execute inline <script> tags
+      const parser = new DOMParser();
+      const doc = parser.parseFromString(html, "text/html");
+      doc.querySelectorAll("script").forEach(script => {
+        if (script.textContent.trim()) {
+          const s = document.createElement("script");
+          s.textContent = script.textContent;
+          document.body.appendChild(s);
+          document.body.removeChild(s);
+        }
+      });
+
+      console.log(`✅ Loaded: ${page}`);
+    } catch (err) {
+      console.error("❌ Page load error:", err);
+      content.innerHTML = `
+        <div class="alert alert-danger m-3">
+          <i class="bi bi-exclamation-triangle me-2"></i>
+          Error loading <strong>${page}</strong>. Please check the file path.
+        </div>`;
+    } finally {
+      if (loader) loader.style.display = "none";
+    }
+  }
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+<!-- fversion 10-22-25 V8-->

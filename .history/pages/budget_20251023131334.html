@@ -1,0 +1,123 @@
+<!-- ANALYTICS -->
+<div id="analytics" class="content-section d-none">
+  <h5 class="fw-semibold mb-3 text-primary">Analytics</h5>
+  <p class="text-muted mb-4">
+    A visual breakdown of revenue, expenses, and profit trends for your business budgets.
+    The demo chart below uses sample data for demonstration purposes.
+  </p>
+
+  <div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-3">Monthly Revenue vs Expenses</h6>
+      <canvas id="budgetAnalyticsChart" style="max-height:400px;"></canvas>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">Insight Summary</h6>
+      <ul class="text-muted mb-0">
+        <li>Revenue growth trend remains positive for Q2.</li>
+        <li>Operating expenses rose by 8% compared to last month.</li>
+        <li>Net profit margins are stable at 32%.</li>
+      </ul>
+    </div>
+  </div>
+
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const ctx = document.getElementById("budgetAnalyticsChart");
+    if (ctx && typeof Chart !== "undefined") {
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+          datasets: [
+            {
+              label: "Revenue ($)",
+              data: [18000, 19500, 21000, 23000, 25000, 27000],
+              backgroundColor: "rgba(13,110,253,0.6)"
+            },
+            {
+              label: "Expenses ($)",
+              data: [12000, 13000, 14500, 15500, 16500, 17000],
+              backgroundColor: "rgba(220,53,69,0.5)"
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+  });
+  </script>
+</div>
+
+<!-- BEST PRACTICES -->
+<div id="best" class="content-section d-none">
+  <h5 class="fw-semibold mb-3 text-primary">Budgeting Best Practices</h5>
+  <p class="text-muted mb-4">
+    These best practices help maintain financial discipline and ensure that your plans align with real-world performance.
+  </p>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">1. Set Clear Financial Goals</h6>
+      <p class="text-muted mb-0">Before building a budget, define measurable goals such as target profit margins,
+      savings reserves, or debt reduction. A budget without goals is just a list of numbers.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">2. Separate Fixed and Variable Costs</h6>
+      <p class="text-muted mb-0">Track recurring fixed expenses (like rent and salaries)
+      separately from variable ones (like marketing and materials). This helps identify where flexibility exists.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">3. Use Conservative Revenue Estimates</h6>
+      <p class="text-muted mb-0">Base income projections on realistic or slightly conservative figures.
+      Overestimating revenue is the fastest way to create cash flow problems.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">4. Review and Update Monthly</h6>
+      <p class="text-muted mb-0">Set a recurring schedule to compare actual results to your budget.
+      Adjust quickly when expenses spike or revenue dips, and use the data to improve next month’s accuracy.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">5. Prioritize Cash Flow Awareness</h6>
+      <p class="text-muted mb-0">Profitability doesn’t always mean liquidity.
+      Always track when money comes in and goes out, and keep at least three months of operating reserves.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm mb-4 border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">6. Collaborate with Your Team</h6>
+      <p class="text-muted mb-0">Include department heads or key contributors when setting budgets.
+      Their insights make projections more accurate and foster accountability across the organization.</p>
+    </div>
+  </div>
+
+  <div class="card shadow-sm border-0">
+    <div class="card-body">
+      <h6 class="fw-semibold text-primary mb-2">7. Leverage AI Insights</h6>
+      <p class="text-muted mb-0">Use the <strong>AI Agent</strong> tab to identify inefficiencies,
+      forecast outcomes, and detect hidden financial trends.
+      Automation helps you focus on strategy rather than manual analysis.</p>
+    </div>
+  </div>
+</div>

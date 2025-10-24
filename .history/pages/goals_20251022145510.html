@@ -1,0 +1,78 @@
+<div class="container-fluid p-4">
+  <div class="card shadow-sm rounded-3">
+    <div class="card-body">
+      <h4 class="mb-3 fw-semibold text-primary">Goals & Objectives</h4>
+      <form id="goalsForm" class="needs-validation" novalidate>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="goalDescription" class="form-label fw-medium w-100 text-md-end text-start mb-0">Goal Description</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="text" class="form-control text-start" id="goalDescription" placeholder="Describe your business goal" required />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="goalCategory" class="form-label fw-medium w-100 text-md-end text-start mb-0">Category</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <select class="form-select text-start" id="goalCategory" required>
+              <option value="">Select...</option>
+              <option>Financial</option>
+              <option>Operational</option>
+              <option>Marketing</option>
+              <option>Personal Development</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="goalDate" class="form-label fw-medium w-100 text-md-end text-start mb-0">Target Date</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <input type="date" class="form-control text-start" id="goalDate" required />
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="goalPriority" class="form-label fw-medium w-100 text-md-end text-start mb-0">Priority</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <select class="form-select text-start" id="goalPriority">
+              <option value="">Select...</option>
+              <option>High</option>
+              <option>Medium</option>
+              <option>Low</option>
+            </select>
+          </div>
+        </div>
+        <div class="row mb-3 flex-row align-items-center">
+          <div class="col-5 col-md-4 d-flex align-items-center justify-content-md-end justify-content-start">
+            <label for="goalStatus" class="form-label fw-medium w-100 text-md-end text-start mb-0">Status</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <select class="form-select text-start" id="goalStatus">
+              <option value="">Select...</option>
+              <option>Planned</option>
+              <option>In Progress</option>
+              <option>Completed</option>
+            </select>
+          </div>
+        </div>
+        <div class="text-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+        <div class="row mb-3 flex-row align-items-start">
+          <div class="col-5 col-md-4 d-flex align-self-start justify-content-md-end justify-content-start">
+            <label for="goalNotes" class="form-label fw-semibold w-100 text-md-end text-start mb-0">Notes</label>
+          </div>
+          <div class="col-7 col-md-8">
+            <textarea class="form-control text-start" id="goalNotes" rows="2" placeholder="Add any additional notes"></textarea>
+          </div>
+        </div>
+        <div class="mt-4 d-flex justify-content-end">
+          <button type="reset" class="btn btn-outline-secondary me-2">Clear</button>
+          <button type="submit" class="btn btn-primary">Save Goal</button>
+        </div>
+<!-- version: 2025-10-22-->

@@ -1,0 +1,126 @@
+<div class="container-fluid py-4">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <h4 class="fw-semibold text-primary mb-0">Dashboard Overview</h4>
+    <span class="text-muted small">Welcome back to <strong>BizCore360</strong></span>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="row g-3 mb-4">
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-3 summary-card">
+        <div class="card-body">
+          <i class="bi bi-kanban fs-1 text-primary mb-2"></i>
+          <p class="text-muted mb-1 small">Active Projects</p>
+          <h4 class="fw-bold mb-0">8</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-3 summary-card">
+        <div class="card-body">
+          <i class="bi bi-currency-dollar fs-1 text-success mb-2"></i>
+          <p class="text-muted mb-1 small">Monthly Revenue</p>
+          <h4 class="fw-bold mb-0">$42,500</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-3 summary-card">
+        <div class="card-body">
+          <i class="bi bi-list-task fs-1 text-warning mb-2"></i>
+          <p class="text-muted mb-1 small">Open Tasks</p>
+          <h4 class="fw-bold mb-0">23</h4>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-6 col-md-3">
+      <div class="card border-0 shadow-sm rounded-4 h-100 text-center p-3 summary-card">
+        <div class="card-body">
+          <i class="bi bi-chat-dots fs-1 text-info mb-2"></i>
+          <p class="text-muted mb-1 small">Unread Messages</p>
+          <h4 class="fw-bold mb-0">5</h4>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity + Quick Links -->
+  <div class="row g-4">
+    <!-- Recent Activity -->
+    <div class="col-lg-8">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body">
+          <h6 class="fw-semibold mb-3 text-dark">Recent Activity</h6>
+          <ul class="list-unstyled small mb-0">
+            <li class="d-flex justify-content-between py-2 border-bottom">
+              <span><i class="bi bi-check-circle text-success me-2"></i>Forecast report updated</span>
+              <span class="text-muted">2h ago</span>
+            </li>
+            <li class="d-flex justify-content-between py-2 border-bottom">
+              <span><i class="bi bi-person-plus text-primary me-2"></i>New client added</span>
+              <span class="text-muted">5h ago</span>
+            </li>
+            <li class="d-flex justify-content-between py-2">
+              <span><i class="bi bi-graph-up text-warning me-2"></i>Marketing data synced</span>
+              <span class="text-muted">Yesterday</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Links -->
+    <div class="col-lg-4">
+      <div class="card border-0 shadow-sm rounded-4 h-100">
+        <div class="card-body d-flex flex-column justify-content-between">
+          <div>
+            <h6 class="fw-semibold mb-3 text-dark">Quick Links</h6>
+            <ul class="list-unstyled mb-0 small">
+              <li class="mb-3 d-flex align-items-center">
+                <i class="bi bi-wallet2 text-primary me-2 fs-5"></i>
+                <a href="#" data-page="budget.html" class="text-decoration-none text-dark fw-medium link-hover">Budget Tracker</a>
+              </li>
+              <li class="mb-3 d-flex align-items-center">
+                <i class="bi bi-cash-coin text-primary me-2 fs-5"></i>
+                <a href="#" data-page="cash-flow.html" class="text-decoration-none text-dark fw-medium link-hover">Cash Flow</a>
+              </li>
+              <li class="d-flex align-items-center">
+                <i class="bi bi-graph-up-arrow text-primary me-2 fs-5"></i>
+                <a href="#" data-page="forecasts.html" class="text-decoration-none text-dark fw-medium link-hover">Forecasts</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ✨ Styling -->
+<style>
+.summary-card {
+  transition: all 0.2s ease-in-out;
+}
+.summary-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0.75rem 1.25rem rgba(0, 0, 0, 0.08) !important;
+}
+.link-hover {
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.link-hover:hover {
+  color: #0d6efd !important;
+  transform: translateX(4px);
+}
+.card {
+  background-color: #fff;
+}
+</style>
+
+<script>
+console.log("📊 Dashboard (final clean version) loaded successfully");
+</script>

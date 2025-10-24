@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Home | BizCore360</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <style>
+    body {
+      min-height: 100vh;
+      background: linear-gradient(135deg, #e3f0ff 0%, #f9fafb 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    #homeContainer {
+      min-height: 80vh;
+      display: flex;
+      <div class="container-fluid p-4">
+        <h4 class="fw-semibold text-primary mb-4 text-center">Welcome to BizCore360</h4>
+        <div class="glass-btns d-flex justify-content-center align-items-end flex-wrap" style="margin-top:2rem;">
+          <div class="glass-btn" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Your personal AI partner for daily operations." data-link="executive-home.html">
+            <span class="icon"><i class="bi bi-person-badge"></i></span>
+            <span class="label">Executive<br>Assistant</span>
+          </div>
+          <div class="glass-btn" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Generate your full business structure and plan." data-link="blueprint-home.html">
+            <span class="icon"><i class="bi bi-diagram-3"></i></span>
+            <span class="label">Business<br>Blueprint</span>
+          </div>
+          <div class="glass-btn" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Personalized productivity and growth support." data-link="coach-home.html">
+            <span class="icon"><i class="bi bi-rocket"></i></span>
+            <span class="label">AI<br>Coaching</span>
+          </div>
+          <div class="glass-btn" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Get expert guidance from AI specialists." data-link="advisory-home.html">
+            <span class="icon"><i class="bi bi-people"></i></span>
+            <span class="label">Advisory<br>Board</span>
+          </div>
+          <div class="glass-btn" tabindex="0" data-bs-toggle="tooltip" data-bs-placement="top" title="Test your ideas and gather simulated feedback." data-link="polls-home.html">
+            <span class="icon"><i class="bi bi-bar-chart"></i></span>
+            <span class="label">AI<br>Polls</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+          var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+          tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+          document.querySelectorAll('.glass-btn').forEach(function(btn){
+            btn.addEventListener('click',function(){
+              if(btn.dataset.link){
+                if(typeof loadPage==='function'){
+                  loadPage(btn.dataset.link);
+                }else{
+                  window.location.href=btn.dataset.link;
+                }
+              }
+            });
+          });
+        });
+      </script>
+      <style>
+      .glass-btns { gap: 2vw; }
+      .glass-btn {
+      display: flex;
